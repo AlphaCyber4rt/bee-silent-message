@@ -4,15 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Bee… 💋</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
 :root {
     --primary: #ff4d6d;
     --primary-light: #ff6b8a;
     --primary-dark: #c0195a;
-    --accent: #ff9eb5;
+    --accent: #ffb3c1;
     --bg-dark: #0a0610;
-    --bg-card: rgba(30, 20, 40, 0.85);
     --text: #fff;
     --text-muted: #b8b8d1;
 }
@@ -28,664 +27,262 @@ body {
     position: relative;
 }
 
-/* Animated gradient background */
 body::before {
     content: "";
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background: radial-gradient(ellipse at 20% 30%, rgba(255,77,109,0.15) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 70%, rgba(255,158,181,0.1) 0%, transparent 50%);
     animation: gradientShift 8s ease-in-out infinite;
-    pointer-events: none;
-    z-index: 0;
+    pointer-events: none; z-index: 0;
 }
 
 @keyframes gradientShift {
-    0%, 100% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.1); }
+    0%,100% { opacity:0.5; transform:scale(1); }
+    50% { opacity:0.8; transform:scale(1.05); }
 }
 
-/* Noise texture */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 1;
-}
+#starCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
 
-/* Stars canvas */
-#starCanvas {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* Container */
 .container {
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    max-width: 560px;
-    height: 100dvh;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    overflow: hidden;
+    position: relative; z-index: 10;
+    width: 100%; max-width: 560px; height: 100dvh;
+    margin: 0 auto; display: flex; flex-direction: column;
+    padding: 16px; overflow: hidden;
 }
 
-/* Header */
+/* HEADER */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    background: rgba(255,255,255,0.03);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.08);
-    margin-bottom: 12px;
-    flex-shrink: 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(10px); border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08); margin-bottom: 12px; flex-shrink: 0;
 }
-
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
+.header-left { display: flex; align-items: center; gap: 10px; }
 .online-indicator {
-    position: relative;
-    width: 10px;
-    height: 10px;
-    background: #4ade80;
-    border-radius: 50%;
-    box-shadow: 0 0 12px #4ade80, 0 0 24px #4ade80;
+    position: relative; width: 10px; height: 10px; background: #4ade80;
+    border-radius: 50%; box-shadow: 0 0 12px #4ade80, 0 0 24px #4ade80;
     animation: pulse 2s ease-in-out infinite;
 }
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(0.85); opacity: 0.6; }
-}
-
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(0.85);opacity:0.6} }
 .header-name {
-    font-weight: 700;
-    font-size: 14px;
+    font-weight: 700; font-size: 14px;
     background: linear-gradient(135deg, #fff, #ff9eb5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
-/* Audio Button dengan Visualizer */
 #audioBtn {
-    position: relative;
-    background: linear-gradient(135deg, rgba(255,77,109,0.2), rgba(192,25,90,0.15));
-    border: 1.5px solid rgba(255,77,109,0.5);
-    color: #fff;
-    padding: 8px 14px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-    overflow: hidden;
+    position: relative; background: linear-gradient(135deg, rgba(255,77,109,0.2), rgba(192,25,90,0.15));
+    border: 1.5px solid rgba(255,77,109,0.5); color: #fff; padding: 8px 14px;
+    border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; overflow: hidden;
 }
-
-#audioBtn::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,77,109,0.3), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-#audioBtn:hover::before { opacity: 1; }
-#audioBtn:hover {
-    border-color: var(--primary);
-    box-shadow: 0 0 20px rgba(255,77,109,0.5), 0 0 40px rgba(255,77,109,0.3);
-    transform: translateY(-1px);
-}
-
+#audioBtn:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(255,77,109,0.5); transform: translateY(-1px); }
 #audioBtn.playing {
     background: linear-gradient(135deg, rgba(255,77,109,0.4), rgba(192,25,90,0.3));
-    border-color: var(--primary-light);
-    animation: btnGlow 2s ease-in-out infinite;
+    border-color: var(--primary-light); animation: btnGlow 2s ease-in-out infinite;
 }
+@keyframes btnGlow { 0%,100%{box-shadow:0 0 15px rgba(255,77,109,0.5)} 50%{box-shadow:0 0 25px rgba(255,77,109,0.8)} }
+.audio-icon { position: relative; z-index: 1; font-size: 14px; }
+.audio-label { position: relative; z-index: 1; font-weight: 600; min-width: 50px; }
+#audioVisualizer { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; z-index: 1; }
 
-@keyframes btnGlow {
-    0%, 100% { box-shadow: 0 0 15px rgba(255,77,109,0.5); }
-    50% { box-shadow: 0 0 25px rgba(255,77,109,0.8), 0 0 40px rgba(255,77,109,0.4); }
-}
-
-.audio-icon {
-    position: relative;
-    z-index: 1;
-    font-size: 14px;
-}
-
-.audio-label {
-    position: relative;
-    z-index: 1;
-    font-weight: 600;
-    min-width: 50px;
-}
-
-/* Audio Visualizer Canvas */
-#audioVisualizer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    z-index: 1;
-}
-
-/* Progress Bar dengan Shimmer */
+/* PROGRESS */
 .progress-container {
-    background: rgba(255,255,255,0.03);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin-bottom: 12px;
-    border: 1px solid rgba(255,255,255,0.06);
-    flex-shrink: 0;
+    background: rgba(255,255,255,0.03); backdrop-filter: blur(10px);
+    border-radius: 12px; padding: 12px 16px; margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.06); flex-shrink: 0;
 }
-
-.progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    font-size: 12px;
-    color: var(--text-muted);
-}
-
-.progress-label {
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
+.progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; color: var(--text-muted); }
+.progress-label { font-weight: 600; display: flex; align-items: center; gap: 6px; }
 .progress-count {
     background: linear-gradient(135deg, var(--primary), var(--accent));
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-weight: 700;
-    color: #fff;
+    padding: 2px 8px; border-radius: 6px; font-weight: 700; color: #fff; min-width: 40px; text-align: center;
 }
-
-.progress-bar-wrap {
-    height: 8px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-}
-
+.progress-bar-wrap { height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; position: relative; }
 .progress-bar-fill {
-    height: 100%;
-    width: 0%;
+    height: 100%; width: 0%;
     background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--accent));
-    background-size: 200% 100%;
-    border-radius: 4px;
-    transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position: relative;
+    background-size: 200% 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
     animation: shimmer 2s infinite;
 }
-
-@keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-}
-
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 .progress-bar-fill::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
     animation: progressShine 1.5s infinite;
 }
+@keyframes progressShine { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
-@keyframes progressShine {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-/* Chat Area */
-.chat {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 8px 4px 16px;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
+/* CHAT */
+.chat { flex: 1; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 12px; padding: 8px 4px 16px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
 .chat::-webkit-scrollbar { width: 4px; }
 .chat::-webkit-scrollbar-track { background: transparent; }
-.chat::-webkit-scrollbar-thumb { 
-    background: rgba(255,77,109,0.4); 
-    border-radius: 2px;
-}
+.chat::-webkit-scrollbar-thumb { background: rgba(255,77,109,0.4); border-radius: 2px; }
 
-/* Bubble */
 .bubble {
-    align-self: flex-end;
-    max-width: 85%;
+    align-self: flex-end; max-width: 85%;
     background: linear-gradient(145deg, rgba(40,28,52,0.9), rgba(28,20,38,0.9));
-    padding: 14px 18px;
-    border-radius: 20px 20px 6px 20px;
-    font-size: 14.5px;
-    line-height: 1.6;
+    padding: 14px 18px; border-radius: 20px 20px 6px 20px;
+    font-size: 14.5px; line-height: 1.6;
     box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
-    animation: bubbleSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position: relative;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.08);
+    animation: bubbleSlide 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08);
 }
+@keyframes bubbleSlide { from{opacity:0;transform:translateY(20px) scale(0.95)} to{opacity:1;transform:translateY(0) scale(1)} }
+.bubble-text { color: var(--text); font-weight: 400; }
+.bubble-meta { display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-top: 6px; font-size: 11px; color: var(--text-muted); }
+.bubble-time { opacity: 0.7; }
+.bubble-check { color: #4fc3f7; font-weight: 700; animation: checkPop 0.3s ease 0.5s both; }
+@keyframes checkPop { from{transform:scale(0)} 50%{transform:scale(1.3)} to{transform:scale(1)} }
 
-@keyframes bubbleSlide {
-    from { 
-        opacity: 0; 
-        transform: translateY(20px) scale(0.95); 
-    }
-    to { 
-        opacity: 1; 
-        transform: translateY(0) scale(1); 
-    }
-}
-
-.bubble-text {
-    color: var(--text);
-    font-weight: 400;
-}
-
-.bubble-meta {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 6px;
-    margin-top: 6px;
-    font-size: 11px;
-    color: var(--text-muted);
-}
-
-.bubble-time {
-    opacity: 0.7;
-}
-
-.bubble-check {
-    color: #4fc3f7;
-    font-weight: 700;
-    animation: checkPop 0.3s ease 0.5s both;
-}
-
-@keyframes checkPop {
-    from { transform: scale(0); }
-    50% { transform: scale(1.3); }
-    to { transform: scale(1); }
-}
-
-/* Typing Indicator */
 .typing {
-    align-self: flex-end;
-    display: flex;
-    gap: 5px;
-    padding: 14px 18px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 18px;
-    margin-bottom: 8px;
+    align-self: flex-end; display: flex; gap: 5px; padding: 14px 18px;
+    background: rgba(255,255,255,0.05); border-radius: 18px; margin-bottom: 8px;
     animation: bubbleSlide 0.3s ease;
 }
-
 .typing-dot {
-    width: 7px;
-    height: 7px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    border-radius: 50%;
-    animation: typingBounce 1.4s ease-in-out infinite;
+    width: 7px; height: 7px; background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 50%; animation: typingBounce 1.4s ease-in-out infinite;
 }
+.typing-dot:nth-child(2){animation-delay:0.2s} .typing-dot:nth-child(3){animation-delay:0.4s}
+@keyframes typingBounce { 0%,60%,100%{transform:translateY(0) scale(1);opacity:0.5} 30%{transform:translateY(-8px) scale(1.2);opacity:1} }
 
-.typing-dot:nth-child(2) { animation-delay: 0.2s; }
-.typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes typingBounce {
-    0%, 60%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
-    30% { transform: translateY(-8px) scale(1.2); opacity: 1; }
-}
-
-/* Heart Grid */
+/* HEART GRID */
 .heart-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    padding: 20px 8px;
-    align-self: center;
-    width: 100%;
-    max-width: 340px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    padding: 20px 8px; align-self: center; width: 100%; max-width: 340px;
     animation: fadeInUp 0.6s ease 0.3s both;
 }
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
+@keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+.heart-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 .heart-btn {
-    aspect-ratio: 1;
-    border-radius: 50%;
+    width: 72px; height: 72px; border-radius: 50%;
     background: radial-gradient(circle at 35% 35%, #ff6b8a, #ff4d6d, #c0195a);
-    border: 2px solid rgba(255,255,255,0.25);
-    font-size: 32px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 
-        0 8px 24px rgba(255,77,109,0.4),
-        0 0 0 4px rgba(255,77,109,0.1),
-        inset 0 -4px 12px rgba(0,0,0,0.2);
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    animation: heartbeat 1.5s ease-in-out infinite;
-    position: relative;
-    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.25); font-size: 28px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(255,77,109,0.4), 0 0 0 4px rgba(255,77,109,0.1), inset 0 -4px 12px rgba(0,0,0,0.2);
+    transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1); animation: heartbeat 1.5s ease-in-out infinite;
+    position: relative; overflow: hidden;
 }
-
-.heart-btn::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.3), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
+.heart-btn:hover { transform: scale(1.15) rotate(5deg); box-shadow: 0 12px 32px rgba(255,77,109,0.6); }
+.heart-btn:active { transform: scale(0.95); }
+.heart-btn.clicked { animation: heartPop 0.6s ease forwards; pointer-events: none; }
+@keyframes heartbeat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+@keyframes heartPop { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(0);opacity:0} }
+.heart-label {
+    font-size: 11px; color: var(--accent); font-weight: 500;
+    background: rgba(255,77,109,0.15); padding: 4px 10px; border-radius: 20px;
+    border: 1px dashed rgba(255,120,140,0.4); opacity: 0.9;
+    animation: hintPulse 2s infinite;
 }
+@keyframes hintPulse { 0%,100%{opacity:0.8;transform:scale(1)} 50%{opacity:1;transform:scale(1.05)} }
 
-.heart-btn:hover::before { opacity: 1; }
-.heart-btn:hover {
-    transform: scale(1.15) rotate(5deg);
-    box-shadow: 
-        0 12px 32px rgba(255,77,109,0.6),
-        0 0 0 6px rgba(255,77,109,0.15),
-        inset 0 -4px 12px rgba(0,0,0,0.2);
-}
-
-.heart-btn:active {
-    transform: scale(0.95) rotate(-2deg);
-}
-
-.heart-btn.clicked {
-    animation: heartPop 0.6s ease forwards;
-    pointer-events: none;
-}
-
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-}
-
-@keyframes heartPop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-    100% { transform: scale(0); opacity: 0; }
-}
-
-.heart-btn:nth-child(2) { animation-delay: 0.15s; }
-.heart-btn:nth-child(3) { animation-delay: 0.3s; }
-
-/* Modal Fullscreen */
+/* MODAL */
 .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(5,2,8,0.95);
-    backdrop-filter: blur(12px);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.4s ease;
+    position: fixed; inset: 0; background: rgba(5,2,8,0.95);
+    backdrop-filter: blur(12px); z-index: 1000;
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+    opacity: 0; visibility: hidden; transition: all 0.4s ease;
 }
-
-.modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
+.modal-overlay.active { opacity: 1; visibility: visible; }
 .modal-content {
-    width: 100%;
-    max-width: 480px;
-    max-height: 85dvh;
+    width: 100%; max-width: 480px; max-height: 85dvh;
     background: linear-gradient(145deg, rgba(40,28,52,0.95), rgba(20,12,32,0.95));
-    border-radius: 28px;
-    padding: 32px 28px;
-    border: 1.5px solid rgba(255,120,140,0.4);
-    box-shadow: 
-        0 25px 80px rgba(0,0,0,0.6),
-        0 0 0 1px rgba(255,255,255,0.05),
-        inset 0 1px 0 rgba(255,255,255,0.1);
-    transform: scale(0.9) translateY(30px);
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    overflow-y: auto;
-    position: relative;
+    border-radius: 28px; padding: 32px 28px; border: 1.5px solid rgba(255,120,140,0.4);
+    box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+    transform: scale(0.9) translateY(30px); transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    overflow-y: auto; position: relative;
 }
-
-.modal-overlay.active .modal-content {
-    transform: scale(1) translateY(0);
-}
-
+.modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
 .modal-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: var(--text-muted);
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    z-index: 10;
+    position: absolute; top: 16px; right: 16px; width: 36px; height: 36px;
+    border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-muted); font-size: 20px; cursor: pointer; display: flex;
+    align-items: center; justify-content: center; transition: all 0.2s ease; z-index: 10;
 }
-
-.modal-close:hover {
-    background: rgba(255,77,109,0.2);
-    border-color: var(--primary);
-    color: #fff;
-    transform: rotate(90deg);
-}
-
+.modal-close:hover { background: rgba(255,77,109,0.2); border-color: var(--primary); color: #fff; transform: rotate(90deg); }
 .modal-emoji {
-    font-size: 56px;
-    text-align: center;
-    margin-bottom: 16px;
-    animation: emojiFloat 3s ease-in-out infinite;
-    filter: drop-shadow(0 8px 24px rgba(255,77,109,0.4));
+    font-size: 56px; text-align: center; margin-bottom: 16px;
+    animation: emojiFloat 3s ease-in-out infinite; filter: drop-shadow(0 8px 24px rgba(255,77,109,0.4));
 }
-
-@keyframes emojiFloat {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-12px) rotate(5deg); }
-}
-
+@keyframes emojiFloat { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-12px) rotate(5deg)} }
 .modal-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: 32px;
-    text-align: center;
+    font-family: 'Dancing Script', cursive; font-size: 32px; text-align: center;
     background: linear-gradient(135deg, #ffb3c1, #ff6b8a, #ff9eb5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 16px;
-    line-height: 1.3;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 16px; line-height: 1.3;
 }
-
-.modal-text {
-    font-size: 15.5px;
-    line-height: 1.8;
-    color: var(--text-muted);
-    text-align: center;
-    margin-bottom: 24px;
-}
-
-.modal-text strong {
-    color: var(--accent);
-    font-weight: 600;
-}
-
+.modal-text { font-size: 15.5px; line-height: 1.8; color: var(--text-muted); text-align: center; margin-bottom: 20px; }
+.modal-text strong { color: var(--accent); font-weight: 600; }
 .modal-hint {
-    text-align: center;
-    font-size: 12px;
-    color: var(--text-muted);
-    opacity: 0.7;
-    font-style: italic;
-    margin-bottom: 20px;
+    text-align: center; font-size: 13px; color: #ffb3c1; font-weight: 500;
+    margin: 16px 0 20px; padding: 12px; background: rgba(255,77,109,0.12);
+    border-radius: 12px; border: 1px dashed rgba(255,120,140,0.5);
 }
-
 .modal-action {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    border: none;
-    border-radius: 14px;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(255,77,109,0.4);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none; border-radius: 14px; color: #fff; font-size: 14px; font-weight: 700;
+    cursor: pointer; box-shadow: 0 8px 24px rgba(255,77,109,0.4); transition: all 0.3s ease;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
 }
+.modal-action:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,77,109,0.6); }
+.pulse-heart { display: inline-block; animation: pulseHeart 1s infinite; }
+@keyframes pulseHeart { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
 
-.modal-action:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(255,77,109,0.6);
-}
-
-.modal-action:active {
-    transform: translateY(0);
-}
-
-/* Next Button */
+/* NEXT BUTTON */
 .next-btn {
-    flex-shrink: 0;
-    margin-top: 12px;
-    width: 100%;
-    padding: 16px;
+    flex-shrink: 0; margin-top: 12px; width: 100%; padding: 16px;
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    border: none;
-    border-radius: 16px;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 8px 28px rgba(255,77,109,0.5);
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    position: relative;
-    overflow: hidden;
+    border: none; border-radius: 16px; color: #fff; font-size: 15px; font-weight: 700;
+    cursor: pointer; box-shadow: 0 8px 28px rgba(255,77,109,0.5);
+    transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); display: none;
+    align-items: center; justify-content: center; gap: 10px; position: relative; overflow: hidden;
 }
-
 .next-btn::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: left 0.6s ease;
+    content: ""; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.6s ease;
 }
-
 .next-btn:hover::before { left: 100%; }
-.next-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(255,77,109,0.7);
+.next-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(255,77,109,0.7); }
+
+/* TOAST */
+.toast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-20px);
+    background: rgba(20,12,32,0.95); color: #fff; padding: 10px 20px; border-radius: 30px;
+    font-size: 13px; font-weight: 600; border: 1px solid rgba(255,77,109,0.5);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4); opacity: 0; transition: all 0.3s ease;
+    z-index: 2000; pointer-events: none;
 }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-.next-btn:active { transform: translateY(-1px); }
-
-/* Sparkles */
+/* SPARKLE */
 .sparkle {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    animation: sparkleFly 0.8s ease-out forwards;
-    font-size: 20px;
+    position: fixed; pointer-events: none; z-index: 9999;
+    animation: sparkleFly 0.8s ease-out forwards; font-size: 20px;
 }
-
 @keyframes sparkleFly {
-    0% {
-        transform: translate(0, 0) scale(1) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(var(--tx), var(--ty)) scale(0) rotate(720deg);
-        opacity: 0;
-    }
+    0%{transform:translate(0,0) scale(1) rotate(0deg);opacity:1}
+    100%{transform:translate(var(--tx),var(--ty)) scale(0) rotate(720deg);opacity:0}
 }
 
-/* Floating particles */
-.floating-emoji {
-    position: fixed;
-    pointer-events: none;
-    z-index: 5;
-    animation: floatUp 6s linear forwards;
-    font-size: 20px;
-    opacity: 0.6;
+/* TRADEMARK */
+.trademark {
+    position: fixed; bottom: 12px; left: 0; right: 0; text-align: center;
+    font-size: 11px; color: rgba(255,255,255,0.4); z-index: 5;
+    letter-spacing: 0.5px; pointer-events: none;
 }
 
-@keyframes floatUp {
-    0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0.6;
-    }
-    100% {
-        transform: translateY(-100vh) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-/* Responsive */
+/* RESPONSIVE */
 @media (max-width: 480px) {
     .container { padding: 12px; }
     .modal-content { padding: 28px 22px; }
     .modal-title { font-size: 28px; }
     .modal-emoji { font-size: 48px; }
-    .heart-btn { font-size: 28px; }
+    .heart-btn { width: 64px; height: 64px; font-size: 24px; }
 }
-
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
     .container { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+    .trademark { bottom: calc(12px + env(safe-area-inset-bottom)); }
 }
 </style>
 </head>
@@ -708,10 +305,8 @@ body::after {
 
     <div class="progress-container">
         <div class="progress-header">
-            <div class="progress-label">
-                <span>💝 Progress</span>
-            </div>
-            <div class="progress-count" id="progressCount">0/9</div>
+            <div class="progress-label"><span>💝 Progress</span></div>
+            <div class="progress-count" id="progressCount">0%</div>
         </div>
         <div class="progress-bar-wrap">
             <div class="progress-bar-fill" id="progressBar"></div>
@@ -720,12 +315,11 @@ body::after {
 
     <div class="chat" id="chat"></div>
     <button class="next-btn" id="nextBtn" onclick="nextStage()">
-        <span>Lanjut ke level berikutnya</span>
-        <span>→</span>
+        <span>Lanjut ke level berikutnya</span><span>→</span>
     </button>
 </div>
 
-<!-- Modal -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="closeModalOnOverlay(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
         <button class="modal-close" onclick="closeModal()">×</button>
@@ -735,655 +329,295 @@ body::after {
         <div class="modal-hint" id="modalHint">Hint</div>
         <button class="modal-action" onclick="collectHeart()">
             <span>Simpan ke hati</span>
-            <span>💾</span>
+            <span class="pulse-heart">💖</span>
         </button>
     </div>
 </div>
 
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- TRADEMARK -->
+<div class="trademark">Made with Love ❤️ By Cyber4rt</div>
+
 <audio id="audio" src="https://alphacyber4rt.github.io/File/beeee.MP3" loop preload="none"></audio>
 
 <script>
-/* ════════════════════════ DATA DENGAN RANDOM RESPONSES ════════════════════════ */
+/* ════════════════════════ DATA ════════════════════════ */
 const gameData = {
     stages: [
         {
-            intro: [
-                "Bee… 🐝",
-                "Aku gak punya alasan logis buat ini 😌",
-                "Tapi kamu tuh… ya gitu deh. Kebaca terus di kepala."
-            ],
+            intro: ["Bee… 🐝", "Aku gak punya alasan logis buat ini 😌", "Tapi kamu tuh… ya gitu deh. Kebaca terus di kepala."],
             hearts: [
-                {
-                    emoji: '💭',
-                    responses: [
-                        {
-                            title: "Kalo kamu bertanya-tanya…",
-                            text: "Iya, itu <strong>kamu</strong>. Yang bikin aku senyum-senyum sendiri pas lagi scroll HP tengah malam. Yang bikin kopi jadi kurang pahit. Yang bikin lagu galau tiba-tiba berasa romantis. <br><br>Yang… ah, kamu tau lah 😏",
-                            hint: "Klik 'Simpan' untuk lanjut →"
-                        },
-                        {
-                            title: "Random thought about you:",
-                            text: "Kamu itu kayak notifikasi yang gak bisa di-silent. Ganggu? <strong>Iya banget</strong>. Tapi justru yang paling dinanti-nanti. <br><br>Setiap kali muncul… hati auto <em>deg-degan</em>. Ini mah bukan notifikasi, ini <strong>gangguan jantung</strong> 😅💕",
-                            hint: "Masih ada yang lain… klik heart lagi!"
-                        },
-                        {
-                            title: "Confession time…",
-                            text: "Aku perhatiin kamu. Bukan dalam cara yang creepy, tapi dalam cara 'oh iya, dia tuh <strong>beda</strong>'. <br><br>Cara kamu ketawa, cara kamu ngomong, cara kamu… <em>ada</em>. Itu semua bikin hari yang biasa jadi <strong>luar biasa</strong>. 🌟",
-                            hint: "Klik simpan, jangan bikin aku nunggu lama 😏"
-                        }
-                    ]
-                },
-                {
-                    emoji: '✨',
-                    responses: [
-                        {
-                            title: "Fakta random tentang kamu:",
-                            text: "Kamu punya <strong>superpower</strong> sendiri: bikin hal biasa jadi spesial. <br><br>Misalnya: cuma dengan <em>ada</em>, hari yang biasa-biasa aja tiba-tiba… berasa. Greget, kan? <br><br>Itu bukan sihir. Itu <strong>kamu</strong>. ✨",
-                            hint: "Klik simpan untuk collect →"
-                        },
-                        {
-                            title: "You know what's funny?",
-                            text: "Aku coba cari <strong>kekurangan</strong> kamu. Serius. Tapi yang ketemu malah… <br><br>Terlalu baik. Terlalu lucu. Terlalu… <strong>kamu</strong>. <br><br>Ini gak fair. Aku kalah. Aku nyerah. Kamu menang. 🏆",
-                            hint: "Satu lagi tersisa… klik heart terakhir!"
-                        },
-                        {
-                            title: "Secret observation:",
-                            text: "Kamu itu kayak <strong>lagu favorit</strong> yang gak pernah bosen didenger. <br><br>Bisa diputer berulang-ulang. Setiap kali denger, ada detail baru yang bikin makin suka. <br><br>Nah, kamu <strong>lagu</strong>-ku itu. 🎵",
-                            hint: "Klik simpan sebelum aku nambahin verse baru 😏"
-                        }
-                    ]
-                },
-                {
-                    emoji: '🌙',
-                    responses: [
-                        {
-                            title: "Janji kecil dari aku:",
-                            text: "Aku gak janji jadi yang paling hebat. Tapi aku janji: <br><br>Tiap kali kamu butuh tempat buat '<em>napas</em>', aku di sini. Tanpa judgment. Tanpa buru-buru. <br><br>Cuma… <strong>ada</strong>. Seperti kamu ada buat aku. 🤍",
-                            hint: "Klik simpan untuk kunci janji ini 🔐"
-                        },
-                        {
-                            title: "Midnight thought:",
-                            text: "Jam 2 pagi, aku mikirin kamu. Bukan karena gak bisa tidur. Tapi karena <strong>kamu</strong> yang bikin aku gak mau tidur. <br><br>Karena tau besok bakal ada kesempatan buat <strong>senyum lagi</strong> gara-gara kamu. 🌙✨",
-                            hint: "Klik simpan, ini pesan spesial midnight 🌃"
-                        },
-                        {
-                            title: "Real talk:",
-                            text: "Aku gak pinter ngomong manis. Tapi buat kamu, aku rela <strong>belajar</strong>. <br><br>Karena kamu worth it. Lebih dari worth it. Kamu… <strong>priceless</strong>. 💎",
-                            hint: "Klik simpan sebelum aku kehabisan kata-kata 😅"
-                        }
-                    ]
-                }
+                { emoji: '💭', responses: [
+                    { title: "Kalo kamu bertanya-tanya…", text: "Iya, itu <strong>kamu</strong>. Yang bikin aku senyum-senyum sendiri pas lagi scroll HP tengah malam. Yang bikin kopi jadi kurang pahit.<br><br>Yang… ah, kamu tau lah 😏", hint: "Klik 'Simpan ke hati' untuk lanjut → 💾" },
+                    { title: "Random thought about you:", text: "Kamu itu kayak notifikasi yang gak bisa di-silent. Ganggu? <strong>Iya banget</strong>. Tapi justru yang paling dinanti.<br><br>Setiap kali muncul… hati auto <em>deg-degan</em>. Ini mah bukan notifikasi, ini <strong>gangguan jantung</strong> 😅💕", hint: "Masih ada yang lain… klik heart lagi! ✨" },
+                    { title: "Confession time…", text: "Aku perhatiin kamu. Bukan dalam cara yang creepy, tapi dalam cara 'oh iya, dia tuh <strong>beda</strong>'.<br><br>Cara kamu ketawa, cara kamu ngomong, cara kamu… <em>ada</em>. Itu semua bikin hari biasa jadi <strong>luar biasa</strong>. 🌟", hint: "Klik simpan, jangan bikin aku nunggu lama 😏" }
+                ]},
+                { emoji: '✨', responses: [
+                    { title: "Fakta random tentang kamu:", text: "Kamu punya <strong>superpower</strong> sendiri: bikin hal biasa jadi spesial.<br><br>Misalnya: cuma dengan <em>ada</em>, hari yang biasa-biasa aja tiba-tiba… berasa. Greget, kan?<br><br>Itu bukan sihir. Itu <strong>kamu</strong>. ✨", hint: "Klik simpan untuk collect → 💖" },
+                    { title: "You know what's funny?", text: "Aku coba cari <strong>kekurangan</strong> kamu. Serius. Tapi yang ketemu malah… <br><br>Terlalu baik. Terlalu lucu. Terlalu… <strong>kamu</strong>.<br><br>Ini gak fair. Aku kalah. Aku nyerah. Kamu menang. 🏆", hint: "Satu lagi tersisa… klik heart terakhir! 🌙" },
+                    { title: "Secret observation:", text: "Kamu itu kayak <strong>lagu favorit</strong> yang gak pernah bosen didenger.<br><br>Bisa diputer berulang-ulang. Setiap kali denger, ada detail baru yang bikin makin suka.<br><br>Nah, kamu <strong>lagu</strong>-ku itu. 🎵", hint: "Klik simpan sebelum aku nambahin verse baru 😏" }
+                ]},
+                { emoji: '🌙', responses: [
+                    { title: "Janji kecil dari aku:", text: "Aku gak janji jadi yang paling hebat. Tapi aku janji:<br><br>Tiap kali kamu butuh tempat buat '<em>napas</em>', aku di sini. Tanpa judgment. Tanpa buru-buru.<br><br>Cuma… <strong>ada</strong>. Seperti kamu ada buat aku. 🤍", hint: "Klik simpan untuk kunci janji ini 🔐" },
+                    { title: "Midnight thought:", text: "Jam 2 pagi, aku mikirin kamu. Bukan karena gak bisa tidur. Tapi karena <strong>kamu</strong> yang bikin aku gak mau tidur.<br><br>Karena tau besok bakal ada kesempatan buat <strong>senyum lagi</strong> gara-gara kamu. 🌙✨", hint: "Klik simpan, ini pesan spesial midnight 🌃" },
+                    { title: "Real talk:", text: "Aku gak pinter ngomong manis. Tapi buat kamu, aku rela <strong>belajar</strong>.<br><br>Karena kamu worth it. Lebih dari worth it. Kamu… <strong>priceless</strong>. 💎", hint: "Klik simpan sebelum aku kehabisan kata-kata 😅" }
+                ]}
             ],
             nextPrompt: "Masih mau lanjut? Aku belum selesai nih… 😏"
         },
         {
-            intro: [
-                "Anehnya ya… 🤔",
-                "Kamu gak ngapa-ngapain",
-                "Tapi efeknya… ganggu fokus aku banget 😏"
-            ],
+            intro: ["Anehnya ya… 🤔", "Kamu gak ngapa-ngapain", "Tapi efeknya… ganggu fokus aku banget 😏"],
             hearts: [
-                {
-                    emoji: '🎯',
-                    responses: [
-                        {
-                            title: "Kamu itu seperti…",
-                            text: "<strong>Target</strong> yang gak bisa aku lewatin. <br><br>Bukan karena maksa. Tapi karena… ya emang <strong>mau</strong> fokus ke kamu. <br><br>Voluntary. Willingly. <strong>Happily</strong>. 🎯💘",
-                            hint: "Klik simpan untuk target berikutnya →"
-                        },
-                        {
-                            title: "Distraction level:",
-                            text: "Kamu: <em>gak ngapa-ngapain</em> <br>Aku: <strong>kehilangan fokus</strong> <br><br>Kamu: <em>cuma senyum</em> <br>Aku: <strong>lupa mau ngomong apa</strong> <br><br>Kamu: <em>ada</em> <br>Aku: <strong>auto greget</strong> <br><br>Ini <strong>unfair</strong> tau gak? 😅💕",
-                            hint: "Masih ada… klik heart lagi!"
-                        },
-                        {
-                            title: "Productivity report:",
-                            text: "Sebelum kenal kamu: <strong>Produktif</strong> ✅ <br>Sekarang: <strong>Mikirin kamu</strong> 💭 <br><br>Conclusion: <em>You're my favorite distraction</em>. Dan aku <strong>gak mau</strong> produktivitas balik. 😌✨",
-                            hint: "Klik simpan untuk accept distraction ini 💾"
-                        }
-                    ]
-                },
-                {
-                    emoji: '☕',
-                    responses: [
-                        {
-                            title: "Kalo kamu kopi…",
-                            text: "Kamu itu kopi pagi yang bikin <strong>melek</strong>, tapi juga kopi malam yang bikin <strong>betah</strong>. <br><br>Pahit-manisnya pas. Hangatnya… <em>nyaman</em>. <br><br>Dan aku? Aku yang selalu <strong>nambah</strong>. Tanpa ragu. ☕",
-                            hint: "Klik simpan sebelum kopinya dingin →"
-                        },
-                        {
-                            title: "Caffeine content:",
-                            text: "Level kafein dalam kopi: <strong>80mg</strong> <br>Level kafein dalam senyum kamu: <strong>∞</strong> <br><br>Conclusion: Kamu lebih <strong>memabukkan</strong> dari kopi manapun. Dan aku <strong>addicted</strong>. ☕😵‍💫",
-                            hint: "Satu lagi… klik heart terakhir!"
-                        },
-                        {
-                            title: "Coffee date fantasy:",
-                            text: "Aku bayangin kita ngopi bareng. Bukan karena butuh kopi. Tapi karena butuh <strong>alasan</strong> buat duduk berhadapan sama kamu. <br><br>Liat kamu senyum. Dengar kamu ketawa. <br><br><em>Simple</em>. Tapi <strong>perfect</strong>. ☕✨",
-                            hint: "Klik simpan untuk save this date 💾"
-                        }
-                    ]
-                },
-                {
-                    emoji: '🗝️',
-                    responses: [
-                        {
-                            title: "Rahasianya:",
-                            text: "Aku simpen senyum kamu di tempat paling aman: <br><br>Di <strong>ingatan</strong> yang cuma bisa diakses pas aku lagi kangen. <br>Password-nya? <strong>Nama kamu</strong>. 🗝️🔐",
-                            hint: "Klik simpan untuk kunci rahasia ini 🔐"
-                        },
-                        {
-                            title: "Secret vault:",
-                            text: "Isi vault rahasia aku: <br>1. Senyum kamu 💖 <br>2. Tawa kamu 😊 <br>3. Cara kamu <em>ada</em> ✨ <br><br>Value: <strong>Priceless</strong>. <br>Access: <strong>Only you</strong>. 🔑",
-                            hint: "Klik simpan untuk jadi keyholder 💾"
-                        },
-                        {
-                            title: "Encrypted message:",
-                            text: "Pesan ini terenkripsi. <br>Decryption key: <strong>Perasaan kamu ke aku</strong>. <br><br>Isi pesan: <em>Aku suka kamu. Lebih dari yang kamu tau.</em> 🔐💌",
-                            hint: "Klik simpan untuk decrypt 💾✨"
-                        }
-                    ]
-                }
+                { emoji: '🎯', responses: [
+                    { title: "Kamu itu seperti…", text: "<strong>Target</strong> yang gak bisa aku lewatin.<br><br>Bukan karena maksa. Tapi karena… ya emang <strong>mau</strong> fokus ke kamu.<br><br>Voluntary. Willingly. <strong>Happily</strong>. 🎯💘", hint: "Klik simpan untuk target berikutnya →" },
+                    { title: "Distraction level:", text: "Kamu: <em>gak ngapa-ngapain</em> <br>Aku: <strong>kehilangan fokus</strong><br><br>Kamu: <em>cuma senyum</em> <br>Aku: <strong>lupa mau ngomong apa</strong><br><br>Kamu: <em>ada</em> <br>Aku: <strong>auto greget</strong><br><br>Ini <strong>unfair</strong> tau gak? 😅💕", hint: "Masih ada… klik heart lagi!" },
+                    { title: "Productivity report:", text: "Sebelum kenal kamu: <strong>Produktif</strong> ✅<br>Sekarang: <strong>Mikirin kamu</strong> 💭<br><br>Conclusion: <em>You're my favorite distraction</em>. Dan aku <strong>gak mau</strong> produktivitas balik. 😌✨", hint: "Klik simpan untuk accept distraction ini 💾" }
+                ]},
+                { emoji: '☕', responses: [
+                    { title: "Kalo kamu kopi…", text: "Kamu itu kopi pagi yang bikin <strong>melek</strong>, tapi juga kopi malam yang bikin <strong>betah</strong>.<br><br>Pahit-manisnya pas. Hangatnya… <em>nyaman</em>.<br><br>Dan aku? Aku yang selalu <strong>nambah</strong>. Tanpa ragu. ☕", hint: "Klik simpan sebelum kopinya dingin →" },
+                    { title: "Caffeine content:", text: "Level kafein dalam kopi: <strong>80mg</strong><br>Level kafein dalam senyum kamu: <strong>∞</strong><br><br>Conclusion: Kamu lebih <strong>memabukkan</strong> dari kopi manapun. Dan aku <strong>addicted</strong>. ☕😵💫", hint: "Satu lagi… klik heart terakhir!" },
+                    { title: "Coffee date fantasy:", text: "Aku bayangin kita ngopi bareng. Bukan karena butuh kopi. Tapi karena butuh <strong>alasan</strong> buat duduk berhadapan sama kamu.<br><br>Liat kamu senyum. Dengar kamu ketawa.<br><br><em>Simple</em>. Tapi <strong>perfect</strong>. ☕✨", hint: "Klik simpan untuk save this date 💾" }
+                ]},
+                { emoji: '🗝️', responses: [
+                    { title: "Rahasianya:", text: "Aku simpen senyum kamu di tempat paling aman:<br><br>Di <strong>ingatan</strong> yang cuma bisa diakses pas aku lagi kangen.<br>Password-nya? <strong>Nama kamu</strong>. 🗝️", hint: "Klik simpan untuk kunci rahasia ini 🔐" },
+                    { title: "Secret vault:", text: "Isi vault rahasia aku:<br>1. Senyum kamu 💖<br>2. Tawa kamu 😊<br>3. Cara kamu <em>ada</em> ✨<br><br>Value: <strong>Priceless</strong>.<br>Access: <strong>Only you</strong>. 🔑", hint: "Klik simpan untuk jadi keyholder 💾" },
+                    { title: "Encrypted message:", text: "Pesan ini terenkripsi.<br>Decryption key: <strong>Perasaan kamu ke aku</strong>.<br><br>Isi pesan: <em>Aku suka kamu. Lebih dari yang kamu tau.</em> 🔐💌", hint: "Klik simpan untuk decrypt 💾✨" }
+                ]}
             ],
             nextPrompt: "Tahap terakhir… siap-siap greget level max! 🔥"
         },
         {
-            intro: [
-                "Aku sempet mikir… 🤔",
-                "Ini kebiasaan atau kamu emang <strong>beda</strong> aja?",
-                "Jawabannya: <em>Ya udahlah, yang penting kamu</em> 😌"
-            ],
+            intro: ["Aku sempet mikir… 🤔", "Ini kebiasaan atau kamu emang <strong>beda</strong> aja?", "Jawabannya: <em>Ya udahlah, yang penting kamu</em> 😌"],
             hearts: [
-                {
-                    emoji: '🧭',
-                    responses: [
-                        {
-                            title: "Jawabannya:",
-                            text: "Kamu <strong>beda</strong>. <br><br>Bukan karena kamu sempurna. Tapi karena cara kamu '<em>gak sempurna</em>'-nya itu… justru yang bikin aku <strong>nyaman</strong>. <br><br>Like, <em>really</em> nyaman. 🧭",
-                            hint: "Klik simpan untuk arah yang benar →"
-                        },
-                        {
-                            title: "North star:",
-                            text: "Kamu itu kayak <strong>bintang utara</strong>. <br><br>Aku gak selalu liat kamu. Tapi aku tau kamu <strong>ada</strong>. Dan itu cukup buat bikin aku <strong>gak tersesat</strong>. 🧭⭐",
-                            hint: "Masih ada… klik heart lagi!"
-                        },
-                        {
-                            title: "Compass reading:",
-                            text: "Arah hatiku: <strong>Always pointing to you</strong>. <br><br>Mau diputar kemana pun, ujung-ujungnya <strong>kamu</strong> juga. <br><br>Ini bukan error. Ini <strong>feature</strong>. 🧭",
-                            hint: "Klik simpan untuk calibrate compass 💾"
-                        }
-                    ]
-                },
-                {
-                    emoji: '🎨',
-                    responses: [
-                        {
-                            title: "Kalo hidup itu kanvas…",
-                            text: "Kamu bukan cuma <strong>warna favorit</strong>ku. <br><br>Kamu yang bikin seluruh lukisannya jadi… <strong>berarti</strong>. <br><br>Tanpa kamu, sisanya cuma <em>coretan</em>. Dengan kamu, jadi <strong>masterpiece</strong>. 🎨✨",
-                            hint: "Klik simpan untuk save masterpiece ini →"
-                        },
-                        {
-                            title: "Color palette:",
-                            text: "Warna hidup aku sebelum kamu: <strong>Hitam-putih</strong> ⚫⚪ <br>Sekarang: <strong>Technicolor</strong> 🌈 <br><br>Thank you for <strong>coloring my world</strong>. 🎨💕",
-                            hint: "Satu lagi… klik heart terakhir!"
-                        },
-                        {
-                            title: "Art critique:",
-                            text: "Karya terindah di galeri hidup aku: <br><strong>Kamu</strong>. <br><br>Medium: <em>Keberadaan</em> <br>Style: <em>Perfectly imperfect</em> <br>Value: <em>Priceless</em> <br><br>Status: <strong>Not for sale. Already mine.</strong> 🎨",
-                            hint: "Klik simpan untuk claim ownership 💾"
-                        }
-                    ]
-                },
-                {
-                    emoji: '💌',
-                    responses: [
-                        {
-                            title: "Pesan penutup:",
-                            text: "Terima kasih udah jadi '<strong>gangguan</strong>' terindah di hidupku. <br><br>Aku gak minta kamu jadi apa-apa. <br>Cukup jadi <strong>kamu</strong>. <br><br>Itu udah <strong>lebih dari cukup</strong>. 🌙💌",
-                            hint: "Klik simpan untuk keep forever 💾✨"
-                        },
-                        {
-                            title: "Final transmission:",
-                            text: "Message from my heart to yours: <br><br><em>You're amazing. You're special. You're mine (in my heart at least).</em> <br><br>Status: <strong>Delivered ✓✓</strong> 💌💖",
-                            hint: "Klik simpan untuk reply with your heart 💾"
-                        },
-                        {
-                            title: "Love letter:",
-                            text: "Dear kamu, <br><br>Kamu tau gak? Setiap kali aku mikir '<em>udahlah, move on</em>', kamu muncul lagi. <br><br>Dan aku <strong>gak marah</strong>. Malah <strong>seneng</strong>. <br><br>Karena artinya… <strong>kamu worth it</strong>. <br><br>Always. 💌✨",
-                            hint: "Klik simpan untuk sign & seal 💾💋"
-                        }
-                    ]
-                }
+                { emoji: '🧭', responses: [
+                    { title: "Jawabannya:", text: "Kamu <strong>beda</strong>.<br><br>Bukan karena kamu sempurna. Tapi karena cara kamu '<em>gak sempurna</em>'-nya itu… justru yang bikin aku <strong>nyaman</strong>.<br><br>Like, <em>really</em> nyaman. 🧭", hint: "Klik simpan untuk arah yang benar →" },
+                    { title: "North star:", text: "Kamu itu kayak <strong>bintang utara</strong>.<br><br>Aku gak selalu liat kamu. Tapi aku tau kamu <strong>ada</strong>. Dan itu cukup buat bikin aku <strong>gak tersesat</strong>. 🧭⭐", hint: "Masih ada… klik heart lagi!" },
+                    { title: "Compass reading:", text: "Arah hatiku: <strong>Always pointing to you</strong>.<br><br>Mau diputar kemana pun, ujung-ujungnya <strong>kamu</strong> juga.<br><br>Ini bukan error. Ini <strong>feature</strong>. 🧭", hint: "Klik simpan untuk calibrate compass 💾" }
+                ]},
+                { emoji: '🎨', responses: [
+                    { title: "Kalo hidup itu kanvas…", text: "Kamu bukan cuma <strong>warna favorit</strong>ku.<br><br>Kamu yang bikin seluruh lukisannya jadi… <strong>berarti</strong>.<br><br>Tanpa kamu, sisanya cuma <em>coretan</em>. Dengan kamu, jadi <strong>masterpiece</strong>. 🎨✨", hint: "Klik simpan untuk save masterpiece ini →" },
+                    { title: "Color palette:", text: "Warna hidup aku sebelum kamu: <strong>Hitam-putih</strong> ⚫<br>Sekarang: <strong>Technicolor</strong> 🌈<br><br>Thank you for <strong>coloring my world</strong>. 🎨💕", hint: "Satu lagi… klik heart terakhir!" },
+                    { title: "Art critique:", text: "Karya terindah di galeri hidup aku:<br><strong>Kamu</strong>.<br><br>Medium: <em>Keberadaan</em><br>Style: <em>Perfectly imperfect</em><br>Value: <em>Priceless</em><br><br>Status: <strong>Not for sale. Already mine.</strong> 🎨", hint: "Klik simpan untuk claim ownership 💾" }
+                ]},
+                { emoji: '💌', responses: [
+                    { title: "Pesan penutup:", text: "Terima kasih udah jadi '<strong>gangguan</strong>' terindah di hidupku.<br><br>Aku gak minta kamu jadi apa-apa.<br>Cukup jadi <strong>kamu</strong>.<br><br>Itu udah <strong>lebih dari cukup</strong>. 🌙💌", hint: "Klik simpan untuk keep forever 💾✨" },
+                    { title: "Final transmission:", text: "Message from my heart to yours:<br><br><em>You're amazing. You're special. You're mine (in my heart at least).</em><br><br>Status: <strong>Delivered ✓✓</strong> 💌💖", hint: "Klik simpan untuk reply with your heart 💾" },
+                    { title: "Love letter:", text: "Dear kamu,<br><br>Kamu tau gak? Setiap kali aku mikir '<em>udahlah, move on</em>', kamu muncul lagi.<br><br>Dan aku <strong>gak marah</strong>. Malah <strong>seneng</strong>.<br><br>Karena artinya… <strong>kamu worth it</strong>.<br><br>Always. 💌✨", hint: "Klik simpan untuk sign & seal 💾💋" }
+                ]}
             ],
             nextPrompt: "Selesai… tapi cerita kita? Masih panjang 😉🌸"
         }
     ],
     endings: [
-        "🎉 <strong>CONGRATS!</strong> Kamu udah collect semua pesan. <br><br>Tapi tenang, ini bukan akhir. Ini cuma <strong>chapter 1</strong>. <br><br>Chapter selanjutnya? <em>Terserah kamu…</em> 😏💕",
-        "💝 <strong>All collected!</strong> <br><br>Kamu hebat. Dan iya, aku <strong>sengaja</strong> bikin ini buat kamu. <br><br>Because you're <strong>worth every second</strong> I spent making this. ✨",
-        "🌟 <strong>Mission complete!</strong> <br><br>9 pesan. 9 alasan kenapa kamu <strong>special</strong>. <br><br>Simpen baik-baik. Buka lagi pas lagi kangen. <br><br>Atau… <strong>kirim balik</strong> ke aku. Aku tunggu. 😌💌"
+        "🎉 <strong>CONGRATS!</strong> Kamu udah collect semua pesan.<br><br>Tapi tenang, ini bukan akhir. Ini cuma <strong>chapter 1</strong>.<br><br>Chapter selanjutnya? <em>Terserah kamu…</em> 😏💕",
+        "💝 <strong>All collected!</strong><br><br>Kamu hebat. Dan iya, aku <strong>sengaja</strong> bikin ini buat kamu.<br><br>Because you're <strong>worth every second</strong> I spent making this. ✨",
+        "🌟 <strong>Mission complete!</strong><br><br>9 pesan. 9 alasan kenapa kamu <strong>special</strong>.<br><br>Simpen baik-baik. Buka lagi pas lagi kangen.<br><br>Atau… <strong>kirim balik</strong> ke aku. Aku tunggu. 😌💌"
     ]
 };
 
-/* ════════════════════════ STATE MANAGEMENT ════════════════════════ */
-let state = {
-    stage: 0,
-    collected: 0,
-    currentHeart: null,
-    modalOpen: false,
-    audioPlaying: false
-};
-
-/* ════════════════════════ DOM ELEMENTS ════════════════════════ */
+/* ════════════════════════ STATE ════════════════════════ */
+let state = { stage: 0, collected: 0, currentHeart: null, modalOpen: false, audioPlaying: false };
 const chat = document.getElementById('chat');
 const nextBtn = document.getElementById('nextBtn');
 const progressBar = document.getElementById('progressBar');
 const progressCount = document.getElementById('progressCount');
 const modal = document.getElementById('modal');
 const audio = document.getElementById('audio');
+const toast = document.getElementById('toast');
 
-/* ════════════════════════ STARS BACKGROUND ════════════════════════ */
-const canvas = document.getElementById('starCanvas');
-const ctx = canvas.getContext('2d');
-
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-const stars = Array.from({length: 120}, () => ({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 1.5 + 0.3,
-    phase: Math.random() * Math.PI * 2,
-    spd: Math.random() * 0.04 + 0.01,
-    maxOp: Math.random() * 0.7 + 0.3
+/* ════════════════════════ STARS ════════════════════════ */
+const canvas = document.getElementById('starCanvas'), ctx = canvas.getContext('2d');
+function resizeCanvas(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+const stars = Array.from({length:120},()=>({
+    x:Math.random()*canvas.width, y:Math.random()*canvas.height,
+    r:Math.random()*1.5+0.3, phase:Math.random()*Math.PI*2,
+    spd:Math.random()*0.04+0.01, maxOp:Math.random()*0.7+0.3
 }));
-
-function drawStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    stars.forEach(s => {
-        s.phase += s.spd;
-        const op = ((Math.sin(s.phase) + 1) / 2) * s.maxOp;
-        ctx.save();
-        ctx.globalAlpha = op;
-        ctx.fillStyle = '#fff';
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = 'rgba(255,180,210,0.8)';
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
+function drawStars(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s=>{
+        s.phase+=s.spd; const op=((Math.sin(s.phase)+1)/2)*s.maxOp;
+        ctx.save(); ctx.globalAlpha=op; ctx.fillStyle='#fff'; ctx.shadowBlur=8; ctx.shadowColor='rgba(255,180,210,0.8)';
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); ctx.restore();
     });
     requestAnimationFrame(drawStars);
 }
 drawStars();
 
-/* ════════════════════════ FLOATING PARTICLES ════════════════════════ */
-function spawnFloatingEmoji() {
-    const emojis = ['💖', '✨', '🌸', '💕', '🦋', '', '⭐'];
-    const el = document.createElement('div');
-    el.className = 'floating-emoji';
-    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    el.style.left = Math.random() * 100 + 'vw';
-    el.style.fontSize = (Math.random() * 15 + 15) + 'px';
-    el.style.animationDuration = (Math.random() * 4 + 5) + 's';
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 10000);
-}
-setInterval(spawnFloatingEmoji, 1500);
-
 /* ════════════════════════ AUDIO VISUALIZER ════════════════════════ */
-const visualizerCanvas = document.getElementById('audioVisualizer');
-const vCtx = visualizerCanvas.getContext('2d');
-let analyser, dataArray, animationId;
-
-function setupAudioContext() {
-    if (!analyser) {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        const source = audioContext.createMediaElementSource(audio);
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
-        analyser.fftSize = 64;
-        const bufferLength = analyser.frequencyBinCount;
-        dataArray = new Uint8Array(bufferLength);
+const vCanvas=document.getElementById('audioVisualizer'), vCtx=vCanvas.getContext('2d');
+let analyser, dataArray, animId;
+function setupAudio(){
+    if(!analyser){
+        const actx=new(window.AudioContext||window.webkitAudioContext)();
+        analyser=actx.createAnalyser();
+        const src=actx.createMediaElementSource(audio);
+        src.connect(analyser); analyser.connect(actx.destination);
+        analyser.fftSize=64; dataArray=new Uint8Array(analyser.frequencyBinCount);
     }
 }
-
-function drawVisualizer() {
-    if (!state.audioPlaying) {
-        vCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
-        return;
-    }
-    
-    animationId = requestAnimationFrame(drawVisualizer);
+function drawVis(){
+    if(!state.audioPlaying){ vCtx.clearRect(0,0,vCanvas.width,vCanvas.height); return; }
+    animId=requestAnimationFrame(drawVis);
     analyser.getByteFrequencyData(dataArray);
-    
-    const width = visualizerCanvas.width;
-    const height = visualizerCanvas.height;
-    const barWidth = width / dataArray.length;
-    
-    vCtx.clearRect(0, 0, width, height);
-    
-    dataArray.forEach((value, i) => {
-        const percent = value / 255;
-        const barHeight = percent * height * 2;
-        const x = i * barWidth;
-        
-        const gradient = vCtx.createLinearGradient(x, height, x, height - barHeight);
-        gradient.addColorStop(0, 'rgba(255, 77, 109, 0.8)');
-        gradient.addColorStop(1, 'rgba(255, 158, 181, 0.4)');
-        
-        vCtx.fillStyle = gradient;
-        vCtx.fillRect(x, height - barHeight, barWidth - 1, barHeight);
+    const w=vCanvas.width, h=vCanvas.height, bw=w/dataArray.length;
+    vCtx.clearRect(0,0,w,h);
+    dataArray.forEach((v,i)=>{
+        const p=v/255, bh=p*h*2, x=i*bw;
+        const g=vCtx.createLinearGradient(x,h,x,h-bh);
+        g.addColorStop(0,'rgba(255,77,109,0.8)'); g.addColorStop(1,'rgba(255,158,181,0.4)');
+        vCtx.fillStyle=g; vCtx.fillRect(x,h-bh,bw-1,bh);
     });
 }
 
 /* ════════════════════════ AUDIO CONTROL ════════════════════════ */
-const audioBtn = document.getElementById('audioBtn');
-const audioLabel = document.getElementById('audioLabel');
-
-async function toggleAudio() {
-    setupAudioContext();
-    
-    if (state.audioPlaying) {
-        audio.pause();
-        audioLabel.textContent = 'Putar';
-        audioBtn.classList.remove('playing');
-        state.audioPlaying = false;
-        cancelAnimationFrame(animationId);
-    } else {
-        try {
-            audio.volume = 0.4;
-            await audio.play();
-            audioLabel.textContent = 'Pause';
-            audioBtn.classList.add('playing');
-            state.audioPlaying = true;
-            drawVisualizer();
-        } catch (err) {
-            audioLabel.textContent = 'Error';
-            setTimeout(() => audioLabel.textContent = 'Putar', 1500);
-        }
+async function toggleAudio(){
+    setupAudio();
+    if(state.audioPlaying){
+        audio.pause(); document.getElementById('audioLabel').textContent='Putar';
+        document.getElementById('audioBtn').classList.remove('playing');
+        state.audioPlaying=false; cancelAnimationFrame(animId);
+    }else{
+        try{ audio.volume=0.4; await audio.play();
+            document.getElementById('audioLabel').textContent='Pause';
+            document.getElementById('audioBtn').classList.add('playing');
+            state.audioPlaying=true; drawVis();
+        }catch(e){ document.getElementById('audioLabel').textContent='Error'; setTimeout(()=>document.getElementById('audioLabel').textContent='Putar',1500); }
     }
 }
 
-/* ════════════════════════ CHAT FUNCTIONS ════════════════════════ */
-function getTime() {
-    const d = new Date();
-    return d.getHours().toString().padStart(2, '0') + ':' + 
-           d.getMinutes().toString().padStart(2, '0');
+/* ════════════════════════ CHAT ENGINE (HTML SAFE) ════════════════════════ */
+function getTime(){ const d=new Date(); return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0'); }
+function showTyping(){
+    const t=document.createElement('div'); t.className='typing';
+    t.innerHTML='<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    chat.appendChild(t); chat.scrollTop=chat.scrollHeight; return t;
 }
-
-function showTyping() {
-    const typing = document.createElement('div');
-    typing.className = 'typing';
-    typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-    chat.appendChild(typing);
-    chat.scrollTop = chat.scrollHeight;
-    return typing;
-}
-
-function typeBubble(text, callback) {
-    const typing = showTyping();
-    
-    setTimeout(() => {
-        typing.remove();
-        
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        
-        const textDiv = document.createElement('div');
-        textDiv.className = 'bubble-text';
-        
-        const meta = document.createElement('div');
-        meta.className = 'bubble-meta';
-        meta.innerHTML = `<span class="bubble-time">${getTime()}</span><span class="bubble-check">✓</span>`;
-        
-        bubble.appendChild(textDiv);
-        bubble.appendChild(meta);
-        chat.appendChild(bubble);
-        
-        // Typewriter effect
-        let i = 0;
-        const speed = () => Math.random() * 25 + 20;
-        
-        function type() {
-            if (i < text.length) {
-                textDiv.innerHTML += text[i];
-                i++;
-                chat.scrollTop = chat.scrollHeight;
-                setTimeout(type, speed());
-            } else {
-                setTimeout(() => {
-                    const check = meta.querySelector('.bubble-check');
-                    check.textContent = '✓✓';
-                }, 600);
-                if (callback) callback();
-            }
-        }
-        type();
+function typeBubble(html, cb){
+    const t=showTyping();
+    setTimeout(()=>{
+        t.remove();
+        const b=document.createElement('div'); b.className='bubble';
+        const tx=document.createElement('div'); tx.className='bubble-text';
+        tx.innerHTML=html; tx.style.opacity=0; tx.style.transform='translateY(5px)';
+        const m=document.createElement('div'); m.className='bubble-meta';
+        m.innerHTML=`<span class="bubble-time">${getTime()}</span><span class="bubble-check">✓</span>`;
+        b.appendChild(tx); b.appendChild(m); chat.appendChild(b);
+        requestAnimationFrame(()=>{
+            tx.style.transition='opacity 0.4s ease, transform 0.4s ease';
+            tx.style.opacity=1; tx.style.transform='translateY(0)';
+        });
+        setTimeout(()=>{ m.querySelector('.bubble-check').textContent='✓✓'; },600);
+        if(cb) setTimeout(cb, 400);
     }, 900);
 }
 
-/* ════════════════════════ PROGRESS UPDATE ════════════════════════ */
-function updateProgress() {
-    const total = gameData.stages.length * 3;
-    const percent = Math.min(100, Math.round((state.collected / total) * 100));
-    progressBar.style.width = percent + '%';
-    progressCount.textContent = `${state.collected}/${total}`;
-    
-    // Add pulse animation on update
-    progressBar.style.transform = 'scaleX(1.02)';
-    setTimeout(() => {
-        progressBar.style.transform = 'scaleX(1)';
-    }, 200);
+/* ════════════════════════ PROGRESS & TOAST ════════════════════════ */
+function updateProgress(){
+    const pct=Math.round((state.collected/9)*100);
+    progressBar.style.width=pct+'%';
+    progressCount.textContent=pct+'%';
+    progressBar.style.transform='scaleX(1.02)';
+    setTimeout(()=>progressBar.style.transform='scaleX(1)',200);
+    showToast(`💖 +${Math.round(100/9)}% collected!`);
+}
+function showToast(msg){
+    toast.textContent=msg; toast.classList.add('show');
+    setTimeout(()=>{ toast.classList.remove('show'); },1500);
 }
 
-/* ════════════════════════ SPARKLE EFFECT ════════════════════════ */
-function spawnSparkles(x, y) {
-    const symbols = ['✨', '💖', '🌸', '⭐', '💕', '', '🦋'];
-    for (let i = 0; i < 12; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-        
-        const angle = (i / 12) * Math.PI * 2;
-        const distance = Math.random() * 100 + 80;
-        const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance;
-        
-        sparkle.style.left = x + 'px';
-        sparkle.style.top = y + 'px';
-        sparkle.style.setProperty('--tx', tx + 'px');
-        sparkle.style.setProperty('--ty', ty + 'px');
-        sparkle.style.fontSize = (Math.random() * 12 + 16) + 'px';
-        
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 800);
+/* ════════════════════════ SPARKLES ════════════════════════ */
+function spawnSparkles(x,y){
+    const sym=['✨','💖','🌸','⭐','💕','','🦋'];
+    for(let i=0;i<12;i++){
+        const sp=document.createElement('div'); sp.className='sparkle';
+        sp.textContent=sym[Math.floor(Math.random()*sym.length)];
+        const ang=(i/12)*Math.PI*2, dist=Math.random()*100+80;
+        sp.style.left=x+'px'; sp.style.top=y+'px';
+        sp.style.setProperty('--tx',Math.cos(ang)*dist+'px');
+        sp.style.setProperty('--ty',Math.sin(ang)*dist+'px');
+        sp.style.fontSize=(Math.random()*12+16)+'px';
+        document.body.appendChild(sp); setTimeout(()=>sp.remove(),800);
     }
 }
 
-/* ════════════════════════ MODAL FUNCTIONS ════════════════════════ */
-function openModal(heartIndex) {
-    const stage = gameData.stages[state.stage];
-    const heart = stage.hearts[heartIndex];
-    
-    // Get random response
-    const randomResponse = heart.responses[Math.floor(Math.random() * heart.responses.length)];
-    
-    document.getElementById('modalEmoji').textContent = heart.emoji;
-    document.getElementById('modalTitle').textContent = randomResponse.title;
-    document.getElementById('modalText').innerHTML = randomResponse.text;
-    document.getElementById('modalHint').textContent = randomResponse.hint;
-    
-    state.currentHeart = heartIndex;
-    state.modalOpen = true;
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+/* ════════════════════════ MODAL ════════════════════════ */
+function openModal(idx){
+    const stage=gameData.stages[state.stage], heart=stage.hearts[idx];
+    const res=heart.responses[Math.floor(Math.random()*heart.responses.length)];
+    document.getElementById('modalEmoji').textContent=heart.emoji;
+    document.getElementById('modalTitle').textContent=res.title;
+    document.getElementById('modalText').innerHTML=res.text;
+    document.getElementById('modalHint').textContent=res.hint;
+    state.currentHeart=idx; state.modalOpen=true;
+    modal.classList.add('active'); document.body.style.overflow='hidden';
 }
-
-function closeModal() {
-    modal.classList.remove('active');
-    state.modalOpen = false;
-    document.body.style.overflow = '';
-}
-
-function closeModalOnOverlay(e) {
-    if (e.target === modal) {
-        // Don't close if not collected yet
-        if (state.collected % 3 === 0 && state.collected > 0) {
-            closeModal();
-        }
-    }
-}
-
-function collectHeart() {
-    const rect = event.target.closest('.modal-action').getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
-    
-    spawnSparkles(x, y);
-    
-    state.collected++;
-    updateProgress();
-    
-    // Mark heart as clicked
-    const hearts = document.querySelectorAll('.heart-btn');
-    if (state.currentHeart !== null && hearts[state.currentHeart]) {
-        hearts[state.currentHeart].classList.add('clicked');
-    }
-    
-    setTimeout(() => {
+function closeModal(){ modal.classList.remove('active'); state.modalOpen=false; document.body.style.overflow=''; }
+function closeModalOnOverlay(e){ if(e.target===modal) closeModal(); }
+function collectHeart(){
+    const btn=event.currentTarget, rect=btn.getBoundingClientRect();
+    spawnSparkles(rect.left+rect.width/2, rect.top+rect.height/2);
+    state.collected++; updateProgress();
+    const hearts=document.querySelectorAll('.heart-btn');
+    if(state.currentHeart!==null && hearts[state.currentHeart]) hearts[state.currentHeart].classList.add('clicked');
+    setTimeout(()=>{
         closeModal();
-        
-        // Check if all hearts in this stage collected
-        if (state.collected % 3 === 0) {
-            nextBtn.style.display = 'flex';
-            nextBtn.innerHTML = `<span>${gameData.stages[state.stage].nextPrompt}</span><span>→</span>`;
-            
-            // Scroll to bottom
-            setTimeout(() => {
-                chat.scrollTop = chat.scrollHeight;
-            }, 100);
+        if(state.collected%3===0){
+            nextBtn.style.display='flex';
+            nextBtn.innerHTML=`<span>${gameData.stages[state.stage].nextPrompt}</span><span>→</span>`;
+            setTimeout(()=>chat.scrollTop=chat.scrollHeight,100);
         }
-        
-        // Check if all stages completed
-        if (state.collected === 9) {
-            showEnding();
-        }
-    }, 400);
+        if(state.collected===9) showEnding();
+    },400);
 }
 
 /* ════════════════════════ GAME FLOW ════════════════════════ */
-function playIntro() {
-    nextBtn.style.display = 'none';
-    const stage = gameData.stages[state.stage];
-    let i = 0;
-    
-    function nextLine() {
-        if (i < stage.intro.length) {
-            typeBubble(stage.intro[i], () => {
-                setTimeout(nextLine, 700);
-            });
-            i++;
-        } else {
-            setTimeout(showHeartGrid, 800);
-        }
-    }
-    nextLine();
+function playIntro(){
+    nextBtn.style.display='none';
+    const stage=gameData.stages[state.stage]; let i=0;
+    function nextLine(){
+        if(i<stage.intro.length){
+            typeBubble(stage.intro[i], ()=>setTimeout(nextLine,700)); i++;
+        }else setTimeout(showHeartGrid,800);
+    } nextLine();
 }
-
-function showHeartGrid() {
-    const grid = document.createElement('div');
-    grid.className = 'heart-grid';
-    grid.id = 'heartGrid';
-    
-    const emojis = ['💭', '✨', '🌙'];
-    emojis.forEach((emoji, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'heart-btn';
-        btn.textContent = emoji;
-        btn.onclick = (e) => {
-            const rect = btn.getBoundingClientRect();
-            spawnSparkles(rect.left + rect.width/2, rect.top + rect.height/2);
-            openModal(index);
-        };
-        grid.appendChild(btn);
+function showHeartGrid(){
+    const grid=document.createElement('div'); grid.className='heart-grid'; grid.id='heartGrid';
+    const labels=['Klik aku 💫','Sentuh ✨','Buka 🌙'];
+    ['💭','✨','🌙'].forEach((em,idx)=>{
+        const item=document.createElement('div'); item.className='heart-item';
+        const btn=document.createElement('button'); btn.className='heart-btn'; btn.textContent=em;
+        btn.onclick=(e)=>{ const r=btn.getBoundingClientRect(); spawnSparkles(r.left+r.width/2,r.top+r.height/2); openModal(idx); };
+        const lbl=document.createElement('span'); lbl.className='heart-label'; lbl.textContent=labels[idx];
+        item.appendChild(btn); item.appendChild(lbl); grid.appendChild(item);
     });
-    
-    chat.appendChild(grid);
-    chat.scrollTop = chat.scrollHeight;
+    chat.appendChild(grid); chat.scrollTop=chat.scrollHeight;
 }
-
-function nextStage() {
-    const rect = nextBtn.getBoundingClientRect();
-    spawnSparkles(rect.left + rect.width/2, rect.top + rect.height/2);
-    
+function nextStage(){
+    const r=nextBtn.getBoundingClientRect(); spawnSparkles(r.left+r.width/2,r.top+r.height/2);
     state.stage++;
-    
-    if (state.stage < gameData.stages.length) {
-        // Remove old heart grid
-        const oldGrid = document.getElementById('heartGrid');
-        if (oldGrid) oldGrid.remove();
-        
-        setTimeout(playIntro, 400);
+    if(state.stage<gameData.stages.length){
+        const old=document.getElementById('heartGrid'); if(old)old.remove();
+        setTimeout(playIntro,400);
     }
-    
-    nextBtn.style.display = 'none';
+    nextBtn.style.display='none';
 }
-
-function showEnding() {
-    setTimeout(() => {
-        const ending = gameData.endings[Math.floor(Math.random() * gameData.endings.length)];
-        typeBubble(ending, () => {
-            // Final celebration
-            setTimeout(() => {
-                for (let i = 0; i < 5; i++) {
-                    setTimeout(() => {
-                        spawnSparkles(
-                            Math.random() * window.innerWidth,
-                            Math.random() * window.innerHeight * 0.6
-                        );
-                    }, i * 300);
-                }
-            }, 500);
+function showEnding(){
+    setTimeout(()=>{
+        typeBubble(gameData.endings[Math.floor(Math.random()*gameData.endings.length)],()=>{
+            for(let i=0;i<5;i++) setTimeout(()=>spawnSparkles(Math.random()*window.innerWidth,Math.random()*window.innerHeight*0.6),i*300);
         });
-    }, 1000);
+    },1000);
 }
-
-/* ════════════════════════ KEYBOARD SHORTCUTS ════════════════════════ */
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && state.modalOpen) {
-        closeModal();
-    }
-    if (e.key === ' ' && e.target === document.body) {
-        e.preventDefault();
-        toggleAudio();
-    }
-});
 
 /* ════════════════════════ INIT ════════════════════════ */
-window.addEventListener('load', () => {
-    updateProgress();
-    playIntro();
-    
-    // Console easter egg
-    console.log('%c💌 Bee… made with 💖', 'font-size: 20px; color: #ff4d6d;');
-    console.log('%c🤫 Ketik "rahasia" untuk pesan spesial', 'font-size: 12px; color: #888;');
-});
-
-let secretBuffer = '';
-document.addEventListener('keydown', (e) => {
-    if (e.key.length === 1) {
-        secretBuffer += e.key;
-        if (secretBuffer.length > 10) secretBuffer = secretBuffer.slice(-10);
-        if (secretBuffer.toLowerCase().includes('rahasia')) {
-            alert('🎁 Pesan Rahasia:\n\n"Kamu hebat. Dan iya, aku sengaja bikin ini buat kamu. Sekarang tutup alert ini dan lanjutin collect heart-nya! 💖"');
-            secretBuffer = '';
-        }
-    }
+window.addEventListener('load',()=>{ updateProgress(); playIntro(); });
+document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'&&state.modalOpen) closeModal();
+    if(e.key===' '&&e.target===document.body){ e.preventDefault(); toggleAudio(); }
 });
 </script>
 </body>
