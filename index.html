@@ -714,13 +714,12 @@ function showEnding(){
     }, 1000);
 }
 
-/* ════════════════════════ GAME FLOW (FIXED) ════════════════════════ */
+/* ════════════════════════ GAME FLOW (FIXED: CLEAR CHAT) ════════════════════════ */
 function playIntro(){
     nextBtn.style.display='none';
     const introSet = gameData.intros[Math.floor(Math.random() * gameData.intros.length)];
     let i = 0;
     
-    // ✅ FIX: Logic loop yang lebih ketat
     function nextLine(){
         if(i < introSet.length){
             typeBubble(introSet[i], ()=>{
@@ -728,7 +727,6 @@ function playIntro(){
                 setTimeout(nextLine, 700); 
             }); 
         } else {
-            // ✅ Jika sudah habis, panggil Grid
             setTimeout(showHeartGrid, 800);
         }
     } 
@@ -747,11 +745,15 @@ function showHeartGrid(){
     });
     chat.appendChild(grid); chat.scrollTop=chat.scrollHeight;
 }
+
 function nextStage(){
     const r=nextBtn.getBoundingClientRect(); spawnSparkles(r.left+r.width/2,r.top+r.height/2);
+    
+    // ✅ FIX: Bersihkan chat sebelum masuk stage baru agar tidak numpuk/ngawur
+    chat.innerHTML = '';
+    
     state.stage++;
     if(state.stage<gameData.stages.length){
-        const old=document.getElementById('heartGrid'); if(old)old.remove();
         setTimeout(playIntro,400);
     }
     nextBtn.style.display='none';
