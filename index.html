@@ -155,6 +155,10 @@ body::before {
 }
 @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
 .heart-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+/* ✅ FIX 1: Sekarang animasi hide diterapkan ke .heart-item agar label ikut hilang */
+.heart-item.clicked { animation: heartPop 0.6s ease forwards; pointer-events: none; }
+
 .heart-btn {
     width: 72px; height: 72px; border-radius: 50%;
     background: radial-gradient(circle at 35% 35%, #ff6b8a, #ff4d6d, #c0195a);
@@ -166,9 +170,10 @@ body::before {
 }
 .heart-btn:hover { transform: scale(1.15) rotate(5deg); box-shadow: 0 12px 32px rgba(255,77,109,0.6); }
 .heart-btn:active { transform: scale(0.95); }
-.heart-btn.clicked { animation: heartPop 0.6s ease forwards; pointer-events: none; }
+
 @keyframes heartbeat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
 @keyframes heartPop { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(0);opacity:0} }
+
 .heart-label {
     font-size: 11px; color: var(--accent); font-weight: 500;
     background: rgba(255,77,109,0.15); padding: 4px 10px; border-radius: 20px;
@@ -265,11 +270,17 @@ body::before {
     100%{transform:translate(var(--tx),var(--ty)) scale(0) rotate(720deg);opacity:0}
 }
 
-/* TRADEMARK */
+/* ✅ FIX 2: Trademark lebih jelas, posisi naik, glow + pulse halus */
 .trademark {
-    position: fixed; bottom: 12px; left: 0; right: 0; text-align: center;
-    font-size: 11px; color: rgba(255,255,255,0.4); z-index: 5;
-    letter-spacing: 0.5px; pointer-events: none;
+    position: fixed; bottom: 36px; left: 0; right: 0; text-align: center;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.5px; pointer-events: none; z-index: 5;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 10px rgba(255,77,109,0.7), 0 0 20px rgba(255,77,109,0.4);
+    animation: trademarkGlow 3s ease-in-out infinite;
+}
+@keyframes trademarkGlow {
+    0%,100% { opacity: 0.85; text-shadow: 0 0 10px rgba(255,77,109,0.7); }
+    50% { opacity: 1; text-shadow: 0 0 16px rgba(255,77,109,0.9), 0 0 28px rgba(255,77,109,0.5); }
 }
 
 /* RESPONSIVE */
@@ -282,7 +293,7 @@ body::before {
 }
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
     .container { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
-    .trademark { bottom: calc(12px + env(safe-area-inset-bottom)); }
+    .trademark { bottom: calc(36px + env(safe-area-inset-bottom)); }
 }
 </style>
 </head>
@@ -337,8 +348,8 @@ body::before {
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- TRADEMARK -->
-<div class="trademark">Made with Love ❤️ By Cyber4rt</div>
+<!-- ✅ FIX 2: Nama asli -->
+<div class="trademark">Made with Love ❤️ Ifan</div>
 
 <audio id="audio" src="https://alphacyber4rt.github.io/File/beeee.MP3" loop preload="none"></audio>
 
@@ -383,7 +394,7 @@ const gameData = {
                 { emoji: '🗝️', responses: [
                     { title: "Rahasianya:", text: "Aku simpen senyum kamu di tempat paling aman:<br><br>Di <strong>ingatan</strong> yang cuma bisa diakses pas aku lagi kangen.<br>Password-nya? <strong>Nama kamu</strong>. 🗝️", hint: "Klik simpan untuk kunci rahasia ini 🔐" },
                     { title: "Secret vault:", text: "Isi vault rahasia aku:<br>1. Senyum kamu 💖<br>2. Tawa kamu 😊<br>3. Cara kamu <em>ada</em> ✨<br><br>Value: <strong>Priceless</strong>.<br>Access: <strong>Only you</strong>. 🔑", hint: "Klik simpan untuk jadi keyholder 💾" },
-                    { title: "Encrypted message:", text: "Pesan ini terenkripsi.<br>Decryption key: <strong>Perasaan kamu ke aku</strong>.<br><br>Isi pesan: <em>Aku suka kamu. Lebih dari yang kamu tau.</em> 🔐💌", hint: "Klik simpan untuk decrypt 💾✨" }
+                    { title: "Encrypted message:", text: "Pesan ini terenkripsi.<br>Decryption key: <strong>Perasaan kamu ke aku</strong>.<br><br>Isi pesan: <em>Aku suka kamu. Lebih dari yang kamu tau.</em> 🔐", hint: "Klik simpan untuk decrypt 💾✨" }
                 ]}
             ],
             nextPrompt: "Tahap terakhir… siap-siap greget level max! 🔥"
@@ -398,7 +409,7 @@ const gameData = {
                 ]},
                 { emoji: '🎨', responses: [
                     { title: "Kalo hidup itu kanvas…", text: "Kamu bukan cuma <strong>warna favorit</strong>ku.<br><br>Kamu yang bikin seluruh lukisannya jadi… <strong>berarti</strong>.<br><br>Tanpa kamu, sisanya cuma <em>coretan</em>. Dengan kamu, jadi <strong>masterpiece</strong>. 🎨✨", hint: "Klik simpan untuk save masterpiece ini →" },
-                    { title: "Color palette:", text: "Warna hidup aku sebelum kamu: <strong>Hitam-putih</strong> ⚫<br>Sekarang: <strong>Technicolor</strong> 🌈<br><br>Thank you for <strong>coloring my world</strong>. 🎨💕", hint: "Satu lagi… klik heart terakhir!" },
+                    { title: "Color palette:", text: "Warna hidup aku sebelum kamu: <strong>Hitam-putih</strong> ⚫<br>Sekarang: <strong>Technicolor</strong> 🌈<br><br>Thank you for <strong>coloring my world</strong>. 🎨", hint: "Satu lagi… klik heart terakhir!" },
                     { title: "Art critique:", text: "Karya terindah di galeri hidup aku:<br><strong>Kamu</strong>.<br><br>Medium: <em>Keberadaan</em><br>Style: <em>Perfectly imperfect</em><br>Value: <em>Priceless</em><br><br>Status: <strong>Not for sale. Already mine.</strong> 🎨", hint: "Klik simpan untuk claim ownership 💾" }
                 ]},
                 { emoji: '💌', responses: [
@@ -531,7 +542,7 @@ function showToast(msg){
 
 /* ════════════════════════ SPARKLES ════════════════════════ */
 function spawnSparkles(x,y){
-    const sym=['✨','💖','🌸','⭐','💕','','🦋'];
+    const sym=['✨','💖','','⭐','💕','','🦋'];
     for(let i=0;i<12;i++){
         const sp=document.createElement('div'); sp.className='sparkle';
         sp.textContent=sym[Math.floor(Math.random()*sym.length)];
@@ -561,8 +572,11 @@ function collectHeart(){
     const btn=event.currentTarget, rect=btn.getBoundingClientRect();
     spawnSparkles(rect.left+rect.width/2, rect.top+rect.height/2);
     state.collected++; updateProgress();
-    const hearts=document.querySelectorAll('.heart-btn');
-    if(state.currentHeart!==null && hearts[state.currentHeart]) hearts[state.currentHeart].classList.add('clicked');
+    
+    // ✅ FIX 1: Sekarang target .heart-item agar label ikut hilang
+    const items=document.querySelectorAll('.heart-item');
+    if(state.currentHeart!==null && items[state.currentHeart]) items[state.currentHeart].classList.add('clicked');
+    
     setTimeout(()=>{
         closeModal();
         if(state.collected%3===0){
