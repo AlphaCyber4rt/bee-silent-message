@@ -415,36 +415,71 @@ body::before {
 <audio id="audio" src="https://alphacyber4rt.github.io/File/beeee.MP3" loop preload="none"></audio>
 
 <script>
-/* ════════════════════════ DATA (UPDATED INTRO SCRIPTS) ════════════════════════ */
+/* ════════════════════════ DATA (7 NEW SCENARIOS) ════════════════════════ */
 const gameData = {
-    // ✅ INTRO SETS: 6-7 Baris per set. Gaya beda, humor & greget.
+    // ✅ INTRO SETS: 7 Variasi baru dengan gaya berbeda.
     intros: [
-        // SET A: Gaya Ngadu / Lucu
+        // 1. 😈 “Sok Nggak Butuh”
         [
-            "Minta maaf ya ganggu...", 
-            "Tapi ini darurat hati. 🚨", 
-            "Kamu tau gak bedanya kamu sama WiFi?", 
-            "Kalau WiFi ilang, internet mati. Kalau kamu ilang, hatiku yang *offline*.", 
-            "Makanya jangan jauh-jauh.", 
-            "Cek bukti-buktinya di bawah..."
+            "Aku gak lagi mikirin kamu kok.",
+            "...",
+            "Cuma kebetulan kamu lewat 3x di kepala hari ini.",
+            "Aneh sih.",
+            "Padahal aku lagi sibuk.",
+            "Tapi ya… sibuk mikirin kamu 😏"
         ],
-        // SET B: Gaya Serius tapi Godain
+        // 2. 🧠 “Gak Pake Izin”
         [
-            "Aku lagi serius nih. Jangan diketawain.", 
-            "Tadi aku mau produktif.", 
-            "Tapi kok pikiran lari ke kamu terus ya?", 
-            "Kamu sih, pake acara bikin kangen.", 
-            "Ini gak fair tau gak?", 
-            "Coba deh buktikan sendiri..."
+            "Aku lagi coba fokus.",
+            "Beneran ini.",
+            "Tapi pikiran malah belok ke kamu.",
+            "Gak pake izin lagi.",
+            "Ini otak aku yang salah…",
+            "Atau kamu yang terlalu gampang masuk? 😌"
         ],
-        // SET C: Gaya Glitch / Tech
+        // 3. 🧩 “Puzzle Feeling”
         [
-            "⚠️ Warning: System Error.", 
-            "Terdeteksi gangguan di bagian dada.", 
-            "Diagnosa: Terlalu banyak memikirkankamu.", 
-            "Solusi: Klik hati di bawah.", 
-            "Tenang, aman kok. Gak meledak.", 
-            "Kecuali meledak kagum sama kamu..."
+            "Aku lagi nyusun sesuatu.",
+            "Bukan kerjaan.",
+            "Tapi alasan kenapa kamu nyangkut di pikiran.",
+            "Udah hampir jadi sih.",
+            "Cuma ada satu bagian yang belum cocok.",
+            "Kamu bantu isi gak?"
+        ],
+        // 4. 📵 “Anti Fokus”
+        [
+            "Aku tadi mau fokus kerja.",
+            "Beneran.",
+            "Tapi otak malah buka tab lain…",
+            "Dan isinya kamu.",
+            "Ini multitasking atau gangguan ya?"
+        ],
+        // 5. 😏 “Istirahat”
+        [
+            "Aku lagi gak mikirin kamu.",
+            "Cuma lagi istirahat aja.",
+            "Tapi kenapa tiap diem malah kepikiran ya?",
+            "Aneh sih.",
+            "Padahal kamu gak ngapa-ngapain.",
+            "Atau… itu justru masalahnya? 😏"
+        ],
+        // 6. 🧲 “Magnet”
+        [
+            "Aku gak nyari kamu.",
+            "Kamu juga gak manggil aku.",
+            "Tapi tetep ketemu.",
+            "Di tempat yang sama.",
+            "Kepala aku.",
+            "Dan itu agak ganggu sih 😏"
+        ],
+        // 7. 🔍 “Detektif”
+        [
+            "Aku lagi nyelidikin sesuatu.",
+            "Gak penting sih.",
+            "Cuma penasaran.",
+            "Kenapa kamu bisa kepikiran terus.",
+            "Padahal interaksinya biasa aja.",
+            "Hasilnya: mencurigakan 😏"
         ]
     ],
     stages: [
@@ -771,10 +806,7 @@ function showHeartGrid(){
 
 function nextStage(){
     const r=nextBtn.getBoundingClientRect(); spawnSparkles(r.left+r.width/2,r.top+r.height/2);
-    
-    // Bersihkan chat sebelum masuk stage baru
-    chat.innerHTML = '';
-    
+    chat.innerHTML = ''; // Clean slate
     state.stage++;
     if(state.stage<gameData.stages.length){
         setTimeout(playIntro,400);
