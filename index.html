@@ -8,7 +8,6 @@
 <style>
 /* ════════════════════════ THEME VARIABLES (Dynamic) ════════════════════════ */
 :root {
-    /* Default will be overridden by JS */
     --theme-primary: #4ade80; 
     --theme-glow: rgba(74, 222, 128, 0.6);
     --theme-rgb: 74, 222, 128;
@@ -128,7 +127,6 @@ body::before {
 .chat { flex: 1; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 12px; padding: 8px 4px 16px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
 .chat::-webkit-scrollbar { width: 4px; }
 .chat::-webkit-scrollbar-track { background: transparent; }
-/* ✅ FIX: Scrollbar warna berubah sesuai tema */
 .chat::-webkit-scrollbar-thumb { background: rgba(var(--theme-rgb), 0.5); border-radius: 2px; }
 
 .bubble {
@@ -417,12 +415,37 @@ body::before {
 <audio id="audio" src="https://alphacyber4rt.github.io/File/beeee.MP3" loop preload="none"></audio>
 
 <script>
-/* ════════════════════════ DATA ════════════════════════ */
+/* ════════════════════════ DATA (UPDATED INTRO SCRIPTS) ════════════════════════ */
 const gameData = {
+    // ✅ INTRO SETS: 6-7 Baris per set. Gaya beda, humor & greget.
     intros: [
-        ["Bee… 🐝", "Aku gak punya alasan logis buat ini 😌", "Tapi kamu tuh… ya gitu deh. Kebaca terus di kepala."],
-        ["Psst… 🤫", "Cuma mau titip sesuatu…", "Tentang kamu. Tapi jangan bilang siapa-siapa ya."],
-        ["Hai… 👋", "Ada yang gangguin pikiran aku…", "Dan itu kamu. Terus-terusan."]
+        // SET A: Gaya Ngadu / Lucu
+        [
+            "Minta maaf ya ganggu...", 
+            "Tapi ini darurat hati. 🚨", 
+            "Kamu tau gak bedanya kamu sama WiFi?", 
+            "Kalau WiFi ilang, internet mati. Kalau kamu ilang, hatiku yang *offline*.", 
+            "Makanya jangan jauh-jauh.", 
+            "Cek bukti-buktinya di bawah..."
+        ],
+        // SET B: Gaya Serius tapi Godain
+        [
+            "Aku lagi serius nih. Jangan diketawain.", 
+            "Tadi aku mau produktif.", 
+            "Tapi kok pikiran lari ke kamu terus ya?", 
+            "Kamu sih, pake acara bikin kangen.", 
+            "Ini gak fair tau gak?", 
+            "Coba deh buktikan sendiri..."
+        ],
+        // SET C: Gaya Glitch / Tech
+        [
+            "⚠️ Warning: System Error.", 
+            "Terdeteksi gangguan di bagian dada.", 
+            "Diagnosa: Terlalu banyak memikirkankamu.", 
+            "Solusi: Klik hati di bawah.", 
+            "Tenang, aman kok. Gak meledak.", 
+            "Kecuali meledak kagum sama kamu..."
+        ]
     ],
     stages: [
         {
@@ -714,7 +737,7 @@ function showEnding(){
     }, 1000);
 }
 
-/* ════════════════════════ GAME FLOW (FIXED: CLEAR CHAT) ════════════════════════ */
+/* ════════════════════════ GAME FLOW ════════════════════════ */
 function playIntro(){
     nextBtn.style.display='none';
     const introSet = gameData.intros[Math.floor(Math.random() * gameData.intros.length)];
@@ -749,7 +772,7 @@ function showHeartGrid(){
 function nextStage(){
     const r=nextBtn.getBoundingClientRect(); spawnSparkles(r.left+r.width/2,r.top+r.height/2);
     
-    // ✅ FIX: Bersihkan chat sebelum masuk stage baru agar tidak numpuk/ngawur
+    // Bersihkan chat sebelum masuk stage baru
     chat.innerHTML = '';
     
     state.stage++;
