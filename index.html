@@ -11,6 +11,7 @@
     --primary-light: #ff6b8a;
     --primary-dark: #c0195a;
     --accent: #ffb3c1;
+    --progress-color: #4ade80; /* ✅ Warna Hijau Natural */
     --bg-dark: #0a0610;
     --text: #fff;
     --text-muted: #b8b8d1;
@@ -59,8 +60,8 @@ body::before {
 }
 .header-left { display: flex; align-items: center; gap: 10px; }
 .online-indicator {
-    position: relative; width: 10px; height: 10px; background: #4ade80;
-    border-radius: 50%; box-shadow: 0 0 12px #4ade80, 0 0 24px #4ade80;
+    position: relative; width: 10px; height: 10px; background: var(--progress-color);
+    border-radius: 50%; box-shadow: 0 0 12px var(--progress-color);
     animation: pulse 2s ease-in-out infinite;
 }
 @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(0.85);opacity:0.6} }
@@ -95,20 +96,20 @@ body::before {
 .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; color: var(--text-muted); }
 .progress-label { font-weight: 600; display: flex; align-items: center; gap: 6px; }
 .progress-count {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    padding: 2px 8px; border-radius: 6px; font-weight: 700; color: #fff; min-width: 40px; text-align: center;
+    background: var(--progress-color); color: #000; /* ✅ Progress text hijau */
+    padding: 2px 8px; border-radius: 6px; font-weight: 700; min-width: 40px; text-align: center;
 }
 .progress-bar-wrap { height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; position: relative; }
 .progress-bar-fill {
     height: 100%; width: 0%;
-    background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--accent));
-    background-size: 200% 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
-    animation: shimmer 2s infinite;
+    background: var(--progress-color); /* ✅ Warna Hijau */
+    border-radius: 4px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    animation: shimmer 2s infinite; box-shadow: 0 0 10px var(--progress-color);
 }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 .progress-bar-fill::after {
     content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
     animation: progressShine 1.5s infinite;
 }
 @keyframes progressShine { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
@@ -156,7 +157,7 @@ body::before {
 @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
 .heart-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 
-/* ✅ FIX 1: Sekarang animasi hide diterapkan ke .heart-item agar label ikut hilang */
+/* ✅ FIX 1: Animasi hide diterapkan ke .heart-item */
 .heart-item.clicked { animation: heartPop 0.6s ease forwards; pointer-events: none; }
 
 .heart-btn {
@@ -174,13 +175,14 @@ body::before {
 @keyframes heartbeat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
 @keyframes heartPop { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(0);opacity:0} }
 
+/* ✅ FIX: Label font putih & background lebih gelap agar terbaca jelas */
 .heart-label {
-    font-size: 11px; color: var(--accent); font-weight: 500;
-    background: rgba(255,77,109,0.15); padding: 4px 10px; border-radius: 20px;
-    border: 1px dashed rgba(255,120,140,0.4); opacity: 0.9;
-    animation: hintPulse 2s infinite;
+    font-size: 11px; color: #ffffff; font-weight: 600; /* Font Putih */
+    background: rgba(0,0,0,0.5); padding: 6px 12px; border-radius: 20px; /* Background lebih gelap */
+    border: 1px dashed rgba(255,255,255,0.3); opacity: 0.95;
+    animation: hintPulse 2s infinite; text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
-@keyframes hintPulse { 0%,100%{opacity:0.8;transform:scale(1)} 50%{opacity:1;transform:scale(1.05)} }
+@keyframes hintPulse { 0%,100%{opacity:0.9;transform:scale(1)} 50%{opacity:1;transform:scale(1.05)} }
 
 /* MODAL */
 .modal-overlay {
@@ -254,7 +256,7 @@ body::before {
 .toast {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-20px);
     background: rgba(20,12,32,0.95); color: #fff; padding: 10px 20px; border-radius: 30px;
-    font-size: 13px; font-weight: 600; border: 1px solid rgba(255,77,109,0.5);
+    font-size: 13px; font-weight: 600; border: 1px solid var(--progress-color); /* ✅ Toast border hijau */
     box-shadow: 0 8px 24px rgba(0,0,0,0.4); opacity: 0; transition: all 0.3s ease;
     z-index: 2000; pointer-events: none;
 }
@@ -270,7 +272,35 @@ body::before {
     100%{transform:translate(var(--tx),var(--ty)) scale(0) rotate(720deg);opacity:0}
 }
 
-/* ✅ FIX 2: Trademark lebih jelas, posisi naik, glow + pulse halus */
+/* ENDING OVERLAY (Baru) */
+.ending-overlay {
+    position: fixed; inset: 0;
+    background: rgba(5,2,8,0.6); backdrop-filter: blur(6px);
+    z-index: 100; display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: all 0.8s ease;
+}
+.ending-overlay.active { opacity: 1; visibility: visible; }
+.ending-card {
+    background: rgba(20, 12, 30, 0.95);
+    border: 1px solid rgba(255, 150, 170, 0.4);
+    border-radius: 30px; padding: 40px 30px;
+    text-align: center; max-width: 85%; width: 380px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    transform: scale(0.9); transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1);
+}
+.ending-overlay.active .ending-card { transform: scale(1); }
+.ending-symbol { font-size: 64px; margin-bottom: 20px; animation: emojiFloat 3s infinite ease-in-out; }
+.ending-text {
+    font-family: 'Dancing Script', cursive; font-size: 26px; color: #fff;
+    line-height: 1.4; margin-bottom: 24px;
+    text-shadow: 0 2px 10px rgba(255, 77, 109, 0.5);
+}
+.ending-tag {
+    font-size: 12px; color: rgba(255,255,255,0.5);
+    font-style: italic; letter-spacing: 0.5px;
+}
+
+/* TRADEMARK */
 .trademark {
     position: fixed; bottom: 36px; left: 0; right: 0; text-align: center;
     font-size: 13px; font-weight: 500; letter-spacing: 0.5px; pointer-events: none; z-index: 5;
@@ -309,7 +339,7 @@ body::before {
         </div>
         <button id="audioBtn" onclick="toggleAudio()">
             <span class="audio-icon">🎵</span>
-            <span class="audio-label" id="audioLabel">PLAY</span>
+            <span class="audio-label" id="audioLabel">Putar</span>
             <canvas id="audioVisualizer"></canvas>
         </button>
     </div>
@@ -345,10 +375,19 @@ body::before {
     </div>
 </div>
 
+<!-- ENDING OVERLAY -->
+<div class="ending-overlay" id="endingOverlay">
+    <div class="ending-card">
+        <div class="ending-symbol" id="endingSymbol">💖</div>
+        <div class="ending-text" id="endingText">Loading...</div>
+        <div class="ending-tag" id="endingTag">v.01 • refresh untuk versi lain</div>
+    </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- ✅ FIX 2: Nama asli -->
+<!-- TRADEMARK -->
 <div class="trademark">Made with Love ❤️ Ifan</div>
 
 <audio id="audio" src="https://alphacyber4rt.github.io/File/beeee.MP3" loop preload="none"></audio>
@@ -428,6 +467,22 @@ const gameData = {
     ]
 };
 
+/* ════════════════════════ ENDING DATA (12 KALIMAT) ════════════════════════ */
+const endingPool = [
+    { symbol: '🌙', text: '"Jam 2 pagi, cuma kamu yang nyangkut."' },
+    { symbol: '📱', text: '"Scroll sampai habis, ujungnya tetap kamu."' },
+    { symbol: '🕊️', text: '"Bukan cari yang sempurna. Cari yang kamu."' },
+    { symbol: '🔔', text: '"Kamu notifikasi yang gak pernah aku silent."' },
+    { symbol: '☕', text: '"Kopi habis. Tapi obrolan sama kamu? Nggak pernah."' },
+    { symbol: '🗝️', text: '"Kuncinya ada di kamu. Aku cuma nunggu diketuk."' },
+    { symbol: '🤍', text: '"Cukup jadi kamu. Sisanya aku yang urus."' },
+    { symbol: '🦋', text: '"Kupu-kupu di perut? Itu bukan glitch. Itu kamu."' },
+    { symbol: '🧭', text: '"Arah hatiku? GPS error. Ujungnya kamu."' },
+    { symbol: '✨', text: '"19.683 cara bilang rasa. Ini cuma satu."' },
+    { symbol: '🌿', text: '"Duniaku ribut. Kamu satu-satunya hening."' },
+    { symbol: '📝', text: '"Titik. Koma. Enter. Tapi kalimatnya tetap kamu."' }
+];
+
 /* ════════════════════════ STATE ════════════════════════ */
 let state = { stage: 0, collected: 0, currentHeart: null, modalOpen: false, audioPlaying: false };
 const chat = document.getElementById('chat');
@@ -437,6 +492,7 @@ const progressCount = document.getElementById('progressCount');
 const modal = document.getElementById('modal');
 const audio = document.getElementById('audio');
 const toast = document.getElementById('toast');
+const endingOverlay = document.getElementById('endingOverlay');
 
 /* ════════════════════════ STARS ════════════════════════ */
 const canvas = document.getElementById('starCanvas'), ctx = canvas.getContext('2d');
@@ -527,10 +583,22 @@ function typeBubble(html, cb){
 }
 
 /* ════════════════════════ PROGRESS & TOAST ════════════════════════ */
+// ✅ Random Start Logic
+let startProgress = Math.floor(Math.random() * 10) + 5; 
+progressBar.style.width = startProgress + '%';
+progressCount.textContent = startProgress + '%';
+
 function updateProgress(){
     const pct=Math.round((state.collected/9)*100);
-    progressBar.style.width=pct+'%';
-    progressCount.textContent=pct+'%';
+    // Pastikan progress bar tidak mengecil, hanya bertambah
+    const currentWidth = parseInt(progressBar.style.width) || 0;
+    const newWidth = Math.max(currentWidth, startProgress + pct); // Simplifikasi agar smooth
+    
+    // Kita set target dari 0 sampai 100 berdasarkan collected
+    const targetPct = Math.min(100, startProgress + (pct * 0.9)); // Scale 10-100%
+    
+    progressBar.style.width = targetPct + '%';
+    progressCount.textContent = Math.round(targetPct) + '%';
     progressBar.style.transform='scaleX(1.02)';
     setTimeout(()=>progressBar.style.transform='scaleX(1)',200);
     showToast(`💖 +${Math.round(100/9)}% collected!`);
@@ -573,7 +641,6 @@ function collectHeart(){
     spawnSparkles(rect.left+rect.width/2, rect.top+rect.height/2);
     state.collected++; updateProgress();
     
-    // ✅ FIX 1: Sekarang target .heart-item agar label ikut hilang
     const items=document.querySelectorAll('.heart-item');
     if(state.currentHeart!==null && items[state.currentHeart]) items[state.currentHeart].classList.add('clicked');
     
@@ -586,6 +653,26 @@ function collectHeart(){
         }
         if(state.collected===9) showEnding();
     },400);
+}
+
+/* ════════════════════════ ENDING LOGIC ════════════════════════ */
+function showEnding(){
+    // Tampilkan chat bubble ending dulu
+    setTimeout(()=>{
+        typeBubble(gameData.endings[Math.floor(Math.random()*gameData.endings.length)], ()=>{
+            // Setelah chat muncul, munculkan overlay
+            const rand = endingPool[Math.floor(Math.random() * endingPool.length)];
+            const vNum = Math.floor(Math.random() * 90) + 10; // Random version number 10-99
+            
+            document.getElementById('endingSymbol').textContent = rand.symbol;
+            document.getElementById('endingText').textContent = rand.text;
+            document.getElementById('endingTag').textContent = `v.${vNum} • refresh untuk versi lain`;
+            
+            setTimeout(()=>{
+                endingOverlay.classList.add('active');
+            }, 1500);
+        });
+    }, 1000);
 }
 
 /* ════════════════════════ GAME FLOW ════════════════════════ */
@@ -619,16 +706,9 @@ function nextStage(){
     }
     nextBtn.style.display='none';
 }
-function showEnding(){
-    setTimeout(()=>{
-        typeBubble(gameData.endings[Math.floor(Math.random()*gameData.endings.length)],()=>{
-            for(let i=0;i<5;i++) setTimeout(()=>spawnSparkles(Math.random()*window.innerWidth,Math.random()*window.innerHeight*0.6),i*300);
-        });
-    },1000);
-}
 
 /* ════════════════════════ INIT ════════════════════════ */
-window.addEventListener('load',()=>{ updateProgress(); playIntro(); });
+window.addEventListener('load',()=>{ playIntro(); });
 document.addEventListener('keydown',e=>{
     if(e.key==='Escape'&&state.modalOpen) closeModal();
     if(e.key===' '&&e.target===document.body){ e.preventDefault(); toggleAudio(); }
