@@ -2,528 +2,1388 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Bee… 💌</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Bee… 💋</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
 <style>
-/* ── BASE ── */
+:root {
+    --primary: #ff4d6d;
+    --primary-light: #ff6b8a;
+    --primary-dark: #c0195a;
+    --accent: #ff9eb5;
+    --bg-dark: #0a0610;
+    --bg-card: rgba(30, 20, 40, 0.85);
+    --text: #fff;
+    --text-muted: #b8b8d1;
+}
+
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
     font-family: 'Inter', sans-serif;
-    color: #fff;
+    color: var(--text);
     height: 100dvh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(ellipse at 30% 20%, #2e1235 0%, #110d1a 50%, #05050a 100%);
+    background: linear-gradient(135deg, #1a0b2e 0%, #0d0518 50%, #050208 100%);
     overflow: hidden;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
+    position: relative;
 }
+
+/* Animated gradient background */
 body::before {
-    content: ""; position: fixed; inset: 0;
-    background-image: url("https://www.transparenttextures.com/patterns/noise.png");
-    opacity: 0.04; pointer-events: none; z-index: 0;
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 30%, rgba(255,77,109,0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255,158,181,0.1) 0%, transparent 50%);
+    animation: gradientShift 8s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
 }
 
-/* ── CANVAS ── */
-#starCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
-#romanceLayer { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 2; }
+@keyframes gradientShift {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+}
 
-/* ── CONTAINER ── */
+/* Noise texture */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Stars canvas */
+#starCanvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Container */
 .container {
-    width: 100%; max-width: 520px; height: 100dvh;
-    display: flex; flex-direction: column; padding: 12px; z-index: 3;
-    animation: fadeIn 0.8s ease both;
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 560px;
+    height: 100dvh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    overflow: hidden;
 }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ── HEADER ── */
+/* Header */
 .header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 10px 6px 14px; font-size: 13px; color: #bbb;
-    border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 4px; flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 12px;
+    flex-shrink: 0;
 }
-.header-name {
-    font-weight: 600; color: #eee; letter-spacing: 0.3px;
-    display: flex; align-items: center; gap: 8px;
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
-.online-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: #4ade80; box-shadow: 0 0 6px #4ade80;
+
+.online-indicator {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background: #4ade80;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #4ade80, 0 0 24px #4ade80;
     animation: pulse 2s ease-in-out infinite;
 }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-/* ── AUDIO BUTTON ── */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.85); opacity: 0.6; }
+}
+
+.header-name {
+    font-weight: 700;
+    font-size: 14px;
+    background: linear-gradient(135deg, #fff, #ff9eb5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Audio Button dengan Visualizer */
 #audioBtn {
-    background: transparent; border: 1px solid rgba(255,77,109,0.5);
-    color: #ff6b8a; padding: 7px 13px; border-radius: 10px;
-    font-size: 12px; font-family: 'Inter', sans-serif; cursor: pointer;
-    transition: all 0.25s ease; display: flex; align-items: center; gap: 5px;
+    position: relative;
+    background: linear-gradient(135deg, rgba(255,77,109,0.2), rgba(192,25,90,0.15));
+    border: 1.5px solid rgba(255,77,109,0.5);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
-#audioBtn:hover { background: rgba(255,77,109,0.12); border-color: #ff4d6d; color: #ff4d6d; }
-.music-waves { display: flex; gap: 2px; align-items: flex-end; height: 12px; }
-.w-bar { width: 2px; border-radius: 1px; background: currentColor; opacity: 0.5; }
-.w-bar.playing { opacity: 1; animation: waveAnim 0.7s ease-in-out infinite; }
-.w-bar:nth-child(1){height:5px;animation-delay:0s}
-.w-bar:nth-child(2){height:9px;animation-delay:0.1s}
-.w-bar:nth-child(3){height:7px;animation-delay:0.2s}
-@keyframes waveAnim { 0%,100%{transform:scaleY(0.5)} 50%{transform:scaleY(1.4)} }
 
-/* ── CHAT ── */
+#audioBtn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,77,109,0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#audioBtn:hover::before { opacity: 1; }
+#audioBtn:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(255,77,109,0.5), 0 0 40px rgba(255,77,109,0.3);
+    transform: translateY(-1px);
+}
+
+#audioBtn.playing {
+    background: linear-gradient(135deg, rgba(255,77,109,0.4), rgba(192,25,90,0.3));
+    border-color: var(--primary-light);
+    animation: btnGlow 2s ease-in-out infinite;
+}
+
+@keyframes btnGlow {
+    0%, 100% { box-shadow: 0 0 15px rgba(255,77,109,0.5); }
+    50% { box-shadow: 0 0 25px rgba(255,77,109,0.8), 0 0 40px rgba(255,77,109,0.4); }
+}
+
+.audio-icon {
+    position: relative;
+    z-index: 1;
+    font-size: 14px;
+}
+
+.audio-label {
+    position: relative;
+    z-index: 1;
+    font-weight: 600;
+    min-width: 50px;
+}
+
+/* Audio Visualizer Canvas */
+#audioVisualizer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 1;
+}
+
+/* Progress Bar dengan Shimmer */
+.progress-container {
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.progress-label {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.progress-count {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.progress-bar-wrap {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--accent));
+    background-size: 200% 100%;
+    border-radius: 4px;
+    transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.progress-bar-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: progressShine 1.5s infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Chat Area */
 .chat {
-    flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
-    padding: 12px 4px 8px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 8px 4px 16px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
-.chat::-webkit-scrollbar { width: 3px; }
-.chat::-webkit-scrollbar-track { background: transparent; }
-.chat::-webkit-scrollbar-thumb { background: rgba(255,77,109,0.3); border-radius: 2px; }
 
-/* ── BUBBLE ── */
+.chat::-webkit-scrollbar { width: 4px; }
+.chat::-webkit-scrollbar-track { background: transparent; }
+.chat::-webkit-scrollbar-thumb { 
+    background: rgba(255,77,109,0.4); 
+    border-radius: 2px;
+}
+
+/* Bubble */
 .bubble {
     align-self: flex-end;
-    background: linear-gradient(145deg, #2a1e30, #1c1626);
-    padding: 12px 15px; border-radius: 18px 18px 4px 18px;
-    max-width: 80%; font-size: 14.5px; line-height: 1.55;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
-    animation: bubbleIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
-    cursor: default;
-}
-.bubble.romantic {
-    font-family: 'Dancing Script', cursive; font-size: 18px; text-align: center;
-    background: linear-gradient(135deg, rgba(255,77,109,0.15), rgba(192,25,90,0.1));
-    border: 1px solid rgba(255,120,140,0.3);
-}
-@keyframes bubbleIn {
-    from { transform: scale(0.85) translateX(12px); opacity: 0; }
-    to { transform: scale(1) translateX(0); opacity: 1; }
+    max-width: 85%;
+    background: linear-gradient(145deg, rgba(40,28,52,0.9), rgba(28,20,38,0.9));
+    padding: 14px 18px;
+    border-radius: 20px 20px 6px 20px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
+    animation: bubbleSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
-/* ── META ── */
-.meta {
-    font-size: 10px; color: #888; text-align: right; margin-top: 5px;
-    display: flex; justify-content: flex-end; align-items: center; gap: 3px;
+@keyframes bubbleSlide {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px) scale(0.95); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
 }
-.tick { opacity: 0.7; font-size: 11px; }
 
-/* ── TYPING ── */
-.typing-indicator {
-    align-self: flex-end; display: flex; gap: 4px; align-items: center;
-    padding: 10px 14px; background: rgba(255,255,255,0.04);
-    border-radius: 14px; animation: bubbleIn 0.3s ease both;
+.bubble-text {
+    color: var(--text);
+    font-weight: 400;
 }
+
+.bubble-meta {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.bubble-time {
+    opacity: 0.7;
+}
+
+.bubble-check {
+    color: #4fc3f7;
+    font-weight: 700;
+    animation: checkPop 0.3s ease 0.5s both;
+}
+
+@keyframes checkPop {
+    from { transform: scale(0); }
+    50% { transform: scale(1.3); }
+    to { transform: scale(1); }
+}
+
+/* Typing Indicator */
+.typing {
+    align-self: flex-end;
+    display: flex;
+    gap: 5px;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 18px;
+    margin-bottom: 8px;
+    animation: bubbleSlide 0.3s ease;
+}
+
 .typing-dot {
-    width: 6px; height: 6px; border-radius: 50%; background: #ff6b8a;
-    animation: typingBounce 1.2s ease-in-out infinite;
+    width: 7px;
+    height: 7px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 50%;
+    animation: typingBounce 1.4s ease-in-out infinite;
 }
-.typing-dot:nth-child(2){animation-delay:0.2s}
-.typing-dot:nth-child(3){animation-delay:0.4s}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
 @keyframes typingBounce {
-    0%,60%,100%{transform:translateY(0);opacity:0.4}
-    30%{transform:translateY(-6px);opacity:1}
+    0%, 60%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
+    30% { transform: translateY(-8px) scale(1.2); opacity: 1; }
 }
 
-/* ── CURSOR ── */
-.cursor::after { content: "|"; animation: blink 0.9s infinite; color: #ff6b8a; }
-@keyframes blink { 0%,100%{opacity:0} 50%{opacity:1} }
-
-/* ── INTERACTIVE HEARTS (GAME LAYER) ── */
-.heart-zone {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-    padding: 16px 8px; align-self: center; width: 100%; max-width: 320px;
-    animation: bubbleIn 0.5s ease both;
+/* Heart Grid */
+.heart-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 20px 8px;
+    align-self: center;
+    width: 100%;
+    max-width: 340px;
+    animation: fadeInUp 0.6s ease 0.3s both;
 }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .heart-btn {
-    aspect-ratio: 1; border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ff6b8a, #c0195a);
-    border: 2px solid rgba(255,255,255,0.2);
-    font-size: 24px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 16px rgba(255,77,109,0.4), inset 0 -3px 8px rgba(0,0,0,0.2);
-    transition: all 0.15s ease;
-    animation: heartbeat 1.4s ease-in-out infinite;
-}
-.heart-btn:nth-child(2){animation-delay:0.2s}
-.heart-btn:nth-child(3){animation-delay:0.4s}
-.heart-btn:hover { transform: scale(1.1) rotate(3deg); box-shadow: 0 8px 24px rgba(255,77,109,0.6); }
-.heart-btn:active { transform: scale(0.95); }
-.heart-btn.revealed { 
-    background: linear-gradient(135deg, #ff9eb5, #ff6b8a); 
-    animation: none; pointer-events: none; 
-}
-@keyframes heartbeat {
-    0%,100%{transform:scale(1)} 50%{transform:scale(1.08)}
-}
-
-/* ── REVEAL CARD ── */
-.reveal-card {
-    align-self: center; max-width: 90%;
-    background: linear-gradient(145deg, rgba(42,30,48,0.95), rgba(28,22,38,0.95));
-    border: 1px solid rgba(255,120,140,0.4);
-    border-radius: 20px; padding: 18px 20px;
-    margin: 8px 0; text-align: center;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
-    animation: cardPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ff6b8a, #ff4d6d, #c0195a);
+    border: 2px solid rgba(255,255,255,0.25);
+    font-size: 32px;
     cursor: pointer;
-}
-.reveal-card:hover { border-color: rgba(255,77,109,0.7); }
-@keyframes cardPop {
-    from { transform: scale(0.9) translateY(10px); opacity: 0; }
-    to { transform: scale(1) translateY(0); opacity: 1; }
-}
-.reveal-card .title {
-    font-family: 'Dancing Script', cursive; font-size: 22px;
-    color: #ffb3c1; margin-bottom: 8px;
-}
-.reveal-card .desc {
-    font-size: 14px; color: #ddd; line-height: 1.6;
-}
-.reveal-card .hint {
-    font-size: 11px; color: #888; margin-top: 10px; font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        0 8px 24px rgba(255,77,109,0.4),
+        0 0 0 4px rgba(255,77,109,0.1),
+        inset 0 -4px 12px rgba(0,0,0,0.2);
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: heartbeat 1.5s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
 }
 
-/* ── PROGRESS BAR ── */
-.progress-wrap {
-    padding: 8px 16px; display: flex; align-items: center; gap: 10px;
-    font-size: 11px; color: #aaa; flex-shrink: 0;
-}
-.progress-bar {
-    flex: 1; height: 4px; background: rgba(255,255,255,0.1);
-    border-radius: 2px; overflow: hidden;
-}
-.progress-fill {
-    height: 100%; width: 0%;
-    background: linear-gradient(90deg, #ff6b8a, #ff9eb5);
-    border-radius: 2px; transition: width 0.4s ease;
+.heart-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.3), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-/* ── NEXT BUTTON ── */
-#nextBtn {
-    flex-shrink: 0; margin-top: 10px; width: 100%; padding: 14px;
-    background: linear-gradient(135deg, #ff4d6d, #c0195a);
-    border: none; border-radius: 14px; color: white;
-    font-size: 14px; font-family: 'Inter', sans-serif; font-weight: 600;
-    cursor: pointer; display: none;
-    box-shadow: 0 6px 22px rgba(255,77,109,0.4);
-    transition: all 0.25s ease; letter-spacing: 0.2px;
-}
-#nextBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,77,109,0.55); }
-#nextBtn:active { transform: translateY(0); }
-
-/* ── SPARKLE ── */
-@keyframes sparklePop {
-    0% { transform: translate(0,0) scale(1.3); opacity: 1; }
-    100% { transform: translate(var(--dx),var(--dy)) scale(0); opacity: 0; }
-}
-.sparkle-el {
-    position: fixed; pointer-events: none; z-index: 999;
-    animation: sparklePop 0.65s ease-out forwards;
+.heart-btn:hover::before { opacity: 1; }
+.heart-btn:hover {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 
+        0 12px 32px rgba(255,77,109,0.6),
+        0 0 0 6px rgba(255,77,109,0.15),
+        inset 0 -4px 12px rgba(0,0,0,0.2);
 }
 
-/* ── MOBILE SAFE AREA ── */
+.heart-btn:active {
+    transform: scale(0.95) rotate(-2deg);
+}
+
+.heart-btn.clicked {
+    animation: heartPop 0.6s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+@keyframes heartPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+.heart-btn:nth-child(2) { animation-delay: 0.15s; }
+.heart-btn:nth-child(3) { animation-delay: 0.3s; }
+
+/* Modal Fullscreen */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,2,8,0.95);
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 480px;
+    max-height: 85dvh;
+    background: linear-gradient(145deg, rgba(40,28,52,0.95), rgba(20,12,32,0.95));
+    border-radius: 28px;
+    padding: 32px 28px;
+    border: 1.5px solid rgba(255,120,140,0.4);
+    box-shadow: 
+        0 25px 80px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.05),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+    transform: scale(0.9) translateY(30px);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow-y: auto;
+    position: relative;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.modal-close:hover {
+    background: rgba(255,77,109,0.2);
+    border-color: var(--primary);
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+.modal-emoji {
+    font-size: 56px;
+    text-align: center;
+    margin-bottom: 16px;
+    animation: emojiFloat 3s ease-in-out infinite;
+    filter: drop-shadow(0 8px 24px rgba(255,77,109,0.4));
+}
+
+@keyframes emojiFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(5deg); }
+}
+
+.modal-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 32px;
+    text-align: center;
+    background: linear-gradient(135deg, #ffb3c1, #ff6b8a, #ff9eb5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+.modal-text {
+    font-size: 15.5px;
+    line-height: 1.8;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.modal-text strong {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.modal-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    opacity: 0.7;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.modal-action {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(255,77,109,0.4);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.modal-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(255,77,109,0.6);
+}
+
+.modal-action:active {
+    transform: translateY(0);
+}
+
+/* Next Button */
+.next-btn {
+    flex-shrink: 0;
+    margin-top: 12px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    border-radius: 16px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 28px rgba(255,77,109,0.5);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.next-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.next-btn:hover::before { left: 100%; }
+.next-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(255,77,109,0.7);
+}
+
+.next-btn:active { transform: translateY(-1px); }
+
+/* Sparkles */
+.sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    animation: sparkleFly 0.8s ease-out forwards;
+    font-size: 20px;
+}
+
+@keyframes sparkleFly {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Floating particles */
+.floating-emoji {
+    position: fixed;
+    pointer-events: none;
+    z-index: 5;
+    animation: floatUp 6s linear forwards;
+    font-size: 20px;
+    opacity: 0.6;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .container { padding: 12px; }
+    .modal-content { padding: 28px 22px; }
+    .modal-title { font-size: 28px; }
+    .modal-emoji { font-size: 48px; }
+    .heart-btn { font-size: 28px; }
+}
+
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
     .container { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
-}
-
-/* ── EMOJI FLOAT ── */
-@keyframes floatEmoji {
-    0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)}
-}
-.float-emoji {
-    display: inline-block; animation: floatEmoji 2s ease-in-out infinite;
 }
 </style>
 </head>
 <body>
 
 <canvas id="starCanvas"></canvas>
-<div id="romanceLayer"></div>
 
 <div class="container">
     <div class="header">
-        <div class="header-name">
-            <div class="online-dot"></div>
-            AlphaCyber4rt ✨
+        <div class="header-left">
+            <div class="online-indicator"></div>
+            <div class="header-name">AlphaCyber4rt ✨</div>
         </div>
-        <button id="audioBtn" type="button" onclick="toggleAudio()">
-            <span id="audioLabel">🎵 Putar</span>
-            <div class="music-waves">
-                <div class="w-bar" id="wb1"></div>
-                <div class="w-bar" id="wb2"></div>
-                <div class="w-bar" id="wb3"></div>
-            </div>
+        <button id="audioBtn" onclick="toggleAudio()">
+            <span class="audio-icon">🎵</span>
+            <span class="audio-label" id="audioLabel">Putar</span>
+            <canvas id="audioVisualizer"></canvas>
         </button>
     </div>
 
-    <div class="progress-wrap">
-        <span>Progress</span>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-        <span id="progressText">0/3</span>
+    <div class="progress-container">
+        <div class="progress-header">
+            <div class="progress-label">
+                <span>💝 Progress</span>
+            </div>
+            <div class="progress-count" id="progressCount">0/9</div>
+        </div>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
     </div>
 
     <div class="chat" id="chat"></div>
-    <button type="button" id="nextBtn" onclick="nextStage()">lanjut… 😏</button>
+    <button class="next-btn" id="nextBtn" onclick="nextStage()">
+        <span>Lanjut ke level berikutnya</span>
+        <span>→</span>
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModalOnOverlay(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <div class="modal-emoji" id="modalEmoji">💖</div>
+        <div class="modal-title" id="modalTitle">Title</div>
+        <div class="modal-text" id="modalText">Text</div>
+        <div class="modal-hint" id="modalHint">Hint</div>
+        <button class="modal-action" onclick="collectHeart()">
+            <span>Simpan ke hati</span>
+            <span>💾</span>
+        </button>
+    </div>
 </div>
 
 <audio id="audio" src="https://alphacyber4rt.github.io/File/beeee.MP3" loop preload="none"></audio>
 
 <script>
-/* ════════════════════════ STARS ════════════════════════ */
-const canvas = document.getElementById('starCanvas'), ctx = canvas.getContext('2d');
-function resizeCanvas(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
-resizeCanvas(); window.addEventListener('resize', resizeCanvas);
-const stars = Array.from({length:100},()=>({
-    x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight,
-    r:Math.random()*1.4+0.2, phase:Math.random()*Math.PI*2,
-    spd:Math.random()*0.03+0.008, maxOp:Math.random()*0.55+0.25
+/* ════════════════════════ DATA DENGAN RANDOM RESPONSES ════════════════════════ */
+const gameData = {
+    stages: [
+        {
+            intro: [
+                "Bee… 🐝",
+                "Aku gak punya alasan logis buat ini 😌",
+                "Tapi kamu tuh… ya gitu deh. Kebaca terus di kepala."
+            ],
+            hearts: [
+                {
+                    emoji: '💭',
+                    responses: [
+                        {
+                            title: "Kalo kamu bertanya-tanya…",
+                            text: "Iya, itu <strong>kamu</strong>. Yang bikin aku senyum-senyum sendiri pas lagi scroll HP tengah malam. Yang bikin kopi jadi kurang pahit. Yang bikin lagu galau tiba-tiba berasa romantis. <br><br>Yang… ah, kamu tau lah 😏",
+                            hint: "Klik 'Simpan' untuk lanjut →"
+                        },
+                        {
+                            title: "Random thought about you:",
+                            text: "Kamu itu kayak notifikasi yang gak bisa di-silent. Ganggu? <strong>Iya banget</strong>. Tapi justru yang paling dinanti-nanti. <br><br>Setiap kali muncul… hati auto <em>deg-degan</em>. Ini mah bukan notifikasi, ini <strong>gangguan jantung</strong> 😅💕",
+                            hint: "Masih ada yang lain… klik heart lagi!"
+                        },
+                        {
+                            title: "Confession time…",
+                            text: "Aku perhatiin kamu. Bukan dalam cara yang creepy, tapi dalam cara 'oh iya, dia tuh <strong>beda</strong>'. <br><br>Cara kamu ketawa, cara kamu ngomong, cara kamu… <em>ada</em>. Itu semua bikin hari yang biasa jadi <strong>luar biasa</strong>. 🌟",
+                            hint: "Klik simpan, jangan bikin aku nunggu lama 😏"
+                        }
+                    ]
+                },
+                {
+                    emoji: '✨',
+                    responses: [
+                        {
+                            title: "Fakta random tentang kamu:",
+                            text: "Kamu punya <strong>superpower</strong> sendiri: bikin hal biasa jadi spesial. <br><br>Misalnya: cuma dengan <em>ada</em>, hari yang biasa-biasa aja tiba-tiba… berasa. Greget, kan? <br><br>Itu bukan sihir. Itu <strong>kamu</strong>. ✨",
+                            hint: "Klik simpan untuk collect →"
+                        },
+                        {
+                            title: "You know what's funny?",
+                            text: "Aku coba cari <strong>kekurangan</strong> kamu. Serius. Tapi yang ketemu malah… <br><br>Terlalu baik. Terlalu lucu. Terlalu… <strong>kamu</strong>. <br><br>Ini gak fair. Aku kalah. Aku nyerah. Kamu menang. 🏆",
+                            hint: "Satu lagi tersisa… klik heart terakhir!"
+                        },
+                        {
+                            title: "Secret observation:",
+                            text: "Kamu itu kayak <strong>lagu favorit</strong> yang gak pernah bosen didenger. <br><br>Bisa diputer berulang-ulang. Setiap kali denger, ada detail baru yang bikin makin suka. <br><br>Nah, kamu <strong>lagu</strong>-ku itu. 🎵",
+                            hint: "Klik simpan sebelum aku nambahin verse baru 😏"
+                        }
+                    ]
+                },
+                {
+                    emoji: '🌙',
+                    responses: [
+                        {
+                            title: "Janji kecil dari aku:",
+                            text: "Aku gak janji jadi yang paling hebat. Tapi aku janji: <br><br>Tiap kali kamu butuh tempat buat '<em>napas</em>', aku di sini. Tanpa judgment. Tanpa buru-buru. <br><br>Cuma… <strong>ada</strong>. Seperti kamu ada buat aku. 🤍",
+                            hint: "Klik simpan untuk kunci janji ini 🔐"
+                        },
+                        {
+                            title: "Midnight thought:",
+                            text: "Jam 2 pagi, aku mikirin kamu. Bukan karena gak bisa tidur. Tapi karena <strong>kamu</strong> yang bikin aku gak mau tidur. <br><br>Karena tau besok bakal ada kesempatan buat <strong>senyum lagi</strong> gara-gara kamu. 🌙✨",
+                            hint: "Klik simpan, ini pesan spesial midnight 🌃"
+                        },
+                        {
+                            title: "Real talk:",
+                            text: "Aku gak pinter ngomong manis. Tapi buat kamu, aku rela <strong>belajar</strong>. <br><br>Karena kamu worth it. Lebih dari worth it. Kamu… <strong>priceless</strong>. 💎",
+                            hint: "Klik simpan sebelum aku kehabisan kata-kata 😅"
+                        }
+                    ]
+                }
+            ],
+            nextPrompt: "Masih mau lanjut? Aku belum selesai nih… 😏"
+        },
+        {
+            intro: [
+                "Anehnya ya… 🤔",
+                "Kamu gak ngapa-ngapain",
+                "Tapi efeknya… ganggu fokus aku banget 😏"
+            ],
+            hearts: [
+                {
+                    emoji: '🎯',
+                    responses: [
+                        {
+                            title: "Kamu itu seperti…",
+                            text: "<strong>Target</strong> yang gak bisa aku lewatin. <br><br>Bukan karena maksa. Tapi karena… ya emang <strong>mau</strong> fokus ke kamu. <br><br>Voluntary. Willingly. <strong>Happily</strong>. 🎯💘",
+                            hint: "Klik simpan untuk target berikutnya →"
+                        },
+                        {
+                            title: "Distraction level:",
+                            text: "Kamu: <em>gak ngapa-ngapain</em> <br>Aku: <strong>kehilangan fokus</strong> <br><br>Kamu: <em>cuma senyum</em> <br>Aku: <strong>lupa mau ngomong apa</strong> <br><br>Kamu: <em>ada</em> <br>Aku: <strong>auto greget</strong> <br><br>Ini <strong>unfair</strong> tau gak? 😅💕",
+                            hint: "Masih ada… klik heart lagi!"
+                        },
+                        {
+                            title: "Productivity report:",
+                            text: "Sebelum kenal kamu: <strong>Produktif</strong> ✅ <br>Sekarang: <strong>Mikirin kamu</strong> 💭 <br><br>Conclusion: <em>You're my favorite distraction</em>. Dan aku <strong>gak mau</strong> produktivitas balik. 😌✨",
+                            hint: "Klik simpan untuk accept distraction ini 💾"
+                        }
+                    ]
+                },
+                {
+                    emoji: '☕',
+                    responses: [
+                        {
+                            title: "Kalo kamu kopi…",
+                            text: "Kamu itu kopi pagi yang bikin <strong>melek</strong>, tapi juga kopi malam yang bikin <strong>betah</strong>. <br><br>Pahit-manisnya pas. Hangatnya… <em>nyaman</em>. <br><br>Dan aku? Aku yang selalu <strong>nambah</strong>. Tanpa ragu. ☕",
+                            hint: "Klik simpan sebelum kopinya dingin →"
+                        },
+                        {
+                            title: "Caffeine content:",
+                            text: "Level kafein dalam kopi: <strong>80mg</strong> <br>Level kafein dalam senyum kamu: <strong>∞</strong> <br><br>Conclusion: Kamu lebih <strong>memabukkan</strong> dari kopi manapun. Dan aku <strong>addicted</strong>. ☕😵‍💫",
+                            hint: "Satu lagi… klik heart terakhir!"
+                        },
+                        {
+                            title: "Coffee date fantasy:",
+                            text: "Aku bayangin kita ngopi bareng. Bukan karena butuh kopi. Tapi karena butuh <strong>alasan</strong> buat duduk berhadapan sama kamu. <br><br>Liat kamu senyum. Dengar kamu ketawa. <br><br><em>Simple</em>. Tapi <strong>perfect</strong>. ☕✨",
+                            hint: "Klik simpan untuk save this date 💾"
+                        }
+                    ]
+                },
+                {
+                    emoji: '🗝️',
+                    responses: [
+                        {
+                            title: "Rahasianya:",
+                            text: "Aku simpen senyum kamu di tempat paling aman: <br><br>Di <strong>ingatan</strong> yang cuma bisa diakses pas aku lagi kangen. <br>Password-nya? <strong>Nama kamu</strong>. 🗝️🔐",
+                            hint: "Klik simpan untuk kunci rahasia ini 🔐"
+                        },
+                        {
+                            title: "Secret vault:",
+                            text: "Isi vault rahasia aku: <br>1. Senyum kamu 💖 <br>2. Tawa kamu 😊 <br>3. Cara kamu <em>ada</em> ✨ <br><br>Value: <strong>Priceless</strong>. <br>Access: <strong>Only you</strong>. 🔑",
+                            hint: "Klik simpan untuk jadi keyholder 💾"
+                        },
+                        {
+                            title: "Encrypted message:",
+                            text: "Pesan ini terenkripsi. <br>Decryption key: <strong>Perasaan kamu ke aku</strong>. <br><br>Isi pesan: <em>Aku suka kamu. Lebih dari yang kamu tau.</em> 🔐💌",
+                            hint: "Klik simpan untuk decrypt 💾✨"
+                        }
+                    ]
+                }
+            ],
+            nextPrompt: "Tahap terakhir… siap-siap greget level max! 🔥"
+        },
+        {
+            intro: [
+                "Aku sempet mikir… 🤔",
+                "Ini kebiasaan atau kamu emang <strong>beda</strong> aja?",
+                "Jawabannya: <em>Ya udahlah, yang penting kamu</em> 😌"
+            ],
+            hearts: [
+                {
+                    emoji: '🧭',
+                    responses: [
+                        {
+                            title: "Jawabannya:",
+                            text: "Kamu <strong>beda</strong>. <br><br>Bukan karena kamu sempurna. Tapi karena cara kamu '<em>gak sempurna</em>'-nya itu… justru yang bikin aku <strong>nyaman</strong>. <br><br>Like, <em>really</em> nyaman. 🧭",
+                            hint: "Klik simpan untuk arah yang benar →"
+                        },
+                        {
+                            title: "North star:",
+                            text: "Kamu itu kayak <strong>bintang utara</strong>. <br><br>Aku gak selalu liat kamu. Tapi aku tau kamu <strong>ada</strong>. Dan itu cukup buat bikin aku <strong>gak tersesat</strong>. 🧭⭐",
+                            hint: "Masih ada… klik heart lagi!"
+                        },
+                        {
+                            title: "Compass reading:",
+                            text: "Arah hatiku: <strong>Always pointing to you</strong>. <br><br>Mau diputar kemana pun, ujung-ujungnya <strong>kamu</strong> juga. <br><br>Ini bukan error. Ini <strong>feature</strong>. 🧭",
+                            hint: "Klik simpan untuk calibrate compass 💾"
+                        }
+                    ]
+                },
+                {
+                    emoji: '🎨',
+                    responses: [
+                        {
+                            title: "Kalo hidup itu kanvas…",
+                            text: "Kamu bukan cuma <strong>warna favorit</strong>ku. <br><br>Kamu yang bikin seluruh lukisannya jadi… <strong>berarti</strong>. <br><br>Tanpa kamu, sisanya cuma <em>coretan</em>. Dengan kamu, jadi <strong>masterpiece</strong>. 🎨✨",
+                            hint: "Klik simpan untuk save masterpiece ini →"
+                        },
+                        {
+                            title: "Color palette:",
+                            text: "Warna hidup aku sebelum kamu: <strong>Hitam-putih</strong> ⚫⚪ <br>Sekarang: <strong>Technicolor</strong> 🌈 <br><br>Thank you for <strong>coloring my world</strong>. 🎨💕",
+                            hint: "Satu lagi… klik heart terakhir!"
+                        },
+                        {
+                            title: "Art critique:",
+                            text: "Karya terindah di galeri hidup aku: <br><strong>Kamu</strong>. <br><br>Medium: <em>Keberadaan</em> <br>Style: <em>Perfectly imperfect</em> <br>Value: <em>Priceless</em> <br><br>Status: <strong>Not for sale. Already mine.</strong> 🎨",
+                            hint: "Klik simpan untuk claim ownership 💾"
+                        }
+                    ]
+                },
+                {
+                    emoji: '💌',
+                    responses: [
+                        {
+                            title: "Pesan penutup:",
+                            text: "Terima kasih udah jadi '<strong>gangguan</strong>' terindah di hidupku. <br><br>Aku gak minta kamu jadi apa-apa. <br>Cukup jadi <strong>kamu</strong>. <br><br>Itu udah <strong>lebih dari cukup</strong>. 🌙💌",
+                            hint: "Klik simpan untuk keep forever 💾✨"
+                        },
+                        {
+                            title: "Final transmission:",
+                            text: "Message from my heart to yours: <br><br><em>You're amazing. You're special. You're mine (in my heart at least).</em> <br><br>Status: <strong>Delivered ✓✓</strong> 💌💖",
+                            hint: "Klik simpan untuk reply with your heart 💾"
+                        },
+                        {
+                            title: "Love letter:",
+                            text: "Dear kamu, <br><br>Kamu tau gak? Setiap kali aku mikir '<em>udahlah, move on</em>', kamu muncul lagi. <br><br>Dan aku <strong>gak marah</strong>. Malah <strong>seneng</strong>. <br><br>Karena artinya… <strong>kamu worth it</strong>. <br><br>Always. 💌✨",
+                            hint: "Klik simpan untuk sign & seal 💾💋"
+                        }
+                    ]
+                }
+            ],
+            nextPrompt: "Selesai… tapi cerita kita? Masih panjang 😉🌸"
+        }
+    ],
+    endings: [
+        "🎉 <strong>CONGRATS!</strong> Kamu udah collect semua pesan. <br><br>Tapi tenang, ini bukan akhir. Ini cuma <strong>chapter 1</strong>. <br><br>Chapter selanjutnya? <em>Terserah kamu…</em> 😏💕",
+        "💝 <strong>All collected!</strong> <br><br>Kamu hebat. Dan iya, aku <strong>sengaja</strong> bikin ini buat kamu. <br><br>Because you're <strong>worth every second</strong> I spent making this. ✨",
+        "🌟 <strong>Mission complete!</strong> <br><br>9 pesan. 9 alasan kenapa kamu <strong>special</strong>. <br><br>Simpen baik-baik. Buka lagi pas lagi kangen. <br><br>Atau… <strong>kirim balik</strong> ke aku. Aku tunggu. 😌💌"
+    ]
+};
+
+/* ════════════════════════ STATE MANAGEMENT ════════════════════════ */
+let state = {
+    stage: 0,
+    collected: 0,
+    currentHeart: null,
+    modalOpen: false,
+    audioPlaying: false
+};
+
+/* ════════════════════════ DOM ELEMENTS ════════════════════════ */
+const chat = document.getElementById('chat');
+const nextBtn = document.getElementById('nextBtn');
+const progressBar = document.getElementById('progressBar');
+const progressCount = document.getElementById('progressCount');
+const modal = document.getElementById('modal');
+const audio = document.getElementById('audio');
+
+/* ════════════════════════ STARS BACKGROUND ════════════════════════ */
+const canvas = document.getElementById('starCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+const stars = Array.from({length: 120}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.5 + 0.3,
+    phase: Math.random() * Math.PI * 2,
+    spd: Math.random() * 0.04 + 0.01,
+    maxOp: Math.random() * 0.7 + 0.3
 }));
-function drawStars(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    stars.forEach(s=>{
-        s.phase+=s.spd;
-        const op=((Math.sin(s.phase)+1)/2)*s.maxOp;
-        ctx.save(); ctx.globalAlpha=op; ctx.fillStyle='#fff';
-        ctx.shadowBlur=5; ctx.shadowColor='rgba(255,180,210,0.7)';
-        ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); ctx.restore();
+
+function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+        s.phase += s.spd;
+        const op = ((Math.sin(s.phase) + 1) / 2) * s.maxOp;
+        ctx.save();
+        ctx.globalAlpha = op;
+        ctx.fillStyle = '#fff';
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'rgba(255,180,210,0.8)';
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
     });
     requestAnimationFrame(drawStars);
 }
 drawStars();
 
-/* ════════════════════════ PARTICLES ════════════════════════ */
-const layer=document.getElementById('romanceLayer');
-const PETALS=['🌹','🌸','🌷','✿'], HEARTS=['💖','💕','❤️','🩷','💗'];
-function spawnPetal(){
-    const el=document.createElement('div'); el.className='petal';
-    el.textContent=PETALS[Math.floor(Math.random()*PETALS.length)];
-    el.style.cssText=`left:${Math.random()*100}vw;font-size:${Math.random()*10+12}px;animation:fall ${Math.random()*4+5}s linear infinite;opacity:0.75`;
-    layer.appendChild(el); setTimeout(()=>el.remove(),10000);
+/* ════════════════════════ FLOATING PARTICLES ════════════════════════ */
+function spawnFloatingEmoji() {
+    const emojis = ['💖', '✨', '🌸', '💕', '🦋', '', '⭐'];
+    const el = document.createElement('div');
+    el.className = 'floating-emoji';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (Math.random() * 15 + 15) + 'px';
+    el.style.animationDuration = (Math.random() * 4 + 5) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 10000);
 }
-function spawnHeart(){
-    const el=document.createElement('div'); el.className='heart';
-    el.textContent=HEARTS[Math.floor(Math.random()*HEARTS.length)];
-    el.style.cssText=`left:${Math.random()*100}vw;font-size:${Math.random()*8+11}px;animation:floatUp ${Math.random()*5+6}s linear infinite;opacity:0.65`;
-    layer.appendChild(el); setTimeout(()=>el.remove(),11000);
-}
-setInterval(spawnPetal,600); setInterval(spawnHeart,850);
+setInterval(spawnFloatingEmoji, 1500);
 
-/* ════════════════════════ GAME DATA ════════════════════════ */
-const gameData = {
-    stages: [
-        {
-            intro: ["Bee…", "aku gak punya alasan buat ini 😌", "tapi kamu kebaca di kepala aku terus."],
-            hearts: [
-                { 
-                    emoji: '💭', 
-                    title: "Kalo kamu bertanya-tanya…",
-                    desc: "Iya, itu kamu. Yang bikin aku senyum-senyum sendiri pas lagi scroll HP tengah malam. Yang bikin kopi jadi kurang pahit. Yang… ya, kamu tau lah 😏",
-                    hint: "Klik kartu ini untuk lanjut →"
-                },
-                { 
-                    emoji: '✨', 
-                    title: "Fakta random tentang kamu:",
-                    desc: "Kamu punya cara sendiri buat bikin hal biasa jadi spesial. Misalnya: cuma dengan <em>ada</em>, hari yang biasa-biasa aja tiba-tiba… berasa. Greget, kan? 😌",
-                    hint: "Masih ada 1 lagi… klik ❤️"
-                },
-                { 
-                    emoji: '🌙', 
-                    title: "Janji kecil dari aku:",
-                    desc: "Aku gak janji jadi yang paling hebat. Tapi aku janji: tiap kali kamu butuh tempat buat 'napas', aku di sini. Tanpa judgment. Tanpa buru-buru. Cuma… ada. 🤍",
-                    hint: "Klik untuk simpan pesan ini ✨"
-                }
-            ],
-            nextPrompt: "masih mau lanjut? 😏"
-        },
-        {
-            intro: ["anehnya ya…", "kamu gak ngapa-ngapain", "tapi efeknya ganggu fokus aku 😏"],
-            hearts: [
-                { emoji: '🎯', title: "Kamu itu seperti…", desc: "Notifikasi yang gak bisa di-silent. Ganggu? Iya. Tapi justru yang paling dinanti. Setiap kali muncul… hati auto <em>deg</em>. 😅", hint: "Klik untuk lanjut →" },
-                { emoji: '☕', title: "Kalo kamu kopi…", desc: "Kamu itu kopi pagi yang bikin melek, tapi juga kopi malam yang bikin betah lama-lama. Pahit-manisnya pas. Dan aku? Aku yang selalu nambah. Tanpa ragu. ☕💕", hint: "Terakhir nih… klik ❤️" },
-                { emoji: '🗝️', title: "Rahasianya:", desc: "Aku simpen senyummu di tempat paling aman: di ingatan yang cuma bisa diakses pas aku lagi kangen. Password-nya? Namamu. 🤫✨", hint: "Klik untuk kunci pesan ini 🔐" }
-            ],
-            nextPrompt: "tahap terakhir… siap? 🌸"
-        },
-        {
-            intro: ["aku sempet mikir…", "ini kebiasaan atau kamu emang beda aja?"],
-            hearts: [
-                { emoji: '🧭', title: "Jawabannya:", desc: "Kamu beda. Bukan karena kamu sempurna. Tapi karena cara kamu 'nggak sempurna'-nya itu… justru yang bikin aku nyaman. Like, <em>really</em> nyaman. 🤍", hint: "Klik untuk lanjut →" },
-                { emoji: '🎨', title: "Kalo hidup itu kanvas…", desc: "Kamu bukan cuma warna favoritku. Kamu yang bikin seluruh lukisannya jadi… berarti. Tanpa kamu, sisanya cuma coretan. 🎨✨", hint: "Satu lagi… klik ❤️" },
-                { emoji: '💌', title: "Pesan penutup:", desc: "Terima kasih udah jadi 'gangguan' terindah di hidupku. Aku gak minta kamu jadi apa-apa. Cukup jadi kamu. Itu udah lebih dari cukup. 🌙💖", hint: "Klik untuk simpan & senyum 😊" }
-            ],
-            nextPrompt: "selesai… tapi cerita kita? Masih panjang 😉"
-        }
-    ],
-    endings: {
-        saved: "Pesan udah disimpen di hati. Kapan-kapan dibuka lagi, ya? 🤍",
-        shared: "Kalo mau, kamu bisa screenshot & simpan. Atau… kirim balik ke aku. Aku tunggu. 😏💌",
-        secret: "Easter egg: kamu hebat. Dan iya, aku sengaja bikin ini buat kamu. 🎁✨"
+/* ════════════════════════ AUDIO VISUALIZER ════════════════════════ */
+const visualizerCanvas = document.getElementById('audioVisualizer');
+const vCtx = visualizerCanvas.getContext('2d');
+let analyser, dataArray, animationId;
+
+function setupAudioContext() {
+    if (!analyser) {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        const source = audioContext.createMediaElementSource(audio);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+        analyser.fftSize = 64;
+        const bufferLength = analyser.frequencyBinCount;
+        dataArray = new Uint8Array(bufferLength);
     }
-};
-
-/* ════════════════════════ CHAT ENGINE ════════════════════════ */
-let stageIndex=0, heartIndex=0, collected=0;
-const chat=document.getElementById('chat'), nextBtn=document.getElementById('nextBtn');
-const progressFill=document.getElementById('progressFill'), progressText=document.getElementById('progressText');
-
-function getTime(){
-    const d=new Date();
-    return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
 }
 
-function showTyping(cb){
-    const ind=document.createElement('div'); ind.className='typing-indicator';
-    ind.innerHTML='<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-    chat.appendChild(ind); chat.scrollTop=chat.scrollHeight;
-    setTimeout(()=>{ind.remove(); cb();}, 900);
-}
-
-function typeBubble(text, cb, romantic=false){
-    showTyping(()=>{
-        const bubble=document.createElement('div');
-        bubble.className='bubble'+(romantic?' romantic':'');
-        const span=document.createElement('span'); span.className='cursor';
-        const meta=document.createElement('div'); meta.className='meta';
-        meta.innerHTML=`${getTime()} <span class="tick">✓</span>`;
-        bubble.appendChild(span); bubble.appendChild(meta); chat.appendChild(bubble);
-        chat.scrollTop=chat.scrollHeight;
-        let i=0;
-        function tick(){
-            if(i<text.length){
-                span.textContent+=text[i++];
-                chat.scrollTop=chat.scrollHeight;
-                setTimeout(tick, Math.random()*25+15); // human-like typing
-            }else{
-                span.classList.remove('cursor');
-                setTimeout(()=>{ const t=meta.querySelector('.tick'); t.textContent='✓✓'; t.style.color='#4fc3f7'; }, 500);
-                cb();
-            }
-        } tick();
+function drawVisualizer() {
+    if (!state.audioPlaying) {
+        vCtx.clearRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
+        return;
+    }
+    
+    animationId = requestAnimationFrame(drawVisualizer);
+    analyser.getByteFrequencyData(dataArray);
+    
+    const width = visualizerCanvas.width;
+    const height = visualizerCanvas.height;
+    const barWidth = width / dataArray.length;
+    
+    vCtx.clearRect(0, 0, width, height);
+    
+    dataArray.forEach((value, i) => {
+        const percent = value / 255;
+        const barHeight = percent * height * 2;
+        const x = i * barWidth;
+        
+        const gradient = vCtx.createLinearGradient(x, height, x, height - barHeight);
+        gradient.addColorStop(0, 'rgba(255, 77, 109, 0.8)');
+        gradient.addColorStop(1, 'rgba(255, 158, 181, 0.4)');
+        
+        vCtx.fillStyle = gradient;
+        vCtx.fillRect(x, height - barHeight, barWidth - 1, barHeight);
     });
 }
 
-function updateProgress(){
-    const total=gameData.stages.length*3;
-    const percent=Math.min(100, Math.round((collected/total)*100));
-    progressFill.style.width=percent+'%';
-    progressText.textContent=`${collected}/${total}`;
-}
+/* ════════════════════════ AUDIO CONTROL ════════════════════════ */
+const audioBtn = document.getElementById('audioBtn');
+const audioLabel = document.getElementById('audioLabel');
 
-function playIntro(index){
-    nextBtn.style.display='none';
-    let i=0;
-    function nextLine(){
-        if(i<gameData.stages[index].intro.length){
-            typeBubble(gameData.stages[index].intro[i++], ()=>setTimeout(nextLine, 600));
-        }else{
-            setTimeout(showHeartZone, 800);
+async function toggleAudio() {
+    setupAudioContext();
+    
+    if (state.audioPlaying) {
+        audio.pause();
+        audioLabel.textContent = 'Putar';
+        audioBtn.classList.remove('playing');
+        state.audioPlaying = false;
+        cancelAnimationFrame(animationId);
+    } else {
+        try {
+            audio.volume = 0.4;
+            await audio.play();
+            audioLabel.textContent = 'Pause';
+            audioBtn.classList.add('playing');
+            state.audioPlaying = true;
+            drawVisualizer();
+        } catch (err) {
+            audioLabel.textContent = 'Error';
+            setTimeout(() => audioLabel.textContent = 'Putar', 1500);
         }
-    } nextLine();
+    }
 }
 
-function showHeartZone(){
-    const zone=document.createElement('div'); zone.className='heart-zone';
-    [0,1,2].forEach(idx=>{
-        const btn=document.createElement('button');
-        btn.className='heart-btn'; btn.type='button';
-        btn.textContent=gameData.stages[stageIndex].hearts[idx].emoji;
-        btn.onclick=(e)=>{
-            spawnSparkles(e.currentTarget);
-            btn.classList.add('revealed');
-            btn.style.pointerEvents='none';
-            showRevealCard(idx);
+/* ════════════════════════ CHAT FUNCTIONS ════════════════════════ */
+function getTime() {
+    const d = new Date();
+    return d.getHours().toString().padStart(2, '0') + ':' + 
+           d.getMinutes().toString().padStart(2, '0');
+}
+
+function showTyping() {
+    const typing = document.createElement('div');
+    typing.className = 'typing';
+    typing.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    chat.appendChild(typing);
+    chat.scrollTop = chat.scrollHeight;
+    return typing;
+}
+
+function typeBubble(text, callback) {
+    const typing = showTyping();
+    
+    setTimeout(() => {
+        typing.remove();
+        
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        
+        const textDiv = document.createElement('div');
+        textDiv.className = 'bubble-text';
+        
+        const meta = document.createElement('div');
+        meta.className = 'bubble-meta';
+        meta.innerHTML = `<span class="bubble-time">${getTime()}</span><span class="bubble-check">✓</span>`;
+        
+        bubble.appendChild(textDiv);
+        bubble.appendChild(meta);
+        chat.appendChild(bubble);
+        
+        // Typewriter effect
+        let i = 0;
+        const speed = () => Math.random() * 25 + 20;
+        
+        function type() {
+            if (i < text.length) {
+                textDiv.innerHTML += text[i];
+                i++;
+                chat.scrollTop = chat.scrollHeight;
+                setTimeout(type, speed());
+            } else {
+                setTimeout(() => {
+                    const check = meta.querySelector('.bubble-check');
+                    check.textContent = '✓✓';
+                }, 600);
+                if (callback) callback();
+            }
+        }
+        type();
+    }, 900);
+}
+
+/* ════════════════════════ PROGRESS UPDATE ════════════════════════ */
+function updateProgress() {
+    const total = gameData.stages.length * 3;
+    const percent = Math.min(100, Math.round((state.collected / total) * 100));
+    progressBar.style.width = percent + '%';
+    progressCount.textContent = `${state.collected}/${total}`;
+    
+    // Add pulse animation on update
+    progressBar.style.transform = 'scaleX(1.02)';
+    setTimeout(() => {
+        progressBar.style.transform = 'scaleX(1)';
+    }, 200);
+}
+
+/* ════════════════════════ SPARKLE EFFECT ════════════════════════ */
+function spawnSparkles(x, y) {
+    const symbols = ['✨', '💖', '🌸', '⭐', '💕', '', '🦋'];
+    for (let i = 0; i < 12; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        
+        const angle = (i / 12) * Math.PI * 2;
+        const distance = Math.random() * 100 + 80;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        
+        sparkle.style.left = x + 'px';
+        sparkle.style.top = y + 'px';
+        sparkle.style.setProperty('--tx', tx + 'px');
+        sparkle.style.setProperty('--ty', ty + 'px');
+        sparkle.style.fontSize = (Math.random() * 12 + 16) + 'px';
+        
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 800);
+    }
+}
+
+/* ════════════════════════ MODAL FUNCTIONS ════════════════════════ */
+function openModal(heartIndex) {
+    const stage = gameData.stages[state.stage];
+    const heart = stage.hearts[heartIndex];
+    
+    // Get random response
+    const randomResponse = heart.responses[Math.floor(Math.random() * heart.responses.length)];
+    
+    document.getElementById('modalEmoji').textContent = heart.emoji;
+    document.getElementById('modalTitle').textContent = randomResponse.title;
+    document.getElementById('modalText').innerHTML = randomResponse.text;
+    document.getElementById('modalHint').textContent = randomResponse.hint;
+    
+    state.currentHeart = heartIndex;
+    state.modalOpen = true;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    modal.classList.remove('active');
+    state.modalOpen = false;
+    document.body.style.overflow = '';
+}
+
+function closeModalOnOverlay(e) {
+    if (e.target === modal) {
+        // Don't close if not collected yet
+        if (state.collected % 3 === 0 && state.collected > 0) {
+            closeModal();
+        }
+    }
+}
+
+function collectHeart() {
+    const rect = event.target.closest('.modal-action').getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    
+    spawnSparkles(x, y);
+    
+    state.collected++;
+    updateProgress();
+    
+    // Mark heart as clicked
+    const hearts = document.querySelectorAll('.heart-btn');
+    if (state.currentHeart !== null && hearts[state.currentHeart]) {
+        hearts[state.currentHeart].classList.add('clicked');
+    }
+    
+    setTimeout(() => {
+        closeModal();
+        
+        // Check if all hearts in this stage collected
+        if (state.collected % 3 === 0) {
+            nextBtn.style.display = 'flex';
+            nextBtn.innerHTML = `<span>${gameData.stages[state.stage].nextPrompt}</span><span>→</span>`;
+            
+            // Scroll to bottom
+            setTimeout(() => {
+                chat.scrollTop = chat.scrollHeight;
+            }, 100);
+        }
+        
+        // Check if all stages completed
+        if (state.collected === 9) {
+            showEnding();
+        }
+    }, 400);
+}
+
+/* ════════════════════════ GAME FLOW ════════════════════════ */
+function playIntro() {
+    nextBtn.style.display = 'none';
+    const stage = gameData.stages[state.stage];
+    let i = 0;
+    
+    function nextLine() {
+        if (i < stage.intro.length) {
+            typeBubble(stage.intro[i], () => {
+                setTimeout(nextLine, 700);
+            });
+            i++;
+        } else {
+            setTimeout(showHeartGrid, 800);
+        }
+    }
+    nextLine();
+}
+
+function showHeartGrid() {
+    const grid = document.createElement('div');
+    grid.className = 'heart-grid';
+    grid.id = 'heartGrid';
+    
+    const emojis = ['💭', '✨', '🌙'];
+    emojis.forEach((emoji, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'heart-btn';
+        btn.textContent = emoji;
+        btn.onclick = (e) => {
+            const rect = btn.getBoundingClientRect();
+            spawnSparkles(rect.left + rect.width/2, rect.top + rect.height/2);
+            openModal(index);
         };
-        zone.appendChild(btn);
+        grid.appendChild(btn);
     });
-    chat.appendChild(zone); chat.scrollTop=chat.scrollHeight;
+    
+    chat.appendChild(grid);
+    chat.scrollTop = chat.scrollHeight;
 }
 
-function showRevealCard(idx){
-    const data=gameData.stages[stageIndex].hearts[idx];
-    const card=document.createElement('div'); card.className='reveal-card';
-    card.innerHTML=`<div class="title">${data.title}</div><div class="desc">${data.desc}</div><div class="hint">${data.hint}</div>`;
-    card.onclick=(e)=>{
-        spawnSparkles(e.currentTarget);
-        card.style.transform='scale(0.98)'; setTimeout(()=>card.style.transform='', 150);
-        collected++; updateProgress();
-        // Auto hide after click + show next hint or finish
-        setTimeout(()=>{
-            if(collected%3===0 && collected<9){
-                nextBtn.style.display='block';
-                nextBtn.textContent=gameData.stages[stageIndex].nextPrompt;
-            }else if(collected===9){
-                showEnding();
-            }
-            card.style.opacity='0.7'; card.style.cursor='default'; card.onclick=null;
-        }, 400);
-    };
-    chat.appendChild(card); chat.scrollTop=chat.scrollHeight;
-}
-
-function showEnding(){
-    setTimeout(()=>{
-        typeBubble(gameData.endings.saved, ()=>{}, true);
-        setTimeout(()=>{
-            typeBubble(gameData.endings.shared, ()=>{}, true);
-            setTimeout(()=>{
-                // Secret easter egg: type "rahasia" in console
-                console.log("🤫 Kamu nemu easter egg! Pesan rahasia: "+gameData.endings.secret);
-            }, 1200);
-        }, 1500);
-    }, 800);
-}
-
-function nextStage(){
-    spawnSparkles(nextBtn);
-    stageIndex++; heartIndex=0;
-    if(stageIndex<gameData.stages.length){
-        playIntro(stageIndex);
+function nextStage() {
+    const rect = nextBtn.getBoundingClientRect();
+    spawnSparkles(rect.left + rect.width/2, rect.top + rect.height/2);
+    
+    state.stage++;
+    
+    if (state.stage < gameData.stages.length) {
+        // Remove old heart grid
+        const oldGrid = document.getElementById('heartGrid');
+        if (oldGrid) oldGrid.remove();
+        
+        setTimeout(playIntro, 400);
     }
-    nextBtn.style.display='none';
+    
+    nextBtn.style.display = 'none';
 }
 
-/* ════════════════════════ SPARKLES ════════════════════════ */
-const SPARKLE_SYMS=['✨','💖','🌸','⭐','💕','🌟','🦋','🌷'];
-function spawnSparkles(el){
-    if(!el) return;
-    const rect=el.getBoundingClientRect();
-    const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
-    for(let i=0;i<10;i++){
-        const sp=document.createElement('span');
-        const angle=(i/10)*Math.PI*2, dist=Math.random()*60+30;
-        sp.className='sparkle-el';
-        sp.textContent=SPARKLE_SYMS[Math.floor(Math.random()*SPARKLE_SYMS.length)];
-        sp.style.cssText=`left:${cx}px;top:${cy}px;font-size:${Math.random()*10+12}px;--dx:${Math.cos(angle)*dist}px;--dy:${Math.sin(angle)*dist}px;`;
-        document.body.appendChild(sp);
-        setTimeout(()=>sp.remove(), 700);
+function showEnding() {
+    setTimeout(() => {
+        const ending = gameData.endings[Math.floor(Math.random() * gameData.endings.length)];
+        typeBubble(ending, () => {
+            // Final celebration
+            setTimeout(() => {
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        spawnSparkles(
+                            Math.random() * window.innerWidth,
+                            Math.random() * window.innerHeight * 0.6
+                        );
+                    }, i * 300);
+                }
+            }, 500);
+        });
+    }, 1000);
+}
+
+/* ════════════════════════ KEYBOARD SHORTCUTS ════════════════════════ */
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && state.modalOpen) {
+        closeModal();
     }
-}
+    if (e.key === ' ' && e.target === document.body) {
+        e.preventDefault();
+        toggleAudio();
+    }
+});
 
-/* ════════════════════════ AUDIO ════════════════════════ */
-const audio=document.getElementById('audio'), audioLbl=document.getElementById('audioLabel');
-function setWave(on){ [1,2,3].forEach(i=>document.getElementById('wb'+i).classList.toggle('playing',on)); }
-function toggleAudio(){
-    if(audio.paused){
-        audio.volume=0.35;
-        audio.play().then(()=>{ audioLbl.textContent='⏸ Pause'; setWave(true); })
-                   .catch(()=>{ audioLbl.textContent='⚠️ Gagal'; });
-    }else{ audio.pause(); audioLbl.textContent='🎵 Putar'; setWave(false); }
-}
+/* ════════════════════════ INIT ════════════════════════ */
+window.addEventListener('load', () => {
+    updateProgress();
+    playIntro();
+    
+    // Console easter egg
+    console.log('%c💌 Bee… made with 💖', 'font-size: 20px; color: #ff4d6d;');
+    console.log('%c🤫 Ketik "rahasia" untuk pesan spesial', 'font-size: 12px; color: #888;');
+});
 
-/* ── START ── */
-updateProgress();
-playIntro(0);
-
-/* ── EASTER EGG: Console secret ── */
-console.log("💌 Bee… made with 💖 for someone special.");
-console.log("🔑 Ketik 'rahasia' untuk pesan tersembunyi:");
-let secretInput='';
-document.addEventListener('keydown',(e)=>{
-    if(e.key==='Enter' && secretInput.toLowerCase()==='rahasia'){
-        alert("🎁 Pesan rahasia:\n\n\"Kamu hebat. Dan iya, aku sengaja bikin ini buat kamu.\" ✨");
-        spawnSparkles(document.body);
-        secretInput='';
-    }else{ secretInput+=e.key; if(secretInput.length>10) secretInput=secretInput.slice(-10); }
+let secretBuffer = '';
+document.addEventListener('keydown', (e) => {
+    if (e.key.length === 1) {
+        secretBuffer += e.key;
+        if (secretBuffer.length > 10) secretBuffer = secretBuffer.slice(-10);
+        if (secretBuffer.toLowerCase().includes('rahasia')) {
+            alert('🎁 Pesan Rahasia:\n\n"Kamu hebat. Dan iya, aku sengaja bikin ini buat kamu. Sekarang tutup alert ini dan lanjutin collect heart-nya! 💖"');
+            secretBuffer = '';
+        }
+    }
 });
 </script>
 </body>
