@@ -415,72 +415,23 @@ body::before {
 <audio id="audio" src="https://alphacyber4rt.github.io/File/beeee.MP3" loop preload="none"></audio>
 
 <script>
-/* ════════════════════════ DATA (7 NEW SCENARIOS) ════════════════════════ */
+/* ════════════════════════ DATA (7 SCENARIOS) ════════════════════════ */
 const gameData = {
-    // ✅ INTRO SETS: 7 Variasi baru dengan gaya berbeda.
     intros: [
         // 1. 😈 “Sok Nggak Butuh”
-        [
-            "Aku gak lagi mikirin kamu kok.",
-            "...",
-            "Cuma kebetulan kamu lewat 3x di kepala hari ini.",
-            "Aneh sih.",
-            "Padahal aku lagi sibuk.",
-            "Tapi ya… sibuk mikirin kamu 😏"
-        ],
+        ["Aku gak lagi mikirin kamu kok.","...","Cuma kebetulan kamu lewat 3x di kepala hari ini.","Aneh sih.","Padahal aku lagi sibuk.","Tapi ya… sibuk mikirin kamu 😏"],
         // 2. 🧠 “Gak Pake Izin”
-        [
-            "Aku lagi coba fokus.",
-            "Beneran ini.",
-            "Tapi pikiran malah belok ke kamu.",
-            "Gak pake izin lagi.",
-            "Ini otak aku yang salah…",
-            "Atau kamu yang terlalu gampang masuk? 😌"
-        ],
+        ["Aku lagi coba fokus.","Beneran ini.","Tapi pikiran malah belok ke kamu.","Gak pake izin lagi.","Ini otak aku yang salah…","Atau kamu yang terlalu gampang masuk? 😌"],
         // 3. 🧩 “Puzzle Feeling”
-        [
-            "Aku lagi nyusun sesuatu.",
-            "Bukan kerjaan.",
-            "Tapi alasan kenapa kamu nyangkut di pikiran.",
-            "Udah hampir jadi sih.",
-            "Cuma ada satu bagian yang belum cocok.",
-            "Kamu bantu isi gak?"
-        ],
+        ["Aku lagi nyusun sesuatu.","Bukan kerjaan.","Tapi alasan kenapa kamu nyangkut di pikiran.","Udah hampir jadi sih.","Cuma ada satu bagian yang belum cocok.","Kamu bantu isi gak?"],
         // 4. 📵 “Anti Fokus”
-        [
-            "Aku tadi mau fokus kerja.",
-            "Beneran.",
-            "Tapi otak malah buka tab lain…",
-            "Dan isinya kamu.",
-            "Ini multitasking atau gangguan ya?"
-        ],
+        ["Aku tadi mau fokus kerja.","Beneran.","Tapi otak malah buka tab lain…","Dan isinya kamu.","Ini multitasking atau gangguan ya?"],
         // 5. 😏 “Istirahat”
-        [
-            "Aku lagi gak mikirin kamu.",
-            "Cuma lagi istirahat aja.",
-            "Tapi kenapa tiap diem malah kepikiran ya?",
-            "Aneh sih.",
-            "Padahal kamu gak ngapa-ngapain.",
-            "Atau… itu justru masalahnya? 😏"
-        ],
+        ["Aku lagi gak mikirin kamu.","Cuma lagi istirahat aja.","Tapi kenapa tiap diem malah kepikiran ya?","Aneh sih.","Padahal kamu gak ngapa-ngapain.","Atau… itu justru masalahnya? 😏"],
         // 6. 🧲 “Magnet”
-        [
-            "Aku gak nyari kamu.",
-            "Kamu juga gak manggil aku.",
-            "Tapi tetep ketemu.",
-            "Di tempat yang sama.",
-            "Kepala aku.",
-            "Dan itu agak ganggu sih 😏"
-        ],
+        ["Aku gak nyari kamu.","Kamu juga gak manggil aku.","Tapi tetep ketemu.","Di tempat yang sama.","Kepala aku.","Dan itu agak ganggu sih 😏"],
         // 7. 🔍 “Detektif”
-        [
-            "Aku lagi nyelidikin sesuatu.",
-            "Gak penting sih.",
-            "Cuma penasaran.",
-            "Kenapa kamu bisa kepikiran terus.",
-            "Padahal interaksinya biasa aja.",
-            "Hasilnya: mencurigakan 😏"
-        ]
+        ["Aku lagi nyelidikin sesuatu.","Gak penting sih.","Cuma penasaran.","Kenapa kamu bisa kepikiran terus.","Padahal interaksinya biasa aja.","Hasilnya: mencurigakan 😏"]
     ],
     stages: [
         {
@@ -512,7 +463,7 @@ const gameData = {
                 ]},
                 { emoji: '☕', responses: [
                     { title: "Kalo kamu kopi…", text: "Kamu itu kopi pagi yang bikin <strong>melek</strong>, tapi juga kopi malam yang bikin <strong>betah</strong>.<br><br>Pahit-manisnya pas. Hangatnya… <em>nyaman</em>.<br><br>Dan aku? Aku yang selalu <strong>nambah</strong>. Tanpa ragu. ☕", hint: "Klik simpan sebelum kopinya dingin →" },
-                    { title: "Caffeine content:", text: "Level kafein dalam kopi: <strong>80mg</strong><br>Level kafein dalam senyum kamu: <strong>∞</strong><br><br>Conclusion: Kamu lebih <strong>memabukkan</strong> dari kopi manapun. Dan aku <strong>addicted</strong>. ☕😵💫", hint: "Satu lagi… klik heart terakhir!" },
+                    { title: "Caffeine content:", text: "Level kafein dalam kopi: <strong>80mg</strong><br>Level kafein dalam senyum kamu: <strong>∞</strong><br><br>Conclusion: Kamu lebih <strong>memabukkan</strong> dari kopi manapun. Dan aku <strong>addicted</strong>. ☕😵", hint: "Satu lagi… klik heart terakhir!" },
                     { title: "Coffee date fantasy:", text: "Aku bayangin kita ngopi bareng. Bukan karena butuh kopi. Tapi karena butuh <strong>alasan</strong> buat duduk berhadapan sama kamu.<br><br>Liat kamu senyum. Dengar kamu ketawa.<br><br><em>Simple</em>. Tapi <strong>perfect</strong>. ☕✨", hint: "Klik simpan untuk save this date 💾" }
                 ]},
                 { emoji: '🗝️', responses: [
@@ -586,6 +537,11 @@ function applyTheme() {
     r.style.setProperty('--heart-bg-3', t.h3);
 }
 applyTheme(); 
+
+/* ════════════════════════ ✅ FIX: SESSION SHUFFLE & SEQUENTIAL PICK ════════════════════════ */
+// Acak ke-7 paket intro SEKALI saat halaman dimuat
+let sessionIntros = [...gameData.intros].sort(() => Math.random() - 0.5);
+let introIndex = 0; // Mengambil urutan: 0 -> 1 -> 2
 
 /* ════════════════════════ STATE ════════════════════════ */
 let state = { stage: 0, collected: 0, currentHeart: null, modalOpen: false, audioPlaying: false };
@@ -772,12 +728,14 @@ function showEnding(){
     }, 1000);
 }
 
-/* ════════════════════════ GAME FLOW ════════════════════════ */
+/* ════════════════════════ ✅ FIXED GAME FLOW ════════════════════════ */
 function playIntro(){
     nextBtn.style.display='none';
-    const introSet = gameData.intros[Math.floor(Math.random() * gameData.intros.length)];
-    let i = 0;
+    // ✅ Ambil paket secara berurutan dari hasil acak awal (tidak akan repeat dalam 1 sesi)
+    const introSet = sessionIntros[introIndex % sessionIntros.length];
+    introIndex++; // Maju ke paket berikutnya untuk stage selanjutnya
     
+    let i = 0;
     function nextLine(){
         if(i < introSet.length){
             typeBubble(introSet[i], ()=>{
@@ -806,10 +764,10 @@ function showHeartGrid(){
 
 function nextStage(){
     const r=nextBtn.getBoundingClientRect(); spawnSparkles(r.left+r.width/2,r.top+r.height/2);
-    chat.innerHTML = ''; // Clean slate
+    chat.innerHTML = ''; // Bersihkan chat
     state.stage++;
     if(state.stage<gameData.stages.length){
-        setTimeout(playIntro,400);
+        setTimeout(playIntro,400); // Stage selanjutnya akan otomatis pakai paket intro berikutnya
     }
     nextBtn.style.display='none';
 }
