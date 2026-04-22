@@ -6,15 +6,23 @@
 <title>Bee… 💋</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
+/* ════════════════════════ THEME VARIABLES (Dynamic) ════════════════════════ */
 :root {
+    /* Default will be overridden by JS */
+    --theme-primary: #4ade80; 
+    --theme-glow: rgba(74, 222, 128, 0.6);
+    --theme-rgb: 74, 222, 128;
+    
     --primary: #ff4d6d;
     --primary-light: #ff6b8a;
     --primary-dark: #c0195a;
     --accent: #ffb3c1;
-    --progress-color: #4ade80; /* ✅ Warna Hijau Natural */
     --bg-dark: #0a0610;
     --text: #fff;
     --text-muted: #b8b8d1;
+    --heart-bg-1: #ff6b8a;
+    --heart-bg-2: #ff4d6d;
+    --heart-bg-3: #c0195a;
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,8 +39,8 @@ body {
 body::before {
     content: "";
     position: fixed; inset: 0;
-    background: radial-gradient(ellipse at 20% 30%, rgba(255,77,109,0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(255,158,181,0.1) 0%, transparent 50%);
+    background: radial-gradient(ellipse at 20% 30%, rgba(255,77,109,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(255,158,181,0.05) 0%, transparent 50%);
     animation: gradientShift 8s ease-in-out infinite;
     pointer-events: none; z-index: 0;
 }
@@ -60,8 +68,8 @@ body::before {
 }
 .header-left { display: flex; align-items: center; gap: 10px; }
 .online-indicator {
-    position: relative; width: 10px; height: 10px; background: var(--progress-color);
-    border-radius: 50%; box-shadow: 0 0 12px var(--progress-color);
+    position: relative; width: 10px; height: 10px; background: #4ade80;
+    border-radius: 50%; box-shadow: 0 0 12px #4ade80;
     animation: pulse 2s ease-in-out infinite;
 }
 @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(0.85);opacity:0.6} }
@@ -72,17 +80,18 @@ body::before {
 }
 
 #audioBtn {
-    position: relative; background: linear-gradient(135deg, rgba(255,77,109,0.2), rgba(192,25,90,0.15));
-    border: 1.5px solid rgba(255,77,109,0.5); color: #fff; padding: 8px 14px;
+    position: relative; 
+    background: linear-gradient(135deg, rgba(var(--theme-rgb),0.2), rgba(var(--theme-rgb),0.05));
+    border: 1.5px solid rgba(var(--theme-rgb),0.6); color: #fff; padding: 8px 14px;
     border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer;
     display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; overflow: hidden;
 }
-#audioBtn:hover { border-color: var(--primary); box-shadow: 0 0 20px rgba(255,77,109,0.5); transform: translateY(-1px); }
+#audioBtn:hover { border-color: var(--theme-primary); box-shadow: 0 0 20px var(--theme-glow); transform: translateY(-1px); }
 #audioBtn.playing {
-    background: linear-gradient(135deg, rgba(255,77,109,0.4), rgba(192,25,90,0.3));
-    border-color: var(--primary-light); animation: btnGlow 2s ease-in-out infinite;
+    background: linear-gradient(135deg, rgba(var(--theme-rgb),0.4), rgba(var(--theme-rgb),0.1));
+    border-color: var(--theme-primary); animation: btnGlow 2s ease-in-out infinite;
 }
-@keyframes btnGlow { 0%,100%{box-shadow:0 0 15px rgba(255,77,109,0.5)} 50%{box-shadow:0 0 25px rgba(255,77,109,0.8)} }
+@keyframes btnGlow { 0%,100%{box-shadow:0 0 15px var(--theme-glow)} 50%{box-shadow:0 0 25px var(--theme-glow)} }
 .audio-icon { position: relative; z-index: 1; font-size: 14px; }
 .audio-label { position: relative; z-index: 1; font-weight: 600; min-width: 50px; }
 #audioVisualizer { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; z-index: 1; }
@@ -96,15 +105,16 @@ body::before {
 .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; color: var(--text-muted); }
 .progress-label { font-weight: 600; display: flex; align-items: center; gap: 6px; }
 .progress-count {
-    background: var(--progress-color); color: #000; /* ✅ Progress text hijau */
+    background: var(--theme-primary); color: #000;
     padding: 2px 8px; border-radius: 6px; font-weight: 700; min-width: 40px; text-align: center;
+    box-shadow: 0 0 10px var(--theme-glow);
 }
 .progress-bar-wrap { height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; position: relative; }
 .progress-bar-fill {
     height: 100%; width: 0%;
-    background: var(--progress-color); /* ✅ Warna Hijau */
+    background: var(--theme-primary);
     border-radius: 4px; transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
-    animation: shimmer 2s infinite; box-shadow: 0 0 10px var(--progress-color);
+    animation: shimmer 2s infinite; box-shadow: 0 0 12px var(--theme-glow);
 }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 .progress-bar-fill::after {
@@ -157,46 +167,48 @@ body::before {
 @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
 .heart-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
 
-/* ✅ FIX 1: Animasi hide diterapkan ke .heart-item */
 .heart-item.clicked { animation: heartPop 0.6s ease forwards; pointer-events: none; }
 
 .heart-btn {
     width: 72px; height: 72px; border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #ff6b8a, #ff4d6d, #c0195a);
+    /* Dynamic Heart Colors */
+    background: radial-gradient(circle at 35% 35%, var(--heart-bg-1), var(--heart-bg-2), var(--heart-bg-3));
     border: 2px solid rgba(255,255,255,0.25); font-size: 28px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 8px 24px rgba(255,77,109,0.4), 0 0 0 4px rgba(255,77,109,0.1), inset 0 -4px 12px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 0 4px rgba(var(--theme-rgb),0.15), inset 0 -4px 12px rgba(0,0,0,0.2);
     transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1); animation: heartbeat 1.5s ease-in-out infinite;
     position: relative; overflow: hidden;
 }
-.heart-btn:hover { transform: scale(1.15) rotate(5deg); box-shadow: 0 12px 32px rgba(255,77,109,0.6); }
+.heart-btn:hover { transform: scale(1.15) rotate(5deg); box-shadow: 0 12px 32px rgba(var(--theme-rgb),0.5); }
 .heart-btn:active { transform: scale(0.95); }
 
 @keyframes heartbeat { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
 @keyframes heartPop { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(0);opacity:0} }
 
-/* ✅ FIX: Label font putih & background lebih gelap agar terbaca jelas */
 .heart-label {
-    font-size: 11px; color: #ffffff; font-weight: 600; /* Font Putih */
-    background: rgba(0,0,0,0.5); padding: 6px 12px; border-radius: 20px; /* Background lebih gelap */
+    font-size: 11px; color: #ffffff; font-weight: 600;
+    background: rgba(0,0,0,0.5); padding: 6px 12px; border-radius: 20px;
     border: 1px dashed rgba(255,255,255,0.3); opacity: 0.95;
     animation: hintPulse 2s infinite; text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
 @keyframes hintPulse { 0%,100%{opacity:0.9;transform:scale(1)} 50%{opacity:1;transform:scale(1.05)} }
 
-/* MODAL */
+/* MODAL (Premium Glassmorphism) */
 .modal-overlay {
-    position: fixed; inset: 0; background: rgba(5,2,8,0.95);
-    backdrop-filter: blur(12px); z-index: 1000;
+    position: fixed; inset: 0; background: rgba(5,2,8,0.85);
+    backdrop-filter: blur(16px); z-index: 1000;
     display: flex; align-items: center; justify-content: center; padding: 20px;
     opacity: 0; visibility: hidden; transition: all 0.4s ease;
 }
 .modal-overlay.active { opacity: 1; visibility: visible; }
 .modal-content {
     width: 100%; max-width: 480px; max-height: 85dvh;
-    background: linear-gradient(145deg, rgba(40,28,52,0.95), rgba(20,12,32,0.95));
-    border-radius: 28px; padding: 32px 28px; border: 1.5px solid rgba(255,120,140,0.4);
-    box-shadow: 0 25px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+    /* Glassmorphism Background */
+    background: linear-gradient(145deg, rgba(30,20,45,0.9), rgba(15,10,25,0.95));
+    border: 1.5px solid var(--theme-primary);
+    box-shadow: 0 25px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.1), 
+                0 0 40px var(--theme-glow); /* Glowing Border */
+    border-radius: 28px; padding: 32px 28px;
     transform: scale(0.9) translateY(30px); transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
     overflow-y: auto; position: relative;
 }
@@ -215,33 +227,35 @@ body::before {
 @keyframes emojiFloat { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-12px) rotate(5deg)} }
 .modal-title {
     font-family: 'Dancing Script', cursive; font-size: 32px; text-align: center;
-    background: linear-gradient(135deg, #ffb3c1, #ff6b8a, #ff9eb5);
+    background: linear-gradient(135deg, #ffb3c1, #fff, var(--theme-primary));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     margin-bottom: 16px; line-height: 1.3;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.3); /* Helps readability */
 }
-.modal-text { font-size: 15.5px; line-height: 1.8; color: var(--text-muted); text-align: center; margin-bottom: 20px; }
-.modal-text strong { color: var(--accent); font-weight: 600; }
+.modal-text { font-size: 15.5px; line-height: 1.8; color: #f2f2f7; text-align: center; margin-bottom: 20px; } /* Pure white for contrast */
+.modal-text strong { color: var(--theme-primary); font-weight: 600; } /* Highlight with theme color */
 .modal-hint {
-    text-align: center; font-size: 13px; color: #ffb3c1; font-weight: 500;
-    margin: 16px 0 20px; padding: 12px; background: rgba(255,77,109,0.12);
-    border-radius: 12px; border: 1px dashed rgba(255,120,140,0.5);
+    text-align: center; font-size: 13px; color: var(--theme-primary); font-weight: 600;
+    margin: 16px 0 20px; padding: 12px; background: rgba(var(--theme-rgb),0.1);
+    border-radius: 12px; border: 1px dashed var(--theme-primary);
 }
 .modal-action {
-    width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    width: 100%; padding: 16px; 
+    background: linear-gradient(135deg, var(--theme-primary), color-mix(in srgb, var(--theme-primary), black 20%));
     border: none; border-radius: 14px; color: #fff; font-size: 14px; font-weight: 700;
-    cursor: pointer; box-shadow: 0 8px 24px rgba(255,77,109,0.4); transition: all 0.3s ease;
+    cursor: pointer; box-shadow: 0 8px 24px var(--theme-glow); transition: all 0.3s ease;
     display: flex; align-items: center; justify-content: center; gap: 10px;
 }
-.modal-action:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,77,109,0.6); }
+.modal-action:hover { transform: translateY(-2px); box-shadow: 0 12px 32px var(--theme-glow); }
 .pulse-heart { display: inline-block; animation: pulseHeart 1s infinite; }
 @keyframes pulseHeart { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
 
 /* NEXT BUTTON */
 .next-btn {
     flex-shrink: 0; margin-top: 12px; width: 100%; padding: 16px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    background: linear-gradient(135deg, var(--theme-primary), color-mix(in srgb, var(--theme-primary), black 20%));
     border: none; border-radius: 16px; color: #fff; font-size: 15px; font-weight: 700;
-    cursor: pointer; box-shadow: 0 8px 28px rgba(255,77,109,0.5);
+    cursor: pointer; box-shadow: 0 8px 28px var(--theme-glow);
     transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); display: none;
     align-items: center; justify-content: center; gap: 10px; position: relative; overflow: hidden;
 }
@@ -250,13 +264,13 @@ body::before {
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.6s ease;
 }
 .next-btn:hover::before { left: 100%; }
-.next-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(255,77,109,0.7); }
+.next-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 40px var(--theme-glow); }
 
 /* TOAST */
 .toast {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-20px);
     background: rgba(20,12,32,0.95); color: #fff; padding: 10px 20px; border-radius: 30px;
-    font-size: 13px; font-weight: 600; border: 1px solid var(--progress-color); /* ✅ Toast border hijau */
+    font-size: 13px; font-weight: 600; border: 1px solid var(--theme-primary);
     box-shadow: 0 8px 24px rgba(0,0,0,0.4); opacity: 0; transition: all 0.3s ease;
     z-index: 2000; pointer-events: none;
 }
@@ -272,32 +286,42 @@ body::before {
     100%{transform:translate(var(--tx),var(--ty)) scale(0) rotate(720deg);opacity:0}
 }
 
-/* ENDING OVERLAY (Baru) */
+/* ENDING OVERLAY (Premium) */
 .ending-overlay {
     position: fixed; inset: 0;
-    background: rgba(5,2,8,0.6); backdrop-filter: blur(6px);
+    background: rgba(5,2,8,0.7); backdrop-filter: blur(10px);
     z-index: 100; display: flex; align-items: center; justify-content: center;
     opacity: 0; visibility: hidden; transition: all 0.8s ease;
 }
 .ending-overlay.active { opacity: 1; visibility: visible; }
 .ending-card {
     background: rgba(20, 12, 30, 0.95);
-    border: 1px solid rgba(255, 150, 170, 0.4);
+    border: 1px solid var(--theme-primary);
     border-radius: 30px; padding: 40px 30px;
     text-align: center; max-width: 85%; width: 380px;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 40px var(--theme-glow);
     transform: scale(0.9); transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative; overflow: hidden;
 }
 .ending-overlay.active .ending-card { transform: scale(1); }
-.ending-symbol { font-size: 64px; margin-bottom: 20px; animation: emojiFloat 3s infinite ease-in-out; }
+
+.ending-symbol { font-size: 72px; margin-bottom: 24px; animation: emojiFloat 4s infinite ease-in-out; filter: drop-shadow(0 10px 30px rgba(255,77,109,0.4)); }
+
 .ending-text {
-    font-family: 'Dancing Script', cursive; font-size: 26px; color: #fff;
-    line-height: 1.4; margin-bottom: 24px;
-    text-shadow: 0 2px 10px rgba(255, 77, 109, 0.5);
+    font-family: 'Dancing Script', cursive; font-size: 30px; color: #ffffff;
+    line-height: 1.3; margin-bottom: 32px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.8); /* High contrast shadow for readability */
+    letter-spacing: 0.5px;
 }
+
 .ending-tag {
-    font-size: 12px; color: rgba(255,255,255,0.5);
-    font-style: italic; letter-spacing: 0.5px;
+    display: inline-block;
+    background: var(--theme-primary);
+    color: #000;
+    font-size: 12px; font-weight: 700;
+    padding: 6px 14px; border-radius: 20px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 15px var(--theme-glow);
 }
 
 /* TRADEMARK */
@@ -320,6 +344,7 @@ body::before {
     .modal-title { font-size: 28px; }
     .modal-emoji { font-size: 48px; }
     .heart-btn { width: 64px; height: 64px; font-size: 24px; }
+    .ending-text { font-size: 26px; }
 }
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
     .container { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
@@ -395,9 +420,14 @@ body::before {
 <script>
 /* ════════════════════════ DATA ════════════════════════ */
 const gameData = {
+    // Randomized Intros
+    intros: [
+        ["Bee… 🐝", "Aku gak punya alasan logis buat ini 😌", "Tapi kamu tuh… ya gitu deh. Kebaca terus di kepala."],
+        ["Psst… 🤫", "Cuma mau titip sesuatu…", "Tentang kamu. Tapi jangan bilang siapa-siapa ya."],
+        ["Hai… 👋", "Ada yang gangguin pikiran aku…", "Dan itu kamu. Terus-terusan."]
+    ],
     stages: [
         {
-            intro: ["Bee… 🐝", "Aku gak punya alasan logis buat ini 😌", "Tapi kamu tuh… ya gitu deh. Kebaca terus di kepala."],
             hearts: [
                 { emoji: '💭', responses: [
                     { title: "Kalo kamu bertanya-tanya…", text: "Iya, itu <strong>kamu</strong>. Yang bikin aku senyum-senyum sendiri pas lagi scroll HP tengah malam. Yang bikin kopi jadi kurang pahit.<br><br>Yang… ah, kamu tau lah 😏", hint: "Klik 'Simpan ke hati' untuk lanjut → 💾" },
@@ -418,7 +448,6 @@ const gameData = {
             nextPrompt: "Masih mau lanjut? Aku belum selesai nih… 😏"
         },
         {
-            intro: ["Anehnya ya… 🤔", "Kamu gak ngapa-ngapain", "Tapi efeknya… ganggu fokus aku banget 😏"],
             hearts: [
                 { emoji: '🎯', responses: [
                     { title: "Kamu itu seperti…", text: "<strong>Target</strong> yang gak bisa aku lewatin.<br><br>Bukan karena maksa. Tapi karena… ya emang <strong>mau</strong> fokus ke kamu.<br><br>Voluntary. Willingly. <strong>Happily</strong>. 🎯💘", hint: "Klik simpan untuk target berikutnya →" },
@@ -427,7 +456,7 @@ const gameData = {
                 ]},
                 { emoji: '☕', responses: [
                     { title: "Kalo kamu kopi…", text: "Kamu itu kopi pagi yang bikin <strong>melek</strong>, tapi juga kopi malam yang bikin <strong>betah</strong>.<br><br>Pahit-manisnya pas. Hangatnya… <em>nyaman</em>.<br><br>Dan aku? Aku yang selalu <strong>nambah</strong>. Tanpa ragu. ☕", hint: "Klik simpan sebelum kopinya dingin →" },
-                    { title: "Caffeine content:", text: "Level kafein dalam kopi: <strong>80mg</strong><br>Level kafein dalam senyum kamu: <strong>∞</strong><br><br>Conclusion: Kamu lebih <strong>memabukkan</strong> dari kopi manapun. Dan aku <strong>addicted</strong>. ☕😵💫", hint: "Satu lagi… klik heart terakhir!" },
+                    { title: "Caffeine content:", text: "Level kafein dalam kopi: <strong>80mg</strong><br>Level kafein dalam senyum kamu: <strong>∞</strong><br><br>Conclusion: Kamu lebih <strong>memabukkan</strong> dari kopi manapun. Dan aku <strong>addicted</strong>. ☕😵", hint: "Satu lagi… klik heart terakhir!" },
                     { title: "Coffee date fantasy:", text: "Aku bayangin kita ngopi bareng. Bukan karena butuh kopi. Tapi karena butuh <strong>alasan</strong> buat duduk berhadapan sama kamu.<br><br>Liat kamu senyum. Dengar kamu ketawa.<br><br><em>Simple</em>. Tapi <strong>perfect</strong>. ☕✨", hint: "Klik simpan untuk save this date 💾" }
                 ]},
                 { emoji: '🗝️', responses: [
@@ -439,7 +468,6 @@ const gameData = {
             nextPrompt: "Tahap terakhir… siap-siap greget level max! 🔥"
         },
         {
-            intro: ["Aku sempet mikir… 🤔", "Ini kebiasaan atau kamu emang <strong>beda</strong> aja?", "Jawabannya: <em>Ya udahlah, yang penting kamu</em> 😌"],
             hearts: [
                 { emoji: '🧭', responses: [
                     { title: "Jawabannya:", text: "Kamu <strong>beda</strong>.<br><br>Bukan karena kamu sempurna. Tapi karena cara kamu '<em>gak sempurna</em>'-nya itu… justru yang bikin aku <strong>nyaman</strong>.<br><br>Like, <em>really</em> nyaman. 🧭", hint: "Klik simpan untuk arah yang benar →" },
@@ -467,7 +495,7 @@ const gameData = {
     ]
 };
 
-/* ════════════════════════ ENDING DATA (12 KALIMAT) ════════════════════════ */
+/* ════════════════════════ ENDING POOL (12 QUOTES) ════════════════════════ */
 const endingPool = [
     { symbol: '🌙', text: '"Jam 2 pagi, cuma kamu yang nyangkut."' },
     { symbol: '📱', text: '"Scroll sampai habis, ujungnya tetap kamu."' },
@@ -482,6 +510,26 @@ const endingPool = [
     { symbol: '🌿', text: '"Duniaku ribut. Kamu satu-satunya hening."' },
     { symbol: '📝', text: '"Titik. Koma. Enter. Tapi kalimatnya tetap kamu."' }
 ];
+
+/* ════════════════════════ THEME ENGINE ════════════════════════ */
+const themes = [
+    { name: 'Sage', primary: '#4ade80', rgb: '74, 222, 128', h1: '#86efac', h2: '#4ade80', h3: '#15803d' }, // Green
+    { name: 'Nova', primary: '#a78bfa', rgb: '167, 139, 250', h1: '#c4b5fd', h2: '#a78bfa', h3: '#7c3aed' }, // Purple
+    { name: 'Azure', primary: '#38bdf8', rgb: '56, 189, 248', h1: '#7dd3fc', h2: '#38bdf8', h3: '#0284c7' }, // Blue
+    { name: 'Ember', primary: '#fb923c', rgb: '251, 146, 60', h1: '#fdba74', h2: '#fb923c', h3: '#c2410c' } // Orange
+];
+
+function applyTheme() {
+    const t = themes[Math.floor(Math.random() * themes.length)];
+    const r = document.documentElement;
+    r.style.setProperty('--theme-primary', t.primary);
+    r.style.setProperty('--theme-glow', `rgba(${t.rgb}, 0.6)`);
+    r.style.setProperty('--theme-rgb', t.rgb);
+    r.style.setProperty('--heart-bg-1', t.h1);
+    r.style.setProperty('--heart-bg-2', t.h2);
+    r.style.setProperty('--heart-bg-3', t.h3);
+}
+applyTheme(); // Apply on load
 
 /* ════════════════════════ STATE ════════════════════════ */
 let state = { stage: 0, collected: 0, currentHeart: null, modalOpen: false, audioPlaying: false };
@@ -556,7 +604,7 @@ async function toggleAudio(){
     }
 }
 
-/* ════════════════════════ CHAT ENGINE (HTML SAFE) ════════════════════════ */
+/* ════════════════════════ CHAT ENGINE ════════════════════════ */
 function getTime(){ const d=new Date(); return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0'); }
 function showTyping(){
     const t=document.createElement('div'); t.className='typing';
@@ -583,19 +631,14 @@ function typeBubble(html, cb){
 }
 
 /* ════════════════════════ PROGRESS & TOAST ════════════════════════ */
-// ✅ Random Start Logic
 let startProgress = Math.floor(Math.random() * 10) + 5; 
 progressBar.style.width = startProgress + '%';
 progressCount.textContent = startProgress + '%';
 
 function updateProgress(){
     const pct=Math.round((state.collected/9)*100);
-    // Pastikan progress bar tidak mengecil, hanya bertambah
     const currentWidth = parseInt(progressBar.style.width) || 0;
-    const newWidth = Math.max(currentWidth, startProgress + pct); // Simplifikasi agar smooth
-    
-    // Kita set target dari 0 sampai 100 berdasarkan collected
-    const targetPct = Math.min(100, startProgress + (pct * 0.9)); // Scale 10-100%
+    const targetPct = Math.min(100, startProgress + (pct * 0.9)); 
     
     progressBar.style.width = targetPct + '%';
     progressCount.textContent = Math.round(targetPct) + '%';
@@ -655,22 +698,23 @@ function collectHeart(){
     },400);
 }
 
-/* ════════════════════════ ENDING LOGIC ════════════════════════ */
+/* ════════════════════════ ENDING LOGIC (Delayed) ════════════════════════ */
 function showEnding(){
-    // Tampilkan chat bubble ending dulu
+    // 1. Show Chat Ending first
     setTimeout(()=>{
         typeBubble(gameData.endings[Math.floor(Math.random()*gameData.endings.length)], ()=>{
-            // Setelah chat muncul, munculkan overlay
-            const rand = endingPool[Math.floor(Math.random() * endingPool.length)];
-            const vNum = Math.floor(Math.random() * 90) + 10; // Random version number 10-99
-            
-            document.getElementById('endingSymbol').textContent = rand.symbol;
-            document.getElementById('endingText').textContent = rand.text;
-            document.getElementById('endingTag').textContent = `v.${vNum} • refresh untuk versi lain`;
-            
-            setTimeout(()=>{
+            // 2. Wait 3 seconds so user can read the chat
+            setTimeout(() => {
+                // 3. Show Overlay
+                const rand = endingPool[Math.floor(Math.random() * endingPool.length)];
+                const vNum = Math.floor(Math.random() * 90) + 10;
+                
+                document.getElementById('endingSymbol').textContent = rand.symbol;
+                document.getElementById('endingText').textContent = rand.text;
+                document.getElementById('endingTag').textContent = `v.${vNum} • refresh untuk versi lain`;
+                
                 endingOverlay.classList.add('active');
-            }, 1500);
+            }, 3000);
         });
     }, 1000);
 }
@@ -678,10 +722,13 @@ function showEnding(){
 /* ════════════════════════ GAME FLOW ════════════════════════ */
 function playIntro(){
     nextBtn.style.display='none';
-    const stage=gameData.stages[state.stage]; let i=0;
+    // Pick random intro
+    const introSet = gameData.intros[Math.floor(Math.random() * gameData.intros.length)];
+    let i = 0;
+    
     function nextLine(){
-        if(i<stage.intro.length){
-            typeBubble(stage.intro[i], ()=>setTimeout(nextLine,700)); i++;
+        if(i < introSet.length){
+            typeBubble(introSet[i], ()=>setTimeout(nextLine,700)); i++;
         }else setTimeout(showHeartGrid,800);
     } nextLine();
 }
