@@ -41,7 +41,6 @@ body::before {
     margin: 0 auto; display: flex; flex-direction: column; padding: 16px; overflow: hidden;
 }
 
-/* HEADER */
 .header {
     display: flex; justify-content: space-between; align-items: center;
     padding: 12px 16px; background: rgba(255,255,255,0.03);
@@ -77,7 +76,6 @@ body::before {
 .audio-label { position: relative; z-index: 1; font-weight: 600; min-width: 50px; }
 #audioVisualizer { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; z-index: 1; }
 
-/* PROGRESS */
 .progress-container {
     background: rgba(255,255,255,0.03); backdrop-filter: blur(10px);
     border-radius: 12px; padding: 12px 16px; margin-bottom: 12px;
@@ -103,7 +101,6 @@ body::before {
 }
 @keyframes progressShine { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
-/* CHAT & SCROLLBAR */
 .chat { 
     flex: 1; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; 
     gap: 12px; padding: 8px 4px 100px; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; 
@@ -140,7 +137,6 @@ body::before {
 .typing-dot:nth-child(2){animation-delay:0.2s} .typing-dot:nth-child(3){animation-delay:0.4s}
 @keyframes typingBounce { 0%,60%,100%{transform:translateY(0) scale(1);opacity:0.5} 30%{transform:translateY(-8px) scale(1.2);opacity:1} }
 
-/* HEART GRID */
 .heart-grid {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
     padding: 20px 8px; align-self: center; width: 100%; max-width: 340px;
@@ -170,7 +166,6 @@ body::before {
 }
 @keyframes hintPulse { 0%,100%{opacity:0.9;transform:scale(1)} 50%{opacity:1;transform:scale(1.05)} }
 
-/* MODAL */
 .modal-overlay {
     position: fixed; inset: 0; background: rgba(5,2,8,0.85);
     backdrop-filter: blur(16px); z-index: 1000;
@@ -224,7 +219,6 @@ body::before {
 .pulse-heart { display: inline-block; animation: pulseHeart 1s infinite; }
 @keyframes pulseHeart { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
 
-/* NEXT BUTTON */
 .next-btn {
     flex-shrink: 0; margin-top: 12px; width: 100%; padding: 16px;
     background: linear-gradient(135deg, var(--theme-primary), color-mix(in srgb, var(--theme-primary), black 20%));
@@ -245,7 +239,6 @@ body::before {
 }
 .next-btn:hover::before { left: 100%; }
 
-/* TOAST */
 .toast {
     position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-20px);
     background: rgba(20,12,32,0.95); color: #fff; padding: 10px 20px; border-radius: 30px;
@@ -255,7 +248,6 @@ body::before {
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-/* SPARKLE */
 .sparkle {
     position: fixed; pointer-events: none; z-index: 9999;
     animation: sparkleFly 0.8s ease-out forwards; font-size: 20px;
@@ -265,7 +257,6 @@ body::before {
     100%{transform:translate(var(--tx),var(--ty)) scale(0) rotate(720deg);opacity:0}
 }
 
-/* ENDING OVERLAY */
 .ending-overlay {
     position: fixed; inset: 0; background: rgba(5,2,8,0.75); backdrop-filter: blur(12px);
     z-index: 100; display: flex; align-items: center; justify-content: center;
@@ -284,7 +275,6 @@ body::before {
     font-family: 'Dancing Script', cursive; font-size: 30px; color: #ffffff;
     line-height: 1.3; margin-bottom: 32px; text-shadow: 0 4px 15px rgba(0,0,0,0.8); letter-spacing: 0.5px;
 }
-/* ✅ UPDATED: Clickable Badge with Hover Effect */
 .ending-tag {
     display: inline-block; background: var(--theme-primary); color: #000;
     font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 20px;
@@ -297,7 +287,6 @@ body::before {
     filter: brightness(1.15);
 }
 
-/* TRADEMARK */
 .trademark {
     position: fixed; bottom: 36px; left: 0; right: 0; text-align: center;
     font-size: 13px; font-weight: 500; letter-spacing: 0.5px; pointer-events: none; z-index: 5;
@@ -570,16 +559,30 @@ function showTyping(){
     chat.appendChild(t); chat.scrollTop=chat.scrollHeight; return t;
 }
 
+/* ════════════════════════ ✅ INVISIBLE TUNING: LATENCY & TONE ════════════════════════ */
 function typeBubble(html, cb){
     const t=showTyping();
+    // 1. Emotional Latency: 600-1400ms (simulasi "berpikir")
+    const latency = 600 + Math.random() * 800;
+    
     setTimeout(()=>{
         t.remove();
         const b=document.createElement('div'); b.className='bubble';
         const tx=document.createElement('div'); tx.className='bubble-text';
-        tx.innerHTML=html; tx.style.opacity=0; tx.style.transform='translateY(5px)';
+        
+        let finalHtml = html;
+        // 2. Micro Tone Variation: ~30% chance subtle shift
+        const toneShift = Math.random();
+        if(toneShift < 0.3) finalHtml += " 🤍";
+        else if(toneShift < 0.6) finalHtml += " 😌";
+        else if(toneShift < 0.9) finalHtml += " ✨";
+        
+        tx.innerHTML = finalHtml;
+        tx.style.opacity=0; tx.style.transform='translateY(5px)';
         const m=document.createElement('div'); m.className='bubble-meta';
         m.innerHTML=`<span class="bubble-time">${getTime()}</span><span class="bubble-check">✓</span>`;
         b.appendChild(tx); b.appendChild(m); chat.appendChild(b);
+        
         requestAnimationFrame(()=>{
             tx.style.transition='opacity 0.4s ease, transform 0.4s ease';
             tx.style.opacity=1; tx.style.transform='translateY(0)';
@@ -587,7 +590,7 @@ function typeBubble(html, cb){
         setTimeout(()=>{ m.querySelector('.bubble-check').textContent='✓✓'; },600);
         requestAnimationFrame(()=> chat.scrollTop = chat.scrollHeight);
         if(cb) setTimeout(cb, 400);
-    }, 900);
+    }, latency);
 }
 
 let startProgress = Math.floor(Math.random() * 10) + 5; 
@@ -656,27 +659,23 @@ function collectHeart(){
     },400);
 }
 
-/* ════════════════════════ ✅ UPDATED: FAKE MEMORY + CLICKABLE TAG ════════════════════════ */
+/* ════════════════════════ ✅ INVISIBLE TUNING: REFLECTION LINE ════════════════════════ */
 function showEnding(){
-    setTimeout(()=>{
+    // 1. Reflection Line (Ilusi "Dipahami")
+    typeBubble("Dari cara kamu milih tadi… kayaknya aku nggak salah nebak.", ()=>{
+        // 2. Main Ending Chat
         typeBubble(gameData.endings[Math.floor(Math.random()*gameData.endings.length)], ()=>{
-            typeBubble("Dari semua pilihan kamu tadi… rasanya aku cuma ngulang satu hal.", ()=>{
-                setTimeout(()=>{
-                    typeBubble("Kalau ini cuma kebetulan… kenapa rasanya kena?", ()=>{
-                        // ✅ UPDATED: Delay diperpanjang jadi 3.5s (3500ms) biar sempet kebaca
-                        setTimeout(() => {
-                            const rand = endingPool[Math.floor(Math.random() * endingPool.length)];
-                            const vNum = Math.floor(Math.random() * 90) + 10;
-                            document.getElementById('endingSymbol').textContent = rand.symbol;
-                            document.getElementById('endingText').textContent = rand.text;
-                            document.getElementById('endingTag').textContent = `v.${vNum} • refresh untuk versi lain`;
-                            endingOverlay.classList.add('active');
-                        }, 3500);
-                    });
-                }, 800);
-            });
+            // 3. Delay before overlay (3.5s biar sempet kebaca & dirasain)
+            setTimeout(() => {
+                const rand = endingPool[Math.floor(Math.random() * endingPool.length)];
+                const vNum = Math.floor(Math.random() * 90) + 10;
+                document.getElementById('endingSymbol').textContent = rand.symbol;
+                document.getElementById('endingText').textContent = rand.text;
+                document.getElementById('endingTag').textContent = `v.${vNum} • refresh untuk versi lain`;
+                endingOverlay.classList.add('active');
+            }, 3500);
         });
-    }, 1000);
+    });
 }
 
 function playIntro(){
