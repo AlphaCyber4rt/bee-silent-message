@@ -284,10 +284,17 @@ body::before {
     font-family: 'Dancing Script', cursive; font-size: 30px; color: #ffffff;
     line-height: 1.3; margin-bottom: 32px; text-shadow: 0 4px 15px rgba(0,0,0,0.8); letter-spacing: 0.5px;
 }
+/* ✅ UPDATED: Clickable Badge with Hover Effect */
 .ending-tag {
     display: inline-block; background: var(--theme-primary); color: #000;
     font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 20px;
     letter-spacing: 0.5px; box-shadow: 0 0 15px var(--theme-glow);
+    cursor: pointer; transition: all 0.3s ease;
+}
+.ending-tag:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px var(--theme-glow);
+    filter: brightness(1.15);
 }
 
 /* TRADEMARK */
@@ -361,7 +368,7 @@ body::before {
     <div class="ending-card">
         <div class="ending-symbol" id="endingSymbol">💖</div>
         <div class="ending-text" id="endingText">Loading...</div>
-        <div class="ending-tag" id="endingTag">v.01 • refresh untuk versi lain</div>
+        <div class="ending-tag" id="endingTag" onclick="window.location.reload()" style="cursor: pointer;">v.01 • refresh untuk versi lain</div>
     </div>
 </div>
 
@@ -649,35 +656,25 @@ function collectHeart(){
     },400);
 }
 
-/* ════════════════════════ ✅ UPDATED: FAKE MEMORY EFFECT ════════════════════════ */
+/* ════════════════════════ ✅ UPDATED: FAKE MEMORY + CLICKABLE TAG ════════════════════════ */
 function showEnding(){
     setTimeout(()=>{
         typeBubble(gameData.endings[Math.floor(Math.random()*gameData.endings.length)], ()=>{
-            
-            // ✅ BUBBLE 1: Fake memory effect (1s delay)
             typeBubble("Dari semua pilihan kamu tadi… rasanya aku cuma ngulang satu hal.", ()=>{
-                
-                // ✅ BUBBLE 2: Pattern illusion (0.8s delay)
                 setTimeout(()=>{
                     typeBubble("Kalau ini cuma kebetulan… kenapa rasanya kena?", ()=>{
-                        
-                        // ✅ Baru endingPool random muncul (1.5s delay)
+                        // ✅ UPDATED: Delay diperpanjang jadi 3.5s (3500ms) biar sempet kebaca
                         setTimeout(() => {
                             const rand = endingPool[Math.floor(Math.random() * endingPool.length)];
                             const vNum = Math.floor(Math.random() * 90) + 10;
-                            
                             document.getElementById('endingSymbol').textContent = rand.symbol;
                             document.getElementById('endingText').textContent = rand.text;
                             document.getElementById('endingTag').textContent = `v.${vNum} • refresh untuk versi lain`;
-                            
                             endingOverlay.classList.add('active');
-                        }, 1500);
-                        
+                        }, 3500);
                     });
                 }, 800);
-                
             });
-            
         });
     }, 1000);
 }
