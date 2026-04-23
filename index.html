@@ -224,14 +224,13 @@ body::before {
 .pulse-heart { display: inline-block; animation: pulseHeart 1s infinite; }
 @keyframes pulseHeart { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
 
-/* NEXT BUTTON (FIXED) */
+/* NEXT BUTTON */
 .next-btn {
     flex-shrink: 0; margin-top: 12px; width: 100%; padding: 16px;
     background: linear-gradient(135deg, var(--theme-primary), color-mix(in srgb, var(--theme-primary), black 20%));
     border: none; border-radius: 16px; color: #fff; font-size: 15px; font-weight: 700;
     cursor: pointer; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); display: none;
     align-items: center; justify-content: center; gap: 10px; position: relative; overflow: hidden;
-    /* ✅ Animasi muncul + pulse halus */
     animation: btnEntrance 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards, btnPulse 2.5s ease-in-out 0.6s infinite;
 }
 @keyframes btnEntrance { from { opacity: 0; transform: translateY(15px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -270,7 +269,7 @@ body::before {
 .ending-overlay {
     position: fixed; inset: 0; background: rgba(5,2,8,0.75); backdrop-filter: blur(12px);
     z-index: 100; display: flex; align-items: center; justify-content: center;
-    opacity: 0; visibility: hidden; transition: all 1.2s ease; /* ✅ Lebih halus */
+    opacity: 0; visibility: hidden; transition: all 1.2s ease;
 }
 .ending-overlay.active { opacity: 1; visibility: visible; }
 .ending-card {
@@ -328,7 +327,7 @@ body::before {
         </div>
         <button id="audioBtn" onclick="toggleAudio()">
             <span class="audio-icon">🎵</span>
-            <span class="audio-label" id="audioLabel">PLAY</span>
+            <span class="audio-label" id="audioLabel">Putar</span>
             <canvas id="audioVisualizer"></canvas>
         </button>
     </div>
@@ -380,7 +379,7 @@ const gameData = {
         ["Aku lagi nyusun sesuatu.","Bukan kerjaan.","Tapi alasan kenapa kamu nyangkut di pikiran.","Udah hampir jadi sih.","Cuma ada satu bagian yang belum cocok.","Kamu bantu isi gak?"],
         ["Aku tadi mau fokus kerja.","Beneran.","Tapi otak malah buka tab lain…","Dan isinya kamu.","Ini multitasking atau gangguan ya?"],
         ["Aku gak nyari kamu.","Kamu juga gak manggil aku.","Tapi tetep ketemu.","Di tempat yang sama.","Kepala aku.","Dan itu agak ganggu sih 😏"],
-        ["Aku lagi nyelidikin sesuatu.","Gak penting sih.","Cuma penasaran.","Kenapa bisa kepikiran kamu terus.","Padahal interaksinya biasa aja.","Hasilnya: mencurigakan 😏"]
+        ["Aku lagi nyelidikin sesuatu.","Gak penting sih.","Cuma penasaran.","Kenapa kamu bisa kepikiran terus.","Padahal interaksinya biasa aja.","Hasilnya: mencurigakan 😏"]
     ],
     stages: [
         {
@@ -579,7 +578,6 @@ function typeBubble(html, cb){
             tx.style.opacity=1; tx.style.transform='translateY(0)';
         });
         setTimeout(()=>{ m.querySelector('.bubble-check').textContent='✓✓'; },600);
-        // ✅ Smooth scroll consistent
         requestAnimationFrame(()=> chat.scrollTop = chat.scrollHeight);
         if(cb) setTimeout(cb, 400);
     }, 900);
@@ -643,7 +641,6 @@ function collectHeart(){
         if(state.collected%3===0){
             nextBtn.style.display='flex';
             nextBtn.innerHTML=`<span>${gameData.stages[state.stage].nextPrompt}</span><span>→</span>`;
-            // ✅ Auto scroll ke tombol saat muncul
             requestAnimationFrame(()=>{
                 nextBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             });
@@ -652,18 +649,35 @@ function collectHeart(){
     },400);
 }
 
+/* ════════════════════════ ✅ UPDATED: FAKE MEMORY EFFECT ════════════════════════ */
 function showEnding(){
     setTimeout(()=>{
         typeBubble(gameData.endings[Math.floor(Math.random()*gameData.endings.length)], ()=>{
-            // ✅ Delay diperpanjang ke 5.5 detik agar user sempat baca
-            setTimeout(() => {
-                const rand = endingPool[Math.floor(Math.random() * endingPool.length)];
-                const vNum = Math.floor(Math.random() * 90) + 10;
-                document.getElementById('endingSymbol').textContent = rand.symbol;
-                document.getElementById('endingText').textContent = rand.text;
-                document.getElementById('endingTag').textContent = `v.${vNum} • refresh untuk versi lain`;
-                endingOverlay.classList.add('active');
-            }, 5500);
+            
+            // ✅ BUBBLE 1: Fake memory effect (1s delay)
+            typeBubble("Dari semua pilihan kamu tadi… rasanya aku cuma ngulang satu hal.", ()=>{
+                
+                // ✅ BUBBLE 2: Pattern illusion (0.8s delay)
+                setTimeout(()=>{
+                    typeBubble("Kalau ini cuma kebetulan… kenapa rasanya kena?", ()=>{
+                        
+                        // ✅ Baru endingPool random muncul (1.5s delay)
+                        setTimeout(() => {
+                            const rand = endingPool[Math.floor(Math.random() * endingPool.length)];
+                            const vNum = Math.floor(Math.random() * 90) + 10;
+                            
+                            document.getElementById('endingSymbol').textContent = rand.symbol;
+                            document.getElementById('endingText').textContent = rand.text;
+                            document.getElementById('endingTag').textContent = `v.${vNum} • refresh untuk versi lain`;
+                            
+                            endingOverlay.classList.add('active');
+                        }, 1500);
+                        
+                    });
+                }, 800);
+                
+            });
+            
         });
     }, 1000);
 }
